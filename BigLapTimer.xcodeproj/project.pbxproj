@@ -8,20 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		4A48CB13278F0D76005CC182 /* BigLapTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */; };
-		4A48CB14278F0D76005CC182 /* BigLapTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */; };
 		4A48CB15278F0D76005CC182 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB04278F0D75005CC182 /* ContentView.swift */; };
-		4A48CB16278F0D76005CC182 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB04278F0D75005CC182 /* ContentView.swift */; };
 		4A48CB17278F0D76005CC182 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A48CB05278F0D76005CC182 /* Assets.xcassets */; };
-		4A48CB18278F0D76005CC182 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A48CB05278F0D76005CC182 /* Assets.xcassets */; };
+		705D8779D1FE543016282E2D /* Pods_BigLapTimer__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BigLapTimer__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLapTimerApp.swift; sourceTree = "<group>"; };
 		4A48CB04278F0D75005CC182 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4A48CB05278F0D76005CC182 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A48CB0A278F0D76005CC182 /* BigLapTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BigLapTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		4A48CB10278F0D76005CC182 /* BigLapTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BigLapTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A48CB12278F0D76005CC182 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		4A48CB21278F2563005CC182 /* BigLapTimer--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BigLapTimer--iOS--Info.plist"; sourceTree = "<group>"; };
+		6C52049B55B108D661E53343 /* Pods-BigLapTimer (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigLapTimer (iOS).release.xcconfig"; path = "Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		F19D6E99EED831A0E2636F80 /* Pods-BigLapTimer (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigLapTimer (iOS).debug.xcconfig"; path = "Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,13 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4A48CB0D278F0D76005CC182 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				705D8779D1FE543016282E2D /* Pods_BigLapTimer__iOS_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,9 +40,12 @@
 		4A48CAFD278F0D75005CC182 = {
 			isa = PBXGroup;
 			children = (
+				4A48CB21278F2563005CC182 /* BigLapTimer--iOS--Info.plist */,
 				4A48CB02278F0D75005CC182 /* Shared */,
 				4A48CB11278F0D76005CC182 /* macOS */,
 				4A48CB0B278F0D76005CC182 /* Products */,
+				E485F62984C32E7807E1D460 /* Pods */,
+				7970A8D8C97822C2B05E8AFF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,7 +63,6 @@
 			isa = PBXGroup;
 			children = (
 				4A48CB0A278F0D76005CC182 /* BigLapTimer.app */,
-				4A48CB10278F0D76005CC182 /* BigLapTimer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -78,6 +75,23 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
+		7970A8D8C97822C2B05E8AFF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E485F62984C32E7807E1D460 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F19D6E99EED831A0E2636F80 /* Pods-BigLapTimer (iOS).debug.xcconfig */,
+				6C52049B55B108D661E53343 /* Pods-BigLapTimer (iOS).release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -85,9 +99,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4A48CB1B278F0D76005CC182 /* Build configuration list for PBXNativeTarget "BigLapTimer (iOS)" */;
 			buildPhases = (
+				14AE286C21BAB3BB55C7EDD3 /* [CP] Check Pods Manifest.lock */,
 				4A48CB06278F0D76005CC182 /* Sources */,
 				4A48CB07278F0D76005CC182 /* Frameworks */,
 				4A48CB08278F0D76005CC182 /* Resources */,
+				C1CFFB6A523DD3CB52D5AD89 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -96,23 +112,6 @@
 			name = "BigLapTimer (iOS)";
 			productName = "BigLapTimer (iOS)";
 			productReference = 4A48CB0A278F0D76005CC182 /* BigLapTimer.app */;
-			productType = "com.apple.product-type.application";
-		};
-		4A48CB0F278F0D76005CC182 /* BigLapTimer (macOS) */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4A48CB1E278F0D76005CC182 /* Build configuration list for PBXNativeTarget "BigLapTimer (macOS)" */;
-			buildPhases = (
-				4A48CB0C278F0D76005CC182 /* Sources */,
-				4A48CB0D278F0D76005CC182 /* Frameworks */,
-				4A48CB0E278F0D76005CC182 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "BigLapTimer (macOS)";
-			productName = "BigLapTimer (macOS)";
-			productReference = 4A48CB10278F0D76005CC182 /* BigLapTimer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -126,9 +125,6 @@
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					4A48CB09278F0D76005CC182 = {
-						CreatedOnToolsVersion = 13.2.1;
-					};
-					4A48CB0F278F0D76005CC182 = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
 				};
@@ -147,7 +143,6 @@
 			projectRoot = "";
 			targets = (
 				4A48CB09278F0D76005CC182 /* BigLapTimer (iOS) */,
-				4A48CB0F278F0D76005CC182 /* BigLapTimer (macOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -161,15 +156,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4A48CB0E278F0D76005CC182 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		14AE286C21BAB3BB55C7EDD3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A48CB18278F0D76005CC182 /* Assets.xcassets in Resources */,
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BigLapTimer (iOS)-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
-/* End PBXResourcesBuildPhase section */
+		C1CFFB6A523DD3CB52D5AD89 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A48CB06278F0D76005CC182 /* Sources */ = {
@@ -178,15 +207,6 @@
 			files = (
 				4A48CB15278F0D76005CC182 /* ContentView.swift in Sources */,
 				4A48CB13278F0D76005CC182 /* BigLapTimerApp.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4A48CB0C278F0D76005CC182 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4A48CB16278F0D76005CC182 /* ContentView.swift in Sources */,
-				4A48CB14278F0D76005CC182 /* BigLapTimerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +326,7 @@
 		};
 		4A48CB1C278F0D76005CC182 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F19D6E99EED831A0E2636F80 /* Pods-BigLapTimer (iOS).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -314,11 +335,13 @@
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BigLapTimer--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -336,6 +359,7 @@
 		};
 		4A48CB1D278F0D76005CC182 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6C52049B55B108D661E53343 /* Pods-BigLapTimer (iOS).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -344,11 +368,13 @@
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BigLapTimer--iOS--Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -362,62 +388,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		4A48CB1F278F0D76005CC182 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TGPVYURU8B;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haya.BigLapTimer.BigLapTimer;
-				PRODUCT_NAME = BigLapTimer;
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		4A48CB20278F0D76005CC182 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = TGPVYURU8B;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.haya.BigLapTimer.BigLapTimer;
-				PRODUCT_NAME = BigLapTimer;
-				SDKROOT = macosx;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -438,15 +408,6 @@
 			buildConfigurations = (
 				4A48CB1C278F0D76005CC182 /* Debug */,
 				4A48CB1D278F0D76005CC182 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4A48CB1E278F0D76005CC182 /* Build configuration list for PBXNativeTarget "BigLapTimer (macOS)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4A48CB1F278F0D76005CC182 /* Debug */,
-				4A48CB20278F0D76005CC182 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

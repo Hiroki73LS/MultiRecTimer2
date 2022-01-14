@@ -1,0 +1,6 @@
+framework module Pods_BigLapTimer__iOS_ {
+  umbrella header "Pods-BigLapTimer (iOS)-umbrella.h"
+
+  export *
+  module * { export * }
+}
