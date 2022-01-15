@@ -73,10 +73,12 @@ struct ContentView: View {
                 
                 if stopWatchManeger.hour > 0 {
                     Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
+                        .font(Font.custom("HiraginoSans-W3", size: 55))
                         .font(.system(size: 55, design: .monospaced))
                 } else {
                 Text(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
-                    .font(.system(size: 60, design: .monospaced))
+                        .font(Font.custom("HiraginoSans-W3", size: 80))
+                    .font(.system(size: 80, design: .monospaced))
                 }
                 
                 if profile.mode == true{
@@ -92,9 +94,11 @@ struct ContentView: View {
                                 .font(.title)
                             if stopWatchManeger2.hour > 0 {
                                 Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(Font.custom("HiraginoSans-W3", size: 33))
                                     .font(.system(size: 33, design: .monospaced))
                             } else {
                             Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(Font.custom("HiraginoSans-W3", size: 40))
                                 .font(.system(size: 40, design: .monospaced))
                             }
                         }
@@ -252,9 +256,11 @@ struct ContentView: View {
                                 .font(.title)
                             if stopWatchManeger2.hour > 0 {
                                 Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(Font.custom("HiraginoSans-W3", size: 33))
                                     .font(.system(size: 33, design: .monospaced))
                             } else {
                             Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(Font.custom("HiraginoSans-W3", size: 40))
                                 .font(.system(size: 40, design: .monospaced))
                             }
                         }
@@ -270,7 +276,7 @@ struct ContentView: View {
                 }
                 List {
                     ForEach(0 ..< total.count, id: \.self) { index in
-                        HStack(spacing:5){
+                        HStack(spacing:2){
                             VStack{
                                 Text("Lap")
                                     .font(.system(size: 15, design: .monospaced))
@@ -279,15 +285,21 @@ struct ContentView: View {
                             }
                             Spacer()
                             Text(laptime[index])
-                                .font(.system(size: 40, design: .monospaced))
+                                .font(Font.custom("HiraginoSans-W3", size: 45))
+                                .font(.system(size: 45, design: .monospaced))
                             Spacer()
                             Text("\(total[index])")
+                                .font(Font.custom("HiraginoSans-W3", size: 20))
                                 .font(.system(size: 20, design: .monospaced))
-                        }.listRowInsets(EdgeInsets())
-                            .listRowBackground(Color.clear)
+                        }
+                        .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color("ColorOrange2"))
+//                            .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                     }
-                }.listStyle(PlainListStyle())
+                }
+                .environment(\.defaultMinListRowHeight, 70)
+                .listStyle(PlainListStyle())
                     .font(.largeTitle)
             }
         }
