@@ -98,8 +98,8 @@ struct ContentView: View {
                                     .font(.system(size: 33, design: .monospaced))
                             } else {
                             Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 40))
-                                .font(.system(size: 40, design: .monospaced))
+                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                .font(.system(size: 50, design: .monospaced))
                             }
                         }
                         if stopWatchManeger.mode == .stop{
@@ -285,8 +285,8 @@ struct ContentView: View {
                             }
                             Spacer()
                             Text(laptime[index])
-                                .font(Font.custom("HiraginoSans-W3", size: 45))
-                                .font(.system(size: 45, design: .monospaced))
+                                .font(Font.custom("HiraginoSans-W3", size: 50))
+                                .font(.system(size: 50, design: .monospaced))
                             Spacer()
                             Text("\(total[index])")
                                 .font(Font.custom("HiraginoSans-W3", size: 20))
