@@ -70,9 +70,14 @@ struct ContentView: View {
                     .frame(width: 320, height: 50)
                 
                     Text("Total Time").font(.title)
+                
+                if stopWatchManeger.hour > 0 {
+                    Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
+                        .font(.system(size: 55, design: .monospaced))
+                } else {
                 Text(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                     .font(.system(size: 60, design: .monospaced))
-                
+                }
                 
                 if profile.mode == true{
                     
@@ -85,11 +90,14 @@ struct ContentView: View {
                             }
                             Text("現在のLapTime")
                                 .font(.title)
+                            if stopWatchManeger2.hour > 0 {
+                                Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(.system(size: 33, design: .monospaced))
+                            } else {
                             Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
                                 .font(.system(size: 40, design: .monospaced))
+                            }
                         }
-                        Spacer()
-                            .frame(width: 20, height: 100)
                         if stopWatchManeger.mode == .stop{
                             VStack{
                                 Button(action: {
@@ -242,8 +250,13 @@ struct ContentView: View {
                             }
                             Text("現在のLapTime")
                                 .font(.title)
+                            if stopWatchManeger2.hour > 0 {
+                                Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(.system(size: 33, design: .monospaced))
+                            } else {
                             Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
                                 .font(.system(size: 40, design: .monospaced))
+                            }
                         }
                     }
                 }
@@ -363,6 +376,7 @@ class StopWatchManeger2:ObservableObject{
     @Published var milliSecond = 00
     @Published var second = 00
     @Published var minutes = 00
+    @Published var hour = 0
     var nowTime : Double = 0
     var elapsedTime : Double = 0
     var displayTime: Double = 0
@@ -387,8 +401,11 @@ class StopWatchManeger2:ObservableObject{
             // 秒は1・2桁なので60で割った余り
             self.second = Int(self.displayTime) % 60
             
-            // 分は経過秒を60で割った余り
-            self.minutes = Int(self.displayTime / 60)
+            // 分は経過秒を60で割った商を60で割った余り
+            self.minutes = Int(self.displayTime / 60) % 60
+
+            // 時は経過分を60で割った商
+            self.hour = Int(self.minutes / 60)
         }
         RunLoop.current.add(timer, forMode: .common)
     }
