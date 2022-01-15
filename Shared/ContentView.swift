@@ -56,7 +56,7 @@ struct ContentView: View {
     @State var Second = 0
     @State var minites = 0
     @State var flag = true
-
+    @State var nowTime : Double
     
     @Environment(\.scenePhase) private var scenePhase
     
@@ -260,7 +260,7 @@ struct ContentView: View {
                     ForEach(0 ..< total.count, id: \.self) { index in
                         HStack(spacing:5){
                             VStack{
-                                Text("LAP")
+                                Text("Lap")
                                     .font(.system(size: 15, design: .monospaced))
                                 Text(lapNo[index])
                                     .font(.system(size: 20, design: .monospaced))
@@ -298,10 +298,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(total: [], laptime: [], lapNo: [], lapn : 0)
+        ContentView(total: [], laptime: [], lapNo: [], lapn : 0, nowTime: 0)
     }}
 
-
+//------------------------------------------------------------------------------------------------------------------------
 class StopWatchManeger:ObservableObject{
     
     enum stopWatchMode{
@@ -312,28 +312,34 @@ class StopWatchManeger:ObservableObject{
     
     @Published var mode:stopWatchMode = .stop
     
-    @Published var elapsedTime = 0.00
     @Published var milliSecond = 00
     @Published var second = 00
     @Published var minutes = 00
+    var nowTime : Double = 0
+    var elapsedTime : Double = 0
+    var displayTime: Double = 0
+    var savedTime: Double = 0
     
     var timer = Timer()
     
     func start(){
         mode = .start
+
+        self.nowTime = NSDate.timeIntervalSinceReferenceDate
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
-            self.elapsedTime += 0.01
+            
+            self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
+            self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
+            
             // ミリ秒は小数点第一位、第二位なので100をかけて100で割った余り
-            self.milliSecond = Int(self.elapsedTime * 100) % 100
+            self.milliSecond = Int(self.displayTime * 100) % 100
             
             // 秒は1・2桁なので60で割った余り
-            self.second = Int(self.elapsedTime) % 60
+            self.second = Int(self.displayTime) % 60
             
             // 分は経過秒を60で割った余り
-            self.minutes = Int(self.elapsedTime / 60)
-            
-            //            print("\(self.secondsElapsed)")
-        }
+            self.minutes = Int(self.displayTime / 60)
+            }
     }
     
     func stop(){
@@ -347,7 +353,7 @@ class StopWatchManeger:ObservableObject{
         mode = .pause
     }
 }
-
+//------------------------------------------------------------------------------------------------------------------------
 class StopWatchManeger2:ObservableObject{
     
     enum stopWatchMode{
@@ -358,27 +364,35 @@ class StopWatchManeger2:ObservableObject{
     
     @Published var mode:stopWatchMode = .stop
     
-    @Published var elapsedTime = 0.00
     @Published var milliSecond = 00
     @Published var second = 00
     @Published var minutes = 00
+    var nowTime : Double = 0
+    var elapsedTime : Double = 0
+    var displayTime: Double = 0
+    var savedTime: Double = 0
     
     var timer = Timer()
     
     func start(){
         mode = .start
+        
+        self.nowTime = NSDate.timeIntervalSinceReferenceDate
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
+            
+            self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
+            self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
+            print("\(self.displayTime)")
+            
             self.elapsedTime += 0.01
             // ミリ秒は小数点第一位、第二位なので100をかけて100で割った余り
-            self.milliSecond = Int(self.elapsedTime * 100) % 100
+            self.milliSecond = Int(self.displayTime * 100) % 100
             
             // 秒は1・2桁なので60で割った余り
-            self.second = Int(self.elapsedTime) % 60
+            self.second = Int(self.displayTime) % 60
             
             // 分は経過秒を60で割った余り
-            self.minutes = Int(self.elapsedTime / 60)
-            
-            //            print("\(self.secondsElapsed)")
+            self.minutes = Int(self.displayTime / 60)
         }
     }
     
@@ -393,6 +407,7 @@ class StopWatchManeger2:ObservableObject{
         mode = .pause
     }
 }
+//------------------------------------------------------------------------------------------------------------------------
 
 
 struct TextView: View {
