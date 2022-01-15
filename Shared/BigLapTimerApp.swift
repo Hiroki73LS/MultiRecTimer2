@@ -11,7 +11,7 @@ import SwiftUI
 struct BigLapTimerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView( total: ["0.00"], laptime: ["0.00"], laptimeTemp:0, lapNo: ["0"], lapn: 0)
+            ContentView( total: [], laptime: [], lapNo: [], lapn: 1)
         }
     }
 }
