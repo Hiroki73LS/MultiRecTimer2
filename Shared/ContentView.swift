@@ -315,8 +315,9 @@ class StopWatchManeger:ObservableObject{
         mode = .start
 
         self.nowTime = NSDate.timeIntervalSinceReferenceDate
+
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
-            
+
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
             self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
             
@@ -340,6 +341,7 @@ class StopWatchManeger:ObservableObject{
     
     func pause(){
         timer.invalidate()
+        self.savedTime = self.displayTime
         mode = .pause
     }
 }
@@ -395,6 +397,7 @@ class StopWatchManeger2:ObservableObject{
     
     func pause(){
         timer.invalidate()
+        self.savedTime = self.displayTime
         mode = .pause
     }
 }
