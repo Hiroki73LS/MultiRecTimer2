@@ -278,17 +278,6 @@ struct ContentView: View {
                 }.listStyle(PlainListStyle())
                     .font(.largeTitle)
             }
-        }.onChange(of: scenePhase) { phase in
-            if phase == .background {
-                print("バックグラウンド！")
-            }
-            if phase == .active {
-                print("フォアグラウンド！")
-            }
-            if phase == .inactive {
-                
-            print("バックグラウンドorフォアグラウンド直前")
-            }
         }
         .onChange(of: profile.mode) { mode in
             UserDefaults.standard.set(profile.mode , forKey: "mode")
@@ -340,6 +329,7 @@ class StopWatchManeger:ObservableObject{
             // 分は経過秒を60で割った余り
             self.minutes = Int(self.displayTime / 60)
             }
+        RunLoop.current.add(timer, forMode: .common)
     }
     
     func stop(){
@@ -394,6 +384,7 @@ class StopWatchManeger2:ObservableObject{
             // 分は経過秒を60で割った余り
             self.minutes = Int(self.displayTime / 60)
         }
+        RunLoop.current.add(timer, forMode: .common)
     }
     
     func stop(){
