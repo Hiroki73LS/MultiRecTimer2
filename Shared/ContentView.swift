@@ -55,10 +55,9 @@ struct ContentView: View {
     @State var milliSecond = 0
     @State var Second = 0
     @State var minites = 0
+    @State var hour = 0
     @State var flag = true
     @State var nowTime : Double
-    
-    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         
@@ -304,6 +303,7 @@ class StopWatchManeger:ObservableObject{
     @Published var milliSecond = 00
     @Published var second = 00
     @Published var minutes = 00
+    @Published var hour = 0
     var nowTime : Double = 0
     var elapsedTime : Double = 0
     var displayTime: Double = 0
@@ -327,8 +327,11 @@ class StopWatchManeger:ObservableObject{
             // 秒は1・2桁なので60で割った余り
             self.second = Int(self.displayTime) % 60
             
-            // 分は経過秒を60で割った余り
-            self.minutes = Int(self.displayTime / 60)
+            // 分は経過秒を60で割った商を60で割った余り
+            self.minutes = Int(self.displayTime / 60) % 60
+
+            // 時は経過分を60で割った商
+            self.hour = Int(self.minutes / 60)
             }
         RunLoop.current.add(timer, forMode: .common)
     }
@@ -336,12 +339,13 @@ class StopWatchManeger:ObservableObject{
     func stop(){
         timer.invalidate()
         elapsedTime = 0
+        savedTime = 0
         mode = .stop
     }
     
     func pause(){
         timer.invalidate()
-        self.savedTime = self.displayTime
+        savedTime = displayTime
         mode = .pause
     }
 }
@@ -392,12 +396,13 @@ class StopWatchManeger2:ObservableObject{
     func stop(){
         timer.invalidate()
         elapsedTime = 0
+        savedTime = 0
         mode = .stop
     }
     
     func pause(){
         timer.invalidate()
-        self.savedTime = self.displayTime
+        savedTime = displayTime
         mode = .pause
     }
 }
