@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct BigLapTimerApp: App {
+    
+    init() {
+            UITableView.appearance().backgroundColor = .clear
+        }
+    
     var body: some Scene {
         WindowGroup {
             ContentView( total: [], laptime: [], lapNo: [], lapn: 1, nowTime: 0)

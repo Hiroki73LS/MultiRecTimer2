@@ -45,6 +45,7 @@ class UserProfile: ObservableObject {
 
 
 struct ContentView: View {
+    
     @ObservedObject var profile = UserProfile()
     @ObservedObject var stopWatchManeger = StopWatchManeger()
     @ObservedObject var stopWatchManeger2 = StopWatchManeger2()
@@ -58,7 +59,7 @@ struct ContentView: View {
     @State var hour = 0
     @State var flag = true
     @State var nowTime : Double
-    
+        
     var body: some View {
         
         ZStack {
@@ -353,7 +354,6 @@ struct ContentView: View {
                             }
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color("ColorOrange2"))
-                            //                            .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                         }
                     }   .environment(\.defaultMinListRowHeight, 70)
@@ -369,10 +369,10 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(total: [], laptime: [], lapNo: [], lapn : 0, nowTime: 0)
-    }}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView(total: [], laptime: [], lapNo: [], lapn : 0, nowTime: 0)
+//    }}
 
 //------------------------------------------------------------------------------------------------------------------------
 class StopWatchManeger:ObservableObject{
