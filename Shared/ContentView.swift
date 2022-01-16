@@ -61,7 +61,10 @@ struct ContentView: View {
     
     var body: some View {
         
+        TextViewTest()
+                
         ZStack {
+            
             LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
@@ -148,10 +151,6 @@ struct ContentView: View {
                                     self.stopWatchManeger2.start()
                                     lapn += 1
 
-                                    print("hour:\(stopWatchManeger2.hour)")
-                                    print("minutes:\(stopWatchManeger2.minutes)")
-                                    print("second:\(stopWatchManeger2.second)")
-                                    
                                 }){
                                     TextView(label : "ラップ")
                                 }}
@@ -304,19 +303,23 @@ struct ContentView: View {
                         ForEach(0 ..< total.count, id: \.self) { index in
                             HStack(spacing:2){
                                 VStack{
-                                    Text("Lap2")
+                                    Text("Lap")
                                         .font(.system(size: 15, design: .monospaced))
                                     Text(lapNo[index])
                                         .font(.system(size: 25, design: .monospaced))
                                 }
-                                Spacer()
-                                Text(laptime[index])
-                                    .font(Font.custom("HiraginoSans-W3", size: 38))
-                                    .font(.system(size: 40, design: .monospaced))
-                                Spacer()
-                                Text("\(total[index])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 20))
-                                    .font(.system(size: 20, design: .monospaced))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.black, lineWidth: 1)
+                                    )
+                                    Spacer()
+                                    Text(laptime[index])
+                                        .font(Font.custom("HiraginoSans-W3", size: 38))
+                                        .font(.system(size: 40, design: .monospaced))
+                                    Spacer()
+                                    Text("\(total[index])")
+                                        .font(Font.custom("HiraginoSans-W3", size: 20))
+                                        .font(.system(size: 20, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color("ColorOrange2"))
@@ -337,6 +340,10 @@ struct ContentView: View {
                                     Text(lapNo[index])
                                         .font(.system(size: 25, design: .monospaced))
                                 }
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.black, lineWidth: 1)
+                                    )
                                 Spacer()
                                 Text(laptime[index])
                                     .font(Font.custom("HiraginoSans-W3", size: 50))
@@ -507,5 +514,16 @@ struct TextView: View {
                 
             )
             .foregroundColor(.orange)
+    }
+}
+
+struct TextViewTest: View {
+    
+    var body: some View {
+        VStack {
+            Text("cccccc")
+                .font(.largeTitle)
+                .border(Color.black, width: 5)
+        }
     }
 }
