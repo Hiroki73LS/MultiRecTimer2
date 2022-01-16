@@ -42,7 +42,7 @@ class UserProfile: ObservableObject {
         mode = UserDefaults.standard.object(forKey: "mode") as? Bool ?? true
     }
 }
- 
+
 
 struct ContentView: View {
     @ObservedObject var profile = UserProfile()
@@ -69,16 +69,16 @@ struct ContentView: View {
                 AdView()
                     .frame(width: 320, height: 50)
                 
-                    Text("Total Time").font(.title)
+                Text("Total Time").font(.title)
                 
                 if stopWatchManeger.hour > 0 {
-                    Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
-                        .font(Font.custom("HiraginoSans-W3", size: 55))
-                        .font(.system(size: 55, design: .monospaced))
+                    Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
+                        .font(Font.custom("HiraginoSans-W3", size: 65))
+                        .font(.system(size: 60, design: .monospaced))
                 } else {
-                Text(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
+                    Text(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                         .font(Font.custom("HiraginoSans-W3", size: 80))
-                    .font(.system(size: 80, design: .monospaced))
+                        .font(.system(size: 80, design: .monospaced))
                 }
                 
                 if profile.mode == true{
@@ -87,19 +87,19 @@ struct ContentView: View {
                         VStack{
                             HStack{
                                 Toggle("", isOn: $profile.mode)
-                                .labelsHidden()
+                                    .labelsHidden()
                                 Text(profile.mode ? "Left mode" : "Right mode")
                             }
                             Text("現在のLapTime")
                                 .font(.title)
                             if stopWatchManeger2.hour > 0 {
-                                Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 33))
-                                    .font(.system(size: 33, design: .monospaced))
+                                Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(Font.custom("HiraginoSans-W3", size: 40))
+                                    .font(.system(size: 40, design: .monospaced))
                             } else {
-                            Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
                                     .font(Font.custom("HiraginoSans-W3", size: 50))
-                                .font(.system(size: 50, design: .monospaced))
+                                    .font(.system(size: 50, design: .monospaced))
                             }
                         }
                         if stopWatchManeger.mode == .stop{
@@ -121,7 +121,6 @@ struct ContentView: View {
                                     TextView(label : "リセット")
                                 }                }
                         }
-                        
                         if stopWatchManeger.mode == .start{
                             VStack{
                                 Button(action: {
@@ -132,12 +131,27 @@ struct ContentView: View {
                                 }
                                 Button(action: {
                                     lapNo.insert(String(lapn), at: 0)
+                                    
+                                    if stopWatchManeger.hour > 0 {
+                                        total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                    } else {
                                     total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                    }
+                                    if stopWatchManeger2.hour > 0 {
+                                        laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                    } else {
                                     laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                    }
+                                    
                                     self.stopWatchManeger2.pause()
                                     self.stopWatchManeger2.stop()
                                     self.stopWatchManeger2.start()
                                     lapn += 1
+
+                                    print("hour:\(stopWatchManeger2.hour)")
+                                    print("minutes:\(stopWatchManeger2.minutes)")
+                                    print("second:\(stopWatchManeger2.second)")
+                                    
                                 }){
                                     TextView(label : "ラップ")
                                 }}
@@ -159,9 +173,11 @@ struct ContentView: View {
                                     stopWatchManeger.minutes = 00
                                     stopWatchManeger.second = 00
                                     stopWatchManeger.milliSecond = 00
+                                    stopWatchManeger.hour = 00
                                     stopWatchManeger2.minutes = 00
                                     stopWatchManeger2.second = 00
                                     stopWatchManeger2.milliSecond = 00
+                                    stopWatchManeger2.hour = 00
                                     self.stopWatchManeger.stop()
                                     self.stopWatchManeger2.stop()
                                 }){
@@ -206,8 +222,18 @@ struct ContentView: View {
                                 }
                                 Button(action: {
                                     lapNo.insert(String(lapn), at: 0)
+                                    
+                                    if stopWatchManeger.hour > 0 {
+                                        total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                    } else {
                                     total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                    }
+                                    if stopWatchManeger2.hour > 0 {
+                                        laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                    } else {
                                     laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                    }
+                                    
                                     self.stopWatchManeger2.pause()
                                     self.stopWatchManeger2.stop()
                                     self.stopWatchManeger2.start()
@@ -236,6 +262,7 @@ struct ContentView: View {
                                     stopWatchManeger2.minutes = 00
                                     stopWatchManeger2.second = 00
                                     stopWatchManeger2.milliSecond = 00
+                                    stopWatchManeger2.hour = 00
                                     self.stopWatchManeger.stop()
                                     self.stopWatchManeger2.stop()
                                 }){
@@ -244,24 +271,22 @@ struct ContentView: View {
                                 }
                             }
                         }
-                        Spacer()
-                            .frame(width: 20, height: 100)
                         VStack{
                             HStack{
                                 Text(profile.mode ? "Left mode" : "Right mode")
                                 Toggle("", isOn: $profile.mode)
-                                .labelsHidden()
+                                    .labelsHidden()
                             }
                             Text("現在のLapTime")
                                 .font(.title)
                             if stopWatchManeger2.hour > 0 {
-                                Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 33))
-                                    .font(.system(size: 33, design: .monospaced))
-                            } else {
-                            Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
                                     .font(Font.custom("HiraginoSans-W3", size: 40))
-                                .font(.system(size: 40, design: .monospaced))
+                                    .font(.system(size: 40, design: .monospaced))
+                            } else {
+                                Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
+                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(.system(size: 50, design: .monospaced))
                             }
                         }
                     }
@@ -272,39 +297,70 @@ struct ContentView: View {
                     Spacer()
                     Text("Lap Time")
                     Spacer()
-                    Text("Total Time　")
+                    Text("Total Time ")
                 }
-                List {
-                    ForEach(0 ..< total.count, id: \.self) { index in
-                        HStack(spacing:2){
-                            VStack{
-                                Text("Lap")
-                                    .font(.system(size: 15, design: .monospaced))
-                                Text(lapNo[index])
+                if stopWatchManeger.hour > 0 {
+                    List {
+                        ForEach(0 ..< total.count, id: \.self) { index in
+                            HStack(spacing:2){
+                                VStack{
+                                    Text("Lap2")
+                                        .font(.system(size: 15, design: .monospaced))
+                                    Text(lapNo[index])
+                                        .font(.system(size: 25, design: .monospaced))
+                                }
+                                Spacer()
+                                Text(laptime[index])
+                                    .font(Font.custom("HiraginoSans-W3", size: 38))
+                                    .font(.system(size: 40, design: .monospaced))
+                                Spacer()
+                                Text("\(total[index])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 20))
                                     .font(.system(size: 20, design: .monospaced))
                             }
-                            Spacer()
-                            Text(laptime[index])
-                                .font(Font.custom("HiraginoSans-W3", size: 50))
-                                .font(.system(size: 50, design: .monospaced))
-                            Spacer()
-                            Text("\(total[index])")
-                                .font(Font.custom("HiraginoSans-W3", size: 20))
-                                .font(.system(size: 20, design: .monospaced))
-                        }
-                        .listRowInsets(EdgeInsets())
+                            .listRowInsets(EdgeInsets())
                             .listRowBackground(Color("ColorOrange2"))
-//                            .listRowBackground(Color.clear)
+                            //                            .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
-                    }
+                        }
+                    }                .environment(\.defaultMinListRowHeight, 70)
+                        .listStyle(PlainListStyle())
+                        .font(.largeTitle)
+                    
+                } else {
+                    List {
+                        ForEach(0 ..< total.count, id: \.self) { index in
+                            HStack(spacing:2){
+                                VStack{
+                                    Text("Lap")
+                                        .font(.system(size: 15, design: .monospaced))
+                                    Text(lapNo[index])
+                                        .font(.system(size: 25, design: .monospaced))
+                                }
+                                Spacer()
+                                Text(laptime[index])
+                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(.system(size: 50, design: .monospaced))
+                                Spacer()
+                                Text("\(total[index])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                    .font(.system(size: 20, design: .monospaced))
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color("ColorOrange2"))
+                            //                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
+                        }
+                    }   .environment(\.defaultMinListRowHeight, 70)
+                        .listStyle(PlainListStyle())
+                        .font(.largeTitle)
+                    
                 }
-                .environment(\.defaultMinListRowHeight, 70)
-                .listStyle(PlainListStyle())
-                    .font(.largeTitle)
             }
         }
         .onChange(of: profile.mode) { mode in
             UserDefaults.standard.set(profile.mode , forKey: "mode")
+            print("\(stopWatchManeger.hour)")
         }
     }
 }
@@ -338,11 +394,11 @@ class StopWatchManeger:ObservableObject{
     
     func start(){
         mode = .start
-
+        
         self.nowTime = NSDate.timeIntervalSinceReferenceDate
-
+        
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
-
+            
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
             self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
             
@@ -354,10 +410,11 @@ class StopWatchManeger:ObservableObject{
             
             // 分は経過秒を60で割った商を60で割った余り
             self.minutes = Int(self.displayTime / 60) % 60
-
-            // 時は経過分を60で割った商
-            self.hour = Int(self.minutes / 60)
-            }
+            
+            // 時は経過分を60で割った商を60で割る
+            self.hour = Int(self.displayTime / 60) / 60
+            
+        }
         RunLoop.current.add(timer, forMode: .common)
     }
     
@@ -404,9 +461,7 @@ class StopWatchManeger2:ObservableObject{
             
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
             self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
-            print("\(self.displayTime)")
-            
-            self.elapsedTime += 0.01
+
             // ミリ秒は小数点第一位、第二位なので100をかけて100で割った余り
             self.milliSecond = Int(self.displayTime * 100) % 100
             
@@ -415,9 +470,9 @@ class StopWatchManeger2:ObservableObject{
             
             // 分は経過秒を60で割った商を60で割った余り
             self.minutes = Int(self.displayTime / 60) % 60
-
-            // 時は経過分を60で割った商
-            self.hour = Int(self.minutes / 60)
+            
+            // 時は経過分を60で割った商を60で割る
+            self.hour = Int(self.displayTime / 60) / 60
         }
         RunLoop.current.add(timer, forMode: .common)
     }
