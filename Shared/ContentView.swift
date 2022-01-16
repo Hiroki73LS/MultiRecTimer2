@@ -61,8 +61,6 @@ struct ContentView: View {
     
     var body: some View {
         
-        TextViewTest()
-                
         ZStack {
             
             LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
@@ -367,7 +365,6 @@ struct ContentView: View {
         }
         .onChange(of: profile.mode) { mode in
             UserDefaults.standard.set(profile.mode , forKey: "mode")
-            print("\(stopWatchManeger.hour)")
         }
     }
 }
@@ -500,7 +497,7 @@ class StopWatchManeger2:ObservableObject{
 //------------------------------------------------------------------------------------------------------------------------
 
 
-struct TextView: View {
+struct TextView2: View {
     
     var label : String
     
@@ -516,14 +513,18 @@ struct TextView: View {
             .foregroundColor(.orange)
     }
 }
-
-struct TextViewTest: View {
+struct TextView: View {
+    
+    var label : String
     
     var body: some View {
-        VStack {
-            Text("cccccc")
-                .font(.largeTitle)
-                .border(Color.black, width: 5)
-        }
+        Text(label)
+            .font(.title)
+            .frame(width: 130, height: 80, alignment: .center)
+            .overlay(
+                RoundedRectangle(cornerRadius: 200)
+                    .stroke(Color.blue, lineWidth: 5)
+            )
+            .foregroundColor(.black)
     }
 }
