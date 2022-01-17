@@ -63,10 +63,9 @@ struct ContentView: View {
     @State var hour = 0
     @State var flag = true
     @State var nowTime : Double
-    @State var restoreAlert : Bool = false
+    @State var sheetAlert : Bool = false
         
     var body: some View {
-        
         ZStack {
             
             LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
@@ -76,77 +75,8 @@ struct ContentView: View {
                 AdView()
                     .frame(width: 320, height: 50)
                 
-                Text("Total Time").font(.title)
-                HStack{
-                    Button(action: {
-                        
-                        
-                        
-                        SwiftyStoreKit.purchaseProduct("lap123", quantity: 1, atomically: false) { result in
-                            switch result {
-                            case .success(let product):
-                                // fetch content from your server, then:
-                                if product.needsFinishTransaction {
-                                    SwiftyStoreKit.finishTransaction(product.transaction)
-                                }
-                                print("Purchase Success: \(product.productId)")
-                            case .error(let error):
-                                switch error.code {
-                                case .unknown: print("Unknown error. Please contact support")
-                                case .clientInvalid: print("Not allowed to make the payment")
-                                case .paymentCancelled: break
-                                case .paymentInvalid: print("The purchase identifier was invalid")
-                                case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                                case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                                case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                                case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                                case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                                default: print((error as NSError).localizedDescription)
-                                }
-                            }
-                        }
-                        SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
-                            if let product = result.retrievedProducts.first {
-                                SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                                    // handle result (same as above)
-                                }
-                            }
-                        }
-                        
-                        
-                        
-                    }){
-                        TextView(label : "購入")
-                    }
-                    Button(action: {
-                        
-                        SwiftyStoreKit.restorePurchases(atomically: false) { results in
-                            if results.restoreFailedPurchases.count > 0 {
-                                print("Restore Failed: \(results.restoreFailedPurchases)")
-                            }
-                            else if results.restoredPurchases.count > 0 {
-                                for purchase in results.restoredPurchases {
-                                    // fetch content from your server, then:
-                                    if purchase.needsFinishTransaction {
-                                        SwiftyStoreKit.finishTransaction(purchase.transaction)
-                                    }
-                                }
-                                print("Restore Success: \(results.restoredPurchases)")
-                            }
-                            else {
-                                self.restoreAlert = true          // ②タップされたら表示フラグをtrueにする
-                                print("Nothing to Restore")
-                            }
-                        }
-                    }){
-                        TextView(label : "復元")
-                    }.alert(isPresented: $restoreAlert){
-                        Alert(title: Text("購入履歴はありません。"))
-                    }
-                }
-                
-                
-                
+                    Text("Total Time").font(.title)
+               
                 if stopWatchManeger.hour > 0 {
                     Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                         .font(Font.custom("HiraginoSans-W3", size: 65))
@@ -162,6 +92,19 @@ struct ContentView: View {
                     HStack{
                         VStack{
                             HStack{
+                                Button(action: {
+                                    self.sheetAlert.toggle()
+                                }) {
+                                    Text("課金")
+                                        .font(.title)
+                                        .foregroundColor(Color.black)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color(.black), lineWidth: 1.0)
+                                        )
+                                }.sheet(isPresented: $sheetAlert) {
+                                    SecondView()
+                                }
                                 Toggle("", isOn: $profile.mode)
                                     .labelsHidden()
                                 Text(profile.mode ? "Left mode" : "Right mode")
@@ -348,6 +291,19 @@ struct ContentView: View {
                                 Text(profile.mode ? "Left mode" : "Right mode")
                                 Toggle("", isOn: $profile.mode)
                                     .labelsHidden()
+                                Button(action: {
+                                    self.sheetAlert.toggle()
+                                }) {
+                                    Text("課金")
+                                        .font(.title)
+                                        .foregroundColor(Color.black)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color(.black), lineWidth: 1.0)
+                                        )
+                                }.sheet(isPresented: $sheetAlert) {
+                                    SecondView()
+                                }
                             }
                             Text("現在のLapTime")
                                 .font(.title)
@@ -455,9 +411,9 @@ struct ContentView: View {
         .onChange(of: profile.mode) { mode in
             UserDefaults.standard.set(profile.mode , forKey: "mode")
         }
+        .navigationBarTitle("", displayMode: .inline)
     }
-        
-}
+    }
 
 //struct ContentView_Previews: PreviewProvider {
 //    static var previews: some View {
@@ -617,4 +573,159 @@ struct TextView: View {
             )
             .foregroundColor(.black)
     }
+}
+
+
+
+struct SecondView: View {
+    
+    @State var restoreAlert : Bool = false
+    @State var restoreAlert2 : Bool = false
+    @State var restoreAlert3 : Bool = false
+
+    var body: some View {
+        ZStack {
+            
+            LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
+            
+
+        VStack{
+            Button(action: {
+                SwiftyStoreKit.purchaseProduct("lap123", quantity: 1, atomically: false) { result in
+                    switch result {
+                    case .success(let product):
+                        // fetch content from your server, then:
+                        if product.needsFinishTransaction {
+                            SwiftyStoreKit.finishTransaction(product.transaction)
+                        }
+                        print("Purchase Success: \(product.productId)")
+                    case .error(let error):
+                        switch error.code {
+                        case .unknown: print("Unknown error. Please contact support")
+                        case .clientInvalid: print("Not allowed to make the payment")
+                        case .paymentCancelled: break
+                        case .paymentInvalid: print("The purchase identifier was invalid")
+                        case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                        case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                        default: print((error as NSError).localizedDescription)
+                        }
+                    }
+                }
+                SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
+                    if let product = result.retrievedProducts.first {
+                        SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
+                            // handle result (same as above)
+                        }
+                    }
+                }
+                
+                
+                
+            }){
+                Text("上限数の解除")
+                    .font(.largeTitle)
+                    .frame(width: 220, height: 50)
+                    .foregroundColor(Color(.white))
+                    .padding(.all)
+                    .background(Color(.blue))
+                    .cornerRadius(24)
+                    .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+            }
+            Spacer().frame(height: 30)
+            Button(action: {
+                SwiftyStoreKit.purchaseProduct("lap234", quantity: 1, atomically: false) { result in
+                    switch result {
+                    case .success(let product):
+                        // fetch content from your server, then:
+                        if product.needsFinishTransaction {
+                            SwiftyStoreKit.finishTransaction(product.transaction)
+                        }
+                        print("Purchase Success: \(product.productId)")
+                    case .error(let error):
+                        switch error.code {
+                        case .unknown: print("Unknown error. Please contact support")
+                        case .clientInvalid: print("Not allowed to make the payment")
+                        case .paymentCancelled: break
+                        case .paymentInvalid: print("The purchase identifier was invalid")
+                        case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                        case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                        default: print((error as NSError).localizedDescription)
+                        }
+                    }
+                }
+                SwiftyStoreKit.retrieveProductsInfo(["lap234"]) { result in
+                    if let product = result.retrievedProducts.first {
+                        SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
+                            // handle result (same as above)
+                        }
+                    }
+                }
+                
+                
+                
+            }){
+                Text("広告の非表示")
+                    .font(.largeTitle)
+                    .frame(width: 220, height: 50)
+                    .foregroundColor(Color(.white))
+                    .padding(.all)
+                    .background(Color(.blue))
+                    .cornerRadius(24)
+                    .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+            }
+            Spacer().frame(height: 30)
+
+            Button(action: {
+                
+                SwiftyStoreKit.restorePurchases(atomically: false) { results in
+                    if results.restoreFailedPurchases.count > 0 {
+                        self.restoreAlert3 = true
+                        print("Restore Failed: \(results.restoreFailedPurchases)")
+                    }
+                    else if results.restoredPurchases.count > 0 {
+                        for purchase in results.restoredPurchases {
+                            // fetch content from your server, then:
+                            if purchase.needsFinishTransaction {
+                                SwiftyStoreKit.finishTransaction(purchase.transaction)
+                            }
+                        }
+                        self.restoreAlert2 = true
+                        print("Restore Success: \(results.restoredPurchases)")
+                    }
+                    else {
+                        self.restoreAlert = true          // ②タップされたら表示フラグをtrueにする
+                        print("Nothing to Restore")
+                    }
+                }
+            })
+            {
+                Text("購入の復元")
+                    .font(.largeTitle)
+                    .frame(width: 220, height: 50)
+                    .foregroundColor(Color(.white))
+                    .padding(.all)
+                    .background(Color(.blue))
+                    .cornerRadius(24)
+                    .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+            }.alert(isPresented: $restoreAlert){
+                Alert(title: Text("購入履歴はありません。"))
+            }
+            .alert(isPresented: $restoreAlert2){
+                Alert(title: Text("購入履歴が復元されました。"))
+            }
+            .alert(isPresented: $restoreAlert3){
+                Alert(title: Text("購入履歴復元に失敗しました。"))
+            }
+            Spacer().frame(height: 200)
+        }
+        
+    }
+}
 }

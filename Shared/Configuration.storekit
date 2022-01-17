@@ -11,12 +11,27 @@
       "localizations" : [
         {
           "description" : "",
-          "displayName" : "japan",
+          "displayName" : "ラップ記録数の上限を解除",
           "locale" : "ja"
         }
       ],
       "productID" : "lap123",
       "referenceName" : "lapp",
+      "type" : "NonConsumable"
+    },
+    {
+      "displayPrice" : "240",
+      "familyShareable" : false,
+      "internalID" : "7E4CF6F4",
+      "localizations" : [
+        {
+          "description" : "",
+          "displayName" : "広告の非表示",
+          "locale" : "ja"
+        }
+      ],
+      "productID" : "lap234",
+      "referenceName" : "lapp2",
       "type" : "NonConsumable"
     }
   ],
