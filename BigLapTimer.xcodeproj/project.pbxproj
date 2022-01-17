@@ -10,6 +10,7 @@
 		4A48CB13278F0D76005CC182 /* BigLapTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */; };
 		4A48CB15278F0D76005CC182 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB04278F0D75005CC182 /* ContentView.swift */; };
 		4A48CB17278F0D76005CC182 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A48CB05278F0D76005CC182 /* Assets.xcassets */; };
+		4ADEE8F6279594CD00A0A92D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ADEE8F5279594CD00A0A92D /* StoreKit.framework */; };
 		705D8779D1FE543016282E2D /* Pods_BigLapTimer__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */; };
 /* End PBXBuildFile section */
 
@@ -21,6 +22,8 @@
 		4A48CB0A278F0D76005CC182 /* BigLapTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BigLapTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A48CB12278F0D76005CC182 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		4A48CB21278F2563005CC182 /* BigLapTimer--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BigLapTimer--iOS--Info.plist"; sourceTree = "<group>"; };
+		4ADEE8F5279594CD00A0A92D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		4ADEE8F727959DFC00A0A92D /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		6C52049B55B108D661E53343 /* Pods-BigLapTimer (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigLapTimer (iOS).release.xcconfig"; path = "Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		F19D6E99EED831A0E2636F80 /* Pods-BigLapTimer (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigLapTimer (iOS).debug.xcconfig"; path = "Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -31,6 +34,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				705D8779D1FE543016282E2D /* Pods_BigLapTimer__iOS_.framework in Frameworks */,
+				4ADEE8F6279594CD00A0A92D /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */,
+				4ADEE8F727959DFC00A0A92D /* Configuration.storekit */,
 				4A48CB04278F0D75005CC182 /* ContentView.swift */,
 				4A48CB05278F0D76005CC182 /* Assets.xcassets */,
 			);
@@ -78,6 +83,7 @@
 		7970A8D8C97822C2B05E8AFF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4ADEE8F5279594CD00A0A92D /* StoreKit.framework */,
 				4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */,
 			);
 			name = Frameworks;
