@@ -5,6 +5,11 @@ import SwiftyStoreKit
 struct BigLapTimerApp: App {
     
     init() {
+        
+        SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
+                   // ... other code here
+                }
+        
             UITableView.appearance().backgroundColor = .clear
         }
     
@@ -18,8 +23,9 @@ struct BigLapTimerApp: App {
 }
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        
+    
+    
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         SwiftyStoreKit.completeTransactions(atomically: true) { products in
             for product in products {
                 if product.transaction.transactionState == .purchased || product.transaction.transactionState == .restored {
@@ -35,9 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("purchased: \(product)")
                 }
             }
-        }
-        
-        return true
-    }
-    // 必要に応じて処理を追加
+        }; return true
+}
 }

@@ -7,9 +7,9 @@ struct AdView: UIViewRepresentable {
     func makeUIView(context: Context) -> GADBannerView {
         let banner = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
         // 以下は、バナー広告向けのテスト専用広告ユニットIDです。自身の広告ユニットIDと置き換えてください。
-//        banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
-
-
+        //        banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
+        
+        
         banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         banner.rootViewController = UIApplication.shared.windows.first?.rootViewController
         banner.load(GADRequest())
@@ -64,7 +64,7 @@ struct ContentView: View {
     @State var flag = true
     @State var nowTime : Double
     @State var sheetAlert : Bool = false
-        
+    
     var body: some View {
         ZStack {
             
@@ -75,8 +75,8 @@ struct ContentView: View {
                 AdView()
                     .frame(width: 320, height: 50)
                 
-                    Text("Total Time").font(.title)
-               
+                Text("Total Time").font(.title)
+                
                 if stopWatchManeger.hour > 0 {
                     Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                         .font(Font.custom("HiraginoSans-W3", size: 65))
@@ -154,19 +154,19 @@ struct ContentView: View {
                                     if stopWatchManeger.hour > 0 {
                                         total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
                                     } else {
-                                    total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                        total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
                                     }
                                     if stopWatchManeger2.hour > 0 {
                                         laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
                                     } else {
-                                    laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                        laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
                                     }
                                     
                                     self.stopWatchManeger2.pause()
                                     self.stopWatchManeger2.stop()
                                     self.stopWatchManeger2.start()
                                     lapn += 1
-
+                                    
                                 }){
                                     TextView(label : "ラップ")
                                 }}
@@ -241,12 +241,12 @@ struct ContentView: View {
                                     if stopWatchManeger.hour > 0 {
                                         total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
                                     } else {
-                                    total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                        total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
                                     }
                                     if stopWatchManeger2.hour > 0 {
                                         laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
                                     } else {
-                                    laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                        laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
                                     }
                                     
                                     self.stopWatchManeger2.pause()
@@ -340,15 +340,15 @@ struct ContentView: View {
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color.black, lineWidth: 1)
-                                    )
-                                    Spacer()
-                                    Text(laptime[index])
-                                        .font(Font.custom("HiraginoSans-W3", size: 38))
-                                        .font(.system(size: 40, design: .monospaced))
-                                    Spacer()
-                                    Text("\(total[index])")
-                                        .font(Font.custom("HiraginoSans-W3", size: 20))
-                                        .font(.system(size: 20, design: .monospaced))
+                                )
+                                Spacer()
+                                Text(laptime[index])
+                                    .font(Font.custom("HiraginoSans-W3", size: 38))
+                                    .font(.system(size: 40, design: .monospaced))
+                                Spacer()
+                                Text("\(total[index])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                    .font(.system(size: 20, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color("ColorOrange2"))
@@ -372,7 +372,7 @@ struct ContentView: View {
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color.black, lineWidth: 1)
-                                    )
+                                )
                                 Spacer()
                                 Text(laptime[index])
                                     .font(Font.custom("HiraginoSans-W3", size: 50))
@@ -394,18 +394,7 @@ struct ContentView: View {
             }
         }.onAppear {
             print("aaaaaaaaaaaa")
-            SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
-                if let product = result.retrievedProducts.first {
-                    let priceString = product.localizedPrice!
-                    print("Product: \(product.localizedDescription), price: \(priceString)")
-                }
-                else if let invalidProductId = result.invalidProductIDs.first {
-                    print("Invalid product identifier: \(invalidProductId)")
-                }
-                else {
-                    print("Error: \(result.error)")
-                }
-            }
+            
             
         }
         .onChange(of: profile.mode) { mode in
@@ -413,7 +402,7 @@ struct ContentView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
     }
-    }
+}
 
 //struct ContentView_Previews: PreviewProvider {
 //    static var previews: some View {
@@ -511,7 +500,7 @@ class StopWatchManeger2:ObservableObject{
             
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
             self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
-
+            
             // ミリ秒は小数点第一位、第二位なので100をかけて100で割った余り
             self.milliSecond = Int(self.displayTime * 100) % 100
             
@@ -580,152 +569,168 @@ struct TextView: View {
 struct SecondView: View {
     
     @State var restoreAlert : Bool = false
-    @State var restoreAlert2 : Bool = false
-    @State var restoreAlert3 : Bool = false
-
+    @State var priceLabel : String = ""
+    
     var body: some View {
         ZStack {
             
             LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
-
-        VStack{
-            Button(action: {
-                SwiftyStoreKit.purchaseProduct("lap123", quantity: 1, atomically: false) { result in
-                    switch result {
-                    case .success(let product):
-                        // fetch content from your server, then:
-                        if product.needsFinishTransaction {
-                            SwiftyStoreKit.finishTransaction(product.transaction)
-                        }
-                        print("Purchase Success: \(product.productId)")
-                    case .error(let error):
-                        switch error.code {
-                        case .unknown: print("Unknown error. Please contact support")
-                        case .clientInvalid: print("Not allowed to make the payment")
-                        case .paymentCancelled: break
-                        case .paymentInvalid: print("The purchase identifier was invalid")
-                        case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                        case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                        default: print((error as NSError).localizedDescription)
+            
+            VStack{
+                Button(action: {
+                    
+                    SwiftyStoreKit.purchaseProduct("lap123", quantity: 1, atomically: true) { result in
+                        switch result {
+                        case .success(let purchase):
+                            print("Purchase Success: \(purchase.productId)")
+                            
+                            // 購入後の処理はここに記述しよう。例えばUser Default などのフラグを変更するとか。
+                            
+                        case .error(let error):
+                            switch error.code {
+                            case .unknown: print("Unknown error. Please contact support")
+                            case .clientInvalid: print("Not allowed to make the payment")
+                            case .paymentCancelled: break
+                            case .paymentInvalid: print("The purchase identifier was invalid")
+                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                            default: print((error as NSError).localizedDescription)
+                            }
                         }
                     }
+                    
+                    SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
+                        if let product = result.retrievedProducts.first {
+                            SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
+                                // handle result (same as above)
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                }){
+                    Text("上限数の解除")
+                        .font(.largeTitle)
+                        .frame(width: 220, height: 50)
+                        .foregroundColor(Color(.white))
+                        .padding(.all)
+                        .background(Color(.blue))
+                        .cornerRadius(24)
+                        .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
                 }
+                Spacer().frame(height: 30)
+                Button(action: {
+                    
+                    SwiftyStoreKit.purchaseProduct("lap234", quantity: 1, atomically: true) { result in
+                        switch result {
+                        case .success(let purchase):
+                            print("Purchase Success: \(purchase.productId)")
+                            
+                            // 購入後の処理はここに記述しよう。例えばUser Default などのフラグを変更するとか。
+                            
+                        case .error(let error):
+                            switch error.code {
+                            case .unknown: print("Unknown error. Please contact support")
+                            case .clientInvalid: print("Not allowed to make the payment")
+                            case .paymentCancelled: break
+                            case .paymentInvalid: print("The purchase identifier was invalid")
+                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
+                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
+                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
+                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
+                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
+                            default: print((error as NSError).localizedDescription)
+                            }
+                        }
+                    }
+                }){
+                    Text("広告の非表示")
+                        .font(.largeTitle)
+                        .frame(width: 220, height: 50)
+                        .foregroundColor(Color(.white))
+                        .padding(.all)
+                        .background(Color(.blue))
+                        .cornerRadius(24)
+                        .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+                }
+                Spacer().frame(height: 30)
+                
+                Button(action: {
+                    
+                    SwiftyStoreKit.restorePurchases(atomically: true) { results in
+                        if results.restoreFailedPurchases.count > 0 {
+                            print("Restore Failed: \(results.restoreFailedPurchases)")
+                        }
+                        else if results.restoredPurchases.count > 0 {
+                            for product in results.restoredPurchases {
+                                if product.needsFinishTransaction {
+                                    SwiftyStoreKit.finishTransaction(product.transaction)
+                                }
+                                
+                                if results.restoredPurchases.count > 0 {
+                                    
+                                    print("◯◯◯◯◯◯◯◯Restore Success: \(results.restoredPurchases)◯◯◯◯◯◯◯◯")
+                                    print("◯◯product.productId: \(product.productId)◯◯")
+                                    restoreAlert = true
+                                    
+                                    let defaults = UserDefaults.standard
+                                    defaults.set(true, forKey: "receiptData")
+                                    defaults.synchronize()
+                                    
+                                    self.priceLabel = "restored"
+                                }
+                            }}
+                        
+                    }})
+                {
+                    Text("購入の復元")
+                        .font(.largeTitle)
+                        .frame(width: 220, height: 50)
+                        .foregroundColor(Color(.white))
+                        .padding(.all)
+                        .background(Color(.blue))
+                        .cornerRadius(24)
+                        .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+                }.alert(isPresented: $restoreAlert, content: {
+                    Alert(title: Text("購入履歴が復元されました。"),
+                          dismissButton: .default(Text("OK"),
+                                                  action: {restoreAlert = false}))
+                })
+                Spacer().frame(height: 200)
+            }
+            .onAppear() {
+                
                 SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
                     if let product = result.retrievedProducts.first {
-                        SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                            // handle result (same as above)
-                        }
+                        let priceString = product.localizedPrice!
+                        print("Product: \(product.localizedDescription), price: \(priceString)")
                     }
-                }
-                
-                
-                
-            }){
-                Text("上限数の解除")
-                    .font(.largeTitle)
-                    .frame(width: 220, height: 50)
-                    .foregroundColor(Color(.white))
-                    .padding(.all)
-                    .background(Color(.blue))
-                    .cornerRadius(24)
-                    .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
-            }
-            Spacer().frame(height: 30)
-            Button(action: {
-                SwiftyStoreKit.purchaseProduct("lap234", quantity: 1, atomically: false) { result in
-                    switch result {
-                    case .success(let product):
-                        // fetch content from your server, then:
-                        if product.needsFinishTransaction {
-                            SwiftyStoreKit.finishTransaction(product.transaction)
-                        }
-                        print("Purchase Success: \(product.productId)")
-                    case .error(let error):
-                        switch error.code {
-                        case .unknown: print("Unknown error. Please contact support")
-                        case .clientInvalid: print("Not allowed to make the payment")
-                        case .paymentCancelled: break
-                        case .paymentInvalid: print("The purchase identifier was invalid")
-                        case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                        case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                        case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                        case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                        case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                        default: print((error as NSError).localizedDescription)
-                        }
+                    else if let invalidProductId = result.invalidProductIDs.first {
+                        print("Invalid product identifier: \(invalidProductId)")
+                    }
+                    else {
+                        print("Error: \(String(describing: result.error))")
                     }
                 }
                 SwiftyStoreKit.retrieveProductsInfo(["lap234"]) { result in
                     if let product = result.retrievedProducts.first {
-                        SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                            // handle result (same as above)
-                        }
+                        let priceString = product.localizedPrice!
+                        print("Product: \(product.localizedDescription), price: \(priceString)")
                     }
-                }
-                
-                
-                
-            }){
-                Text("広告の非表示")
-                    .font(.largeTitle)
-                    .frame(width: 220, height: 50)
-                    .foregroundColor(Color(.white))
-                    .padding(.all)
-                    .background(Color(.blue))
-                    .cornerRadius(24)
-                    .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
-            }
-            Spacer().frame(height: 30)
-
-            Button(action: {
-                
-                SwiftyStoreKit.restorePurchases(atomically: false) { results in
-                    if results.restoreFailedPurchases.count > 0 {
-                        self.restoreAlert3 = true
-                        print("Restore Failed: \(results.restoreFailedPurchases)")
-                    }
-                    else if results.restoredPurchases.count > 0 {
-                        for purchase in results.restoredPurchases {
-                            // fetch content from your server, then:
-                            if purchase.needsFinishTransaction {
-                                SwiftyStoreKit.finishTransaction(purchase.transaction)
-                            }
-                        }
-                        self.restoreAlert2 = true
-                        print("Restore Success: \(results.restoredPurchases)")
+                    else if let invalidProductId = result.invalidProductIDs.first {
+                        print("Invalid product identifier: \(invalidProductId)")
                     }
                     else {
-                        self.restoreAlert = true          // ②タップされたら表示フラグをtrueにする
-                        print("Nothing to Restore")
+                        print("Error: \(String(describing: result.error))")
                     }
                 }
-            })
-            {
-                Text("購入の復元")
-                    .font(.largeTitle)
-                    .frame(width: 220, height: 50)
-                    .foregroundColor(Color(.white))
-                    .padding(.all)
-                    .background(Color(.blue))
-                    .cornerRadius(24)
-                    .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
-            }.alert(isPresented: $restoreAlert){
-                Alert(title: Text("購入履歴はありません。"))
             }
-            .alert(isPresented: $restoreAlert2){
-                Alert(title: Text("購入履歴が復元されました。"))
-            }
-            .alert(isPresented: $restoreAlert3){
-                Alert(title: Text("購入履歴復元に失敗しました。"))
-            }
-            Spacer().frame(height: 200)
         }
-        
     }
-}
 }

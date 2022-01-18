@@ -10,7 +10,7 @@
       "internalID" : "526C84E3",
       "localizations" : [
         {
-          "description" : "",
+          "description" : "ラップ数制限を解除",
           "displayName" : "ラップ記録数の上限を解除",
           "locale" : "ja"
         }
@@ -25,7 +25,7 @@
       "internalID" : "7E4CF6F4",
       "localizations" : [
         {
-          "description" : "",
+          "description" : "広告の非表示",
           "displayName" : "広告の非表示",
           "locale" : "ja"
         }
