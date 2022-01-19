@@ -60,7 +60,6 @@ struct ContentView: View {
     @State var nowTime : Double
     @State var sheetAlert : Bool = false
     
-    @State var lap123Purchase : String = "false"
     @State var lap234Purchase : String = "false"
     
     var body: some View {
@@ -94,15 +93,16 @@ struct ContentView: View {
                                 Button(action: {
                                     self.sheetAlert.toggle()
                                 }) {
-                                    Image(systemName: "gearshape")
+                                    Image(systemName: "info.circle")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 28, height: 28)
                                         .foregroundColor(.black)
                                         .padding(5)
                                 }.sheet(isPresented: $sheetAlert) {
-                                    SecondView(lap123Purchase: Binding(projectedValue: $lap123Purchase), lap234Purchase: Binding(projectedValue: $lap234Purchase))
+                                    SecondView(lap234Purchase: Binding(projectedValue: $lap234Purchase))
                                 }
+                                Spacer().frame(width: 20)
                                 Toggle("", isOn: $profile.mode)
                                     .labelsHidden()
                                 Text(profile.mode ? "Left mode" : "Right mode")
@@ -136,7 +136,8 @@ struct ContentView: View {
                                     self.stopWatchManeger2.stop()
                                 }){
                                     TextView(label : "リセット")
-                                }                }
+                                }
+                            }
                         }
                         if stopWatchManeger.mode == .start{
                             VStack{
@@ -147,12 +148,9 @@ struct ContentView: View {
                                     TextView(label : "一時停止")
                                 }
                                 Button(action: {
-                                    print("\(lap234Purchase)")
                                     
                                     if lap234Purchase == "false" {
-                                        print("制限中")
-                                        if laptime.count < 10 {
-                                            print("制限中の１０以下")
+                                        if laptime.count < 30 {
                                             
                                             lapNo.insert(String(lapn), at: 0)
                                             if stopWatchManeger.hour > 0 {
@@ -171,10 +169,8 @@ struct ContentView: View {
                                             lapn += 1
                                             
                                         }
-                                        print("制限中の１０以上")
                                     }
                                     if lap234Purchase == "true" {
-                                        print("解除中")
                                         if laptime.count < 99 {
                                         lapNo.insert(String(lapn), at: 0)
                                         if stopWatchManeger.hour > 0 {
@@ -223,7 +219,6 @@ struct ContentView: View {
                                     self.stopWatchManeger2.stop()
                                 }){
                                     TextView(label : "リセット")
-                                    
                                 }
                             }
                         }
@@ -241,6 +236,7 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "スタート")
                                 }
+                                
                                 Button(action: {
                                     total.removeAll()
                                     laptime.removeAll()
@@ -250,7 +246,8 @@ struct ContentView: View {
                                     self.stopWatchManeger2.stop()
                                 }){
                                     TextView(label : "リセット")
-                                }                }
+                                }
+                            }
                         }
                         
                         if stopWatchManeger.mode == .start{
@@ -262,12 +259,9 @@ struct ContentView: View {
                                     TextView(label : "一時停止")
                                 }
                                 Button(action: {
-                                    print("\(lap234Purchase)")
                                     
                                     if lap234Purchase == "false" {
-                                        print("制限中")
-                                        if laptime.count < 10 {
-                                            print("制限中の１０以下")
+                                        if laptime.count < 30 {
                                             
                                             lapNo.insert(String(lapn), at: 0)
                                             if stopWatchManeger.hour > 0 {
@@ -286,10 +280,8 @@ struct ContentView: View {
                                             lapn += 1
                                             
                                         }
-                                        print("制限中の１０以上")
                                     }
                                     if lap234Purchase == "true" {
-                                        print("解除中")
                                         if laptime.count < 99 {
                                         lapNo.insert(String(lapn), at: 0)
                                         if stopWatchManeger.hour > 0 {
@@ -309,7 +301,8 @@ struct ContentView: View {
                                         }}
                                 }){
                                     TextView(label : "ラップ")
-                                }}
+                                }
+                            }
                         }
                         
                         if stopWatchManeger.mode == .pause{
@@ -336,7 +329,6 @@ struct ContentView: View {
                                     self.stopWatchManeger2.stop()
                                 }){
                                     TextView(label : "リセット")
-                                    
                                 }
                             }
                         }
@@ -345,10 +337,11 @@ struct ContentView: View {
                                 Text(profile.mode ? "Left mode" : "Right mode")
                                 Toggle("", isOn: $profile.mode)
                                     .labelsHidden()
+                                Spacer().frame(width: 20)
                                 Button(action: {
                                     self.sheetAlert.toggle()
                                 }) {
-                                    Image(systemName: "gearshape")
+                                    Image(systemName: "info.circle")
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
                                         .frame(width: 28, height: 28)
@@ -356,7 +349,7 @@ struct ContentView: View {
                                         .padding(5)
                                     
                                 }.sheet(isPresented: $sheetAlert) {
-                                    SecondView(lap123Purchase: Binding(projectedValue: $lap123Purchase), lap234Purchase: Binding(projectedValue: $lap234Purchase))
+                                    SecondView(lap234Purchase: Binding(projectedValue: $lap234Purchase))
                                 }
                             }
                             Text("現在のLapTime")
@@ -451,21 +444,7 @@ struct ContentView: View {
 //            defaults.set("false", forKey: "lap234")
             //--------------------TEST---------------
             
-            print("●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●")
-            print("username:\(profile.username)")
-            print("level:\(profile.level)")
-            print("mode:\(profile.mode)")
-            print("lap123Purchase:\(lap123Purchase)")
-            print("lap234Purchase:\(lap234Purchase)")
-            print("total:\(total.count)")
-            print("laptime:\(laptime.count)")
-            print("●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●")
-            
             let userDefaults = UserDefaults.standard
-            if let value1 = userDefaults.string(forKey: "lap123") {
-                print("lap123:\(value1)")
-                lap123Purchase = value1
-            }
             if let value2 = userDefaults.string(forKey: "lap234") {
                 print("lap234:\(value2)")
                 lap234Purchase = value2
@@ -594,10 +573,12 @@ class StopWatchManeger2:ObservableObject{
 struct SecondView: View {
     
     @State var restoreAlert : Bool = false
-    @State var priceLabel : String = ""
-    @Binding var lap123Purchase : String
+    @State var restoreAlertFailed : Bool = false
+    @State var priceLabel : String = "購入する"
     @Binding var lap234Purchase : String
     @Environment(\.presentationMode) var presentationMode
+    @State var isPresentedProgressView = false
+    @State var Buttondisable : Bool = false
     
     var body: some View {
         ZStack {
@@ -607,41 +588,27 @@ struct SecondView: View {
             
             
             VStack{
+                Spacer()
+                Text("App内課金オプション").font(.largeTitle)
+                VStack(alignment: .leading){
+                    Text("【下記の機能が追加されます】").bold()
+                    Spacer().frame(height: 10)
+                    VStack(alignment: .leading){
+                        Text("１．広告非表示")
+                        Text("２．ラップタイム記録数の上限を")
+                        Text("　　現在の３０回から９９回にする。")}.frame(height: 130)
+                    .border(Color.black, width: 2)
+                    Spacer().frame(height: 30)
+                    Text("このApp内課金オプションは、")
+                    Text("非消耗型オプションです。")
+                    Spacer().frame(height: 20)
+                    Text("アプリを再インストールした場合は、「復元」ボタンから購入履歴の復元をしてください。")
+                }.font(.title2)
+//                .border(Color.black, width: 2)
+                    .frame(width: 350, height: 350)
                 Button(action: {
-                    
-                    SwiftyStoreKit.purchaseProduct("lap123", quantity: 1, atomically: true) { result in
-                        switch result {
-                        case .success(let purchase):
-                            print("Purchase Success: \(purchase.productId)")
-                            // 購入後の処理はここに記述しよう。例えばUser Default などのフラグを変更するとか。
-                            
-                            let defaults = UserDefaults.standard
-                            defaults.set("true", forKey: "lap123")
-                            
-                            lap123Purchase = "true"
-                            self.presentationMode.wrappedValue.dismiss()
-                            
-                        case .error(let error):
-                            switch error.code {
-                            case .unknown: print("Unknown error. Please contact support")
-                            case .clientInvalid: print("Not allowed to make the payment")
-                            case .paymentCancelled: break
-                            case .paymentInvalid: print("The purchase identifier was invalid")
-                            case .paymentNotAllowed: print("The device is not allowed to make the payment")
-                            case .storeProductNotAvailable: print("The product is not available in the current storefront")
-                            case .cloudServicePermissionDenied: print("Access to cloud service information is not allowed")
-                            case .cloudServiceNetworkConnectionFailed: print("Could not connect to the network")
-                            case .cloudServiceRevoked: print("User has revoked permission to use this cloud service")
-                            default: print((error as NSError).localizedDescription)
-                            }
-                        }
-                    }
-                }){
-                    TextView2(label:"上限数の解除")
-                }
-                Spacer().frame(height: 30)
-                Button(action: {
-                    
+                    manageProgress()
+
                     SwiftyStoreKit.purchaseProduct("lap50", quantity: 1, atomically: true) { result in
                         switch result {
                         case .success(let purchase):
@@ -649,7 +616,11 @@ struct SecondView: View {
                             
                             let defaults = UserDefaults.standard
                             defaults.set("true", forKey: "lap234")
-                            
+                            defaults.set(true, forKey: "Buttondisable")
+                            defaults.set("購入済み", forKey: "Buttonlabel")
+
+
+                            Buttondisable = true
                             lap234Purchase = "true"
                             self.presentationMode.wrappedValue.dismiss()
                             // 購入後の処理はここに記述しよう。例えばUser Default などのフラグを変更するとか。
@@ -670,12 +641,19 @@ struct SecondView: View {
                         }
                     }
                 }){
-                    TextView2(label : "広告の非表示")
-                }
+                    
+                    if Buttondisable == false {
+                    TextView2(label : "\(priceLabel)")
+                    } else {
+                    TextView3(label : "\(priceLabel)")
+                    }
+                }.disabled(Buttondisable)
+                .buttonStyle(MyButtonStyle2())
                 Spacer().frame(height: 30)
                 
                 Button(action: {
-                    
+                    manageProgress2()
+
                     SwiftyStoreKit.restorePurchases(atomically: true) { results in
                         if results.restoreFailedPurchases.count > 0 {
                             print("Restore Failed: \(results.restoreFailedPurchases)")
@@ -686,22 +664,27 @@ struct SecondView: View {
                                     SwiftyStoreKit.finishTransaction(product.transaction)
                                 }
                                 if results.restoredPurchases.count > 0 {
-                                    print("◯◯◯◯◯◯◯◯Restore Success: \(results.restoredPurchases)◯◯◯◯◯◯◯◯")
-                                    print("◯◯product.productId: \(product.productId)◯◯")
+                                    print("Restore Success: \(results.restoredPurchases)")
+                                    print("product.productId: \(product.productId)")
                                     
                                     let defaults = UserDefaults.standard
                                     defaults.set("true", forKey: "lap234")
                                     
                                     lap234Purchase = "true"
                                     restoreAlert = true
+                                    defaults.set(true, forKey: "Buttondisable")
+                                    defaults.set("購入済み", forKey: "Buttonlabel")
                                     
-                                    self.priceLabel = "restored"
                                 }
-                            }}
+                            }}else {
+                                restoreAlertFailed = true
+                            }
                     }})
                 {
-                    TextView2(label : "購入の復元")
-                }.alert(isPresented: $restoreAlert, content: {
+                    TextView2(label : "復元する")
+                }
+                .buttonStyle(MyButtonStyle2())
+                .alert(isPresented: $restoreAlert, content: {
                     Alert(title: Text("購入履歴が復元されました。"),
                           dismissButton: .default(Text("OK"),
                                                   action: {
@@ -709,22 +692,17 @@ struct SecondView: View {
                         self.presentationMode.wrappedValue.dismiss()
                     }))
                 })
-                Spacer().frame(height: 200)
+                .alert(isPresented: $restoreAlertFailed, content: {
+                    Alert(title: Text("復元できませんでした。"),
+                          dismissButton: .default(Text("OK"),
+                                                  action: {
+                        restoreAlertFailed = false
+                    }))
+                })
+                Spacer().frame(height: 80)
             }
             .onAppear() {
                 
-                SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
-                    if let product = result.retrievedProducts.first {
-                        let priceString = product.localizedPrice!
-                        print("Product: \(product.localizedDescription), price: \(priceString)")
-                    }
-                    else if let invalidProductId = result.invalidProductIDs.first {
-                        print("Invalid product identifier: \(invalidProductId)")
-                    }
-                    else {
-                        print("Error: \(String(describing: result.error))")
-                    }
-                }
                 SwiftyStoreKit.retrieveProductsInfo(["lap50"]) { result in
                     if let product = result.retrievedProducts.first {
                         let priceString = product.localizedPrice!
@@ -737,10 +715,55 @@ struct SecondView: View {
                         print("Error: \(String(describing: result.error))")
                     }
                 }
+                
+                let userDefaults = UserDefaults.standard
+                if let value = userDefaults.string(forKey: "Buttonlabel") {
+                    priceLabel = value
+                    print("◆◆◆◆◆◆◆◆◆◆◆◆◆◆\(priceLabel)")
+                }
+                if let value = userDefaults.object(forKey: "Buttondisable") {
+                    Buttondisable = value as! Bool
+                    print("◆◆◆◆◆\(Buttondisable)")
+                }
+            }
+            if isPresentedProgressView {
+                ZStack{
+                    Rectangle()
+                    .foregroundColor(.gray)
+                    .opacity(0.7)
+                    .edgesIgnoringSafeArea(.all)
+                    Rectangle()
+                        .fill(Color.white)
+                        .frame(width: 250, height: 120)
+                        .cornerRadius(10)
+                VStack{
+                            ProgressView()
+                    Spacer().frame(height: 15)
+                    Text("商品情報取得中...")
+                        .font(.title)
+                }
+                    .frame(width: 250, height: 120)
+                    .border(Color.black, width: 1)
+                }
             }
         }
     }
-}
+    private func manageProgress() {
+            // ProgressView 表示
+            isPresentedProgressView = true
+            // 3秒後に非表示に
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.isPresentedProgressView = false
+            }
+        }
+    private func manageProgress2() {
+            // ProgressView 表示
+            isPresentedProgressView = true
+            // 3秒後に非表示に
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.isPresentedProgressView = false
+            }
+        }}
 
 struct TextView: View {
     
@@ -765,11 +788,33 @@ struct TextView2: View {
     var body: some View {
         Text(label)
             .font(.largeTitle)
-            .frame(width: 220, height: 50)
+            .frame(width: 200, height: 40)
             .foregroundColor(Color(.white))
             .padding(.all)
             .background(Color(.blue))
-            .cornerRadius(24)
+            .cornerRadius(25)
             .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
     }
+}
+struct TextView3: View {
+    
+    var label : String
+    
+    var body: some View {
+        Text(label)
+            .font(.largeTitle)
+            .frame(width: 200, height: 40)
+            .foregroundColor(Color(.white))
+            .padding(.all)
+            .background(Color(.gray))
+            .cornerRadius(25)
+            .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+    }
+}
+
+struct MyButtonStyle2: ButtonStyle {
+  func makeBody(configuration: Self.Configuration) -> some View {
+    configuration.label
+        .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+}
 }
