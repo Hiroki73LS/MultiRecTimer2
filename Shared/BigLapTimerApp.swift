@@ -38,7 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
                         SwiftyStoreKit.finishTransaction(product.transaction)
                     }
-                    print("purchased: \(product)")
+                    print("◆◆◆◆◆◆◆◆◆◆◆purchased: \(product)◆◆◆◆◆◆◆◆◆◆◆")
+                    print("◆◆◆◆◆◆◆◆◆◆◆defaults: \(defaults)◆◆◆◆◆◆◆◆◆◆◆")
                 }
             }
         }; return true

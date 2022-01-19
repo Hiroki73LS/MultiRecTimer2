@@ -21,24 +21,20 @@ struct AdView: UIViewRepresentable {
 }
 
 class UserProfile: ObservableObject {
-    /// ユーザ名
+    
     @Published var username: String {
         didSet {
             UserDefaults.standard.set(username, forKey: "username")
-        }
-    }
-    /// レベル
+        }}
     @Published var level: Int {
         didSet {
             UserDefaults.standard.set(level, forKey: "level")
-        }
-    }
+        }}
     /// 利き手のモード値
     @Published var mode: Bool {
         didSet {
             UserDefaults.standard.set(mode, forKey: "mode")
-        }
-    }
+        }}
     /// 初期化処理
     init() {
         username = UserDefaults.standard.string(forKey: "username") ?? ""
@@ -46,7 +42,6 @@ class UserProfile: ObservableObject {
         mode = UserDefaults.standard.object(forKey: "mode") as? Bool ?? true
     }
 }
-
 
 struct ContentView: View {
     
@@ -65,6 +60,9 @@ struct ContentView: View {
     @State var nowTime : Double
     @State var sheetAlert : Bool = false
     
+    @State var lap123Purchase : String = "false"
+    @State var lap234Purchase : String = "false"
+    
     var body: some View {
         ZStack {
             
@@ -72,9 +70,10 @@ struct ContentView: View {
                 .ignoresSafeArea()
             
             VStack(spacing:2) {
-                AdView()
-                    .frame(width: 320, height: 50)
-                
+                if lap234Purchase == "false"
+                {                AdView()
+                        .frame(width: 320, height: 50)
+                }
                 Text("Total Time").font(.title)
                 
                 if stopWatchManeger.hour > 0 {
@@ -86,7 +85,7 @@ struct ContentView: View {
                         .font(Font.custom("HiraginoSans-W3", size: 80))
                         .font(.system(size: 80, design: .monospaced))
                 }
-                
+                //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆右利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 if profile.mode == true{
                     
                     HStack{
@@ -95,15 +94,14 @@ struct ContentView: View {
                                 Button(action: {
                                     self.sheetAlert.toggle()
                                 }) {
-                                    Text("課金")
-                                        .font(.title)
-                                        .foregroundColor(Color.black)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(Color(.black), lineWidth: 1.0)
-                                        )
+                                    Image(systemName: "gearshape")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 28, height: 28)
+                                        .foregroundColor(.black)
+                                        .padding(5)
                                 }.sheet(isPresented: $sheetAlert) {
-                                    SecondView()
+                                    SecondView(lap123Purchase: Binding(projectedValue: $lap123Purchase), lap234Purchase: Binding(projectedValue: $lap234Purchase))
                                 }
                                 Toggle("", isOn: $profile.mode)
                                     .labelsHidden()
@@ -149,27 +147,55 @@ struct ContentView: View {
                                     TextView(label : "一時停止")
                                 }
                                 Button(action: {
-                                    lapNo.insert(String(lapn), at: 0)
+                                    print("\(lap234Purchase)")
                                     
-                                    if stopWatchManeger.hour > 0 {
-                                        total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-                                    } else {
-                                        total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                    if lap234Purchase == "false" {
+                                        print("制限中")
+                                        if laptime.count < 10 {
+                                            print("制限中の１０以下")
+                                            
+                                            lapNo.insert(String(lapn), at: 0)
+                                            if stopWatchManeger.hour > 0 {
+                                                total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            } else {
+                                                total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            }
+                                            if stopWatchManeger2.hour > 0 {
+                                                laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            } else {
+                                                laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            }
+                                            self.stopWatchManeger2.pause()
+                                            self.stopWatchManeger2.stop()
+                                            self.stopWatchManeger2.start()
+                                            lapn += 1
+                                            
+                                        }
+                                        print("制限中の１０以上")
                                     }
-                                    if stopWatchManeger2.hour > 0 {
-                                        laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                    } else {
-                                        laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                    }
-                                    
-                                    self.stopWatchManeger2.pause()
-                                    self.stopWatchManeger2.stop()
-                                    self.stopWatchManeger2.start()
-                                    lapn += 1
-                                    
+                                    if lap234Purchase == "true" {
+                                        print("解除中")
+                                        if laptime.count < 99 {
+                                        lapNo.insert(String(lapn), at: 0)
+                                        if stopWatchManeger.hour > 0 {
+                                            total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                        } else {
+                                            total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                        }
+                                        if stopWatchManeger2.hour > 0 {
+                                            laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                        } else {
+                                            laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                        }
+                                        self.stopWatchManeger2.pause()
+                                        self.stopWatchManeger2.stop()
+                                        self.stopWatchManeger2.start()
+                                        lapn += 1
+                                        }}
                                 }){
                                     TextView(label : "ラップ")
-                                }}
+                                }
+                            }
                         }
                         
                         if stopWatchManeger.mode == .pause{
@@ -203,7 +229,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                
+                //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆左利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 if profile.mode == false{
                     
                     HStack{
@@ -236,23 +262,51 @@ struct ContentView: View {
                                     TextView(label : "一時停止")
                                 }
                                 Button(action: {
-                                    lapNo.insert(String(lapn), at: 0)
+                                    print("\(lap234Purchase)")
                                     
-                                    if stopWatchManeger.hour > 0 {
-                                        total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-                                    } else {
-                                        total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                    if lap234Purchase == "false" {
+                                        print("制限中")
+                                        if laptime.count < 10 {
+                                            print("制限中の１０以下")
+                                            
+                                            lapNo.insert(String(lapn), at: 0)
+                                            if stopWatchManeger.hour > 0 {
+                                                total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            } else {
+                                                total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            }
+                                            if stopWatchManeger2.hour > 0 {
+                                                laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            } else {
+                                                laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            }
+                                            self.stopWatchManeger2.pause()
+                                            self.stopWatchManeger2.stop()
+                                            self.stopWatchManeger2.start()
+                                            lapn += 1
+                                            
+                                        }
+                                        print("制限中の１０以上")
                                     }
-                                    if stopWatchManeger2.hour > 0 {
-                                        laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                    } else {
-                                        laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                    }
-                                    
-                                    self.stopWatchManeger2.pause()
-                                    self.stopWatchManeger2.stop()
-                                    self.stopWatchManeger2.start()
-                                    lapn += 1
+                                    if lap234Purchase == "true" {
+                                        print("解除中")
+                                        if laptime.count < 99 {
+                                        lapNo.insert(String(lapn), at: 0)
+                                        if stopWatchManeger.hour > 0 {
+                                            total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                        } else {
+                                            total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                        }
+                                        if stopWatchManeger2.hour > 0 {
+                                            laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                        } else {
+                                            laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                        }
+                                        self.stopWatchManeger2.pause()
+                                        self.stopWatchManeger2.stop()
+                                        self.stopWatchManeger2.start()
+                                        lapn += 1
+                                        }}
                                 }){
                                     TextView(label : "ラップ")
                                 }}
@@ -294,15 +348,15 @@ struct ContentView: View {
                                 Button(action: {
                                     self.sheetAlert.toggle()
                                 }) {
-                                    Text("課金")
-                                        .font(.title)
-                                        .foregroundColor(Color.black)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(Color(.black), lineWidth: 1.0)
-                                        )
+                                    Image(systemName: "gearshape")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 28, height: 28)
+                                        .foregroundColor(.black)
+                                        .padding(5)
+                                    
                                 }.sheet(isPresented: $sheetAlert) {
-                                    SecondView()
+                                    SecondView(lap123Purchase: Binding(projectedValue: $lap123Purchase), lap234Purchase: Binding(projectedValue: $lap234Purchase))
                                 }
                             }
                             Text("現在のLapTime")
@@ -319,7 +373,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                
                 HStack{
                     Text("No.")
                     Spacer()
@@ -329,7 +382,7 @@ struct ContentView: View {
                 }
                 if stopWatchManeger.hour > 0 {
                     List {
-                        ForEach(0 ..< total.count, id: \.self) { index in
+                        ForEach(0 ..< laptime.count, id: \.self) { index in
                             HStack(spacing:2){
                                 VStack{
                                     Text("Lap")
@@ -358,10 +411,9 @@ struct ContentView: View {
                     }                .environment(\.defaultMinListRowHeight, 70)
                         .listStyle(PlainListStyle())
                         .font(.largeTitle)
-                    
                 } else {
                     List {
-                        ForEach(0 ..< total.count, id: \.self) { index in
+                        ForEach(0 ..< laptime.count, id: \.self) { index in
                             HStack(spacing:2){
                                 VStack{
                                     Text("Lap")
@@ -389,13 +441,35 @@ struct ContentView: View {
                     }   .environment(\.defaultMinListRowHeight, 70)
                         .listStyle(PlainListStyle())
                         .font(.largeTitle)
-                    
                 }
             }
         }.onAppear {
-            print("aaaaaaaaaaaa")
             
+            //--------------------TEST---------------
+//            let defaults = UserDefaults.standard
+//            defaults.set("false", forKey: "lap123")
+//            defaults.set("false", forKey: "lap234")
+            //--------------------TEST---------------
             
+            print("●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●")
+            print("username:\(profile.username)")
+            print("level:\(profile.level)")
+            print("mode:\(profile.mode)")
+            print("lap123Purchase:\(lap123Purchase)")
+            print("lap234Purchase:\(lap234Purchase)")
+            print("total:\(total.count)")
+            print("laptime:\(laptime.count)")
+            print("●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●●")
+            
+            let userDefaults = UserDefaults.standard
+            if let value1 = userDefaults.string(forKey: "lap123") {
+                print("lap123:\(value1)")
+                lap123Purchase = value1
+            }
+            if let value2 = userDefaults.string(forKey: "lap234") {
+                print("lap234:\(value2)")
+                lap234Purchase = value2
+            }
         }
         .onChange(of: profile.mode) { mode in
             UserDefaults.standard.set(profile.mode , forKey: "mode")
@@ -403,11 +477,6 @@ struct ContentView: View {
         .navigationBarTitle("", displayMode: .inline)
     }
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView(total: [], laptime: [], lapNo: [], lapn : 0, nowTime: 0)
-//    }}
 
 //------------------------------------------------------------------------------------------------------------------------
 class StopWatchManeger:ObservableObject{
@@ -419,7 +488,6 @@ class StopWatchManeger:ObservableObject{
     }
     
     @Published var mode:stopWatchMode = .stop
-    
     @Published var milliSecond = 00
     @Published var second = 00
     @Published var minutes = 00
@@ -428,7 +496,6 @@ class StopWatchManeger:ObservableObject{
     var elapsedTime : Double = 0
     var displayTime: Double = 0
     var savedTime: Double = 0
-    
     var timer = Timer()
     
     func start(){
@@ -440,19 +507,14 @@ class StopWatchManeger:ObservableObject{
             
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
             self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
-            
             // ミリ秒は小数点第一位、第二位なので100をかけて100で割った余り
             self.milliSecond = Int(self.displayTime * 100) % 100
-            
             // 秒は1・2桁なので60で割った余り
             self.second = Int(self.displayTime) % 60
-            
             // 分は経過秒を60で割った商を60で割った余り
             self.minutes = Int(self.displayTime / 60) % 60
-            
             // 時は経過分を60で割った商を60で割る
             self.hour = Int(self.displayTime / 60) / 60
-            
         }
         RunLoop.current.add(timer, forMode: .common)
     }
@@ -480,7 +542,6 @@ class StopWatchManeger2:ObservableObject{
     }
     
     @Published var mode:stopWatchMode = .stop
-    
     @Published var milliSecond = 00
     @Published var second = 00
     @Published var minutes = 00
@@ -489,7 +550,6 @@ class StopWatchManeger2:ObservableObject{
     var elapsedTime : Double = 0
     var displayTime: Double = 0
     var savedTime: Double = 0
-    
     var timer = Timer()
     
     func start(){
@@ -531,45 +591,13 @@ class StopWatchManeger2:ObservableObject{
 }
 //------------------------------------------------------------------------------------------------------------------------
 
-
-struct TextView2: View {
-    
-    var label : String
-    
-    var body: some View {
-        Text(label)
-            .font(.title)
-            .frame(width: 130, height: 80, alignment: .center)
-            .overlay(
-                RoundedRectangle(cornerRadius: 200)
-                    .stroke(Color.blue, lineWidth: 5)
-                
-            )
-            .foregroundColor(.orange)
-    }
-}
-struct TextView: View {
-    
-    var label : String
-    
-    var body: some View {
-        Text(label)
-            .font(.title)
-            .frame(width: 130, height: 80, alignment: .center)
-            .overlay(
-                RoundedRectangle(cornerRadius: 200)
-                    .stroke(Color.blue, lineWidth: 5)
-            )
-            .foregroundColor(.black)
-    }
-}
-
-
-
 struct SecondView: View {
     
     @State var restoreAlert : Bool = false
     @State var priceLabel : String = ""
+    @Binding var lap123Purchase : String
+    @Binding var lap234Purchase : String
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack {
@@ -585,8 +613,13 @@ struct SecondView: View {
                         switch result {
                         case .success(let purchase):
                             print("Purchase Success: \(purchase.productId)")
-                            
                             // 購入後の処理はここに記述しよう。例えばUser Default などのフラグを変更するとか。
+                            
+                            let defaults = UserDefaults.standard
+                            defaults.set("true", forKey: "lap123")
+                            
+                            lap123Purchase = "true"
+                            self.presentationMode.wrappedValue.dismiss()
                             
                         case .error(let error):
                             switch error.code {
@@ -603,35 +636,22 @@ struct SecondView: View {
                             }
                         }
                     }
-                    
-                    SwiftyStoreKit.retrieveProductsInfo(["lap123"]) { result in
-                        if let product = result.retrievedProducts.first {
-                            SwiftyStoreKit.purchaseProduct(product, quantity: 1, atomically: true) { result in
-                                // handle result (same as above)
-                            }
-                        }
-                    }
-                    
-                    
-                    
                 }){
-                    Text("上限数の解除")
-                        .font(.largeTitle)
-                        .frame(width: 220, height: 50)
-                        .foregroundColor(Color(.white))
-                        .padding(.all)
-                        .background(Color(.blue))
-                        .cornerRadius(24)
-                        .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+                    TextView2(label:"上限数の解除")
                 }
                 Spacer().frame(height: 30)
                 Button(action: {
                     
-                    SwiftyStoreKit.purchaseProduct("lap234", quantity: 1, atomically: true) { result in
+                    SwiftyStoreKit.purchaseProduct("lap50", quantity: 1, atomically: true) { result in
                         switch result {
                         case .success(let purchase):
                             print("Purchase Success: \(purchase.productId)")
                             
+                            let defaults = UserDefaults.standard
+                            defaults.set("true", forKey: "lap234")
+                            
+                            lap234Purchase = "true"
+                            self.presentationMode.wrappedValue.dismiss()
                             // 購入後の処理はここに記述しよう。例えばUser Default などのフラグを変更するとか。
                             
                         case .error(let error):
@@ -650,14 +670,7 @@ struct SecondView: View {
                         }
                     }
                 }){
-                    Text("広告の非表示")
-                        .font(.largeTitle)
-                        .frame(width: 220, height: 50)
-                        .foregroundColor(Color(.white))
-                        .padding(.all)
-                        .background(Color(.blue))
-                        .cornerRadius(24)
-                        .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+                    TextView2(label : "広告の非表示")
                 }
                 Spacer().frame(height: 30)
                 
@@ -672,35 +685,29 @@ struct SecondView: View {
                                 if product.needsFinishTransaction {
                                     SwiftyStoreKit.finishTransaction(product.transaction)
                                 }
-                                
                                 if results.restoredPurchases.count > 0 {
-                                    
                                     print("◯◯◯◯◯◯◯◯Restore Success: \(results.restoredPurchases)◯◯◯◯◯◯◯◯")
                                     print("◯◯product.productId: \(product.productId)◯◯")
-                                    restoreAlert = true
                                     
                                     let defaults = UserDefaults.standard
-                                    defaults.set(true, forKey: "receiptData")
-                                    defaults.synchronize()
+                                    defaults.set("true", forKey: "lap234")
+                                    
+                                    lap234Purchase = "true"
+                                    restoreAlert = true
                                     
                                     self.priceLabel = "restored"
                                 }
                             }}
-                        
                     }})
                 {
-                    Text("購入の復元")
-                        .font(.largeTitle)
-                        .frame(width: 220, height: 50)
-                        .foregroundColor(Color(.white))
-                        .padding(.all)
-                        .background(Color(.blue))
-                        .cornerRadius(24)
-                        .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+                    TextView2(label : "購入の復元")
                 }.alert(isPresented: $restoreAlert, content: {
                     Alert(title: Text("購入履歴が復元されました。"),
                           dismissButton: .default(Text("OK"),
-                                                  action: {restoreAlert = false}))
+                                                  action: {
+                        restoreAlert = false
+                        self.presentationMode.wrappedValue.dismiss()
+                    }))
                 })
                 Spacer().frame(height: 200)
             }
@@ -718,7 +725,7 @@ struct SecondView: View {
                         print("Error: \(String(describing: result.error))")
                     }
                 }
-                SwiftyStoreKit.retrieveProductsInfo(["lap234"]) { result in
+                SwiftyStoreKit.retrieveProductsInfo(["lap50"]) { result in
                     if let product = result.retrievedProducts.first {
                         let priceString = product.localizedPrice!
                         print("Product: \(product.localizedDescription), price: \(priceString)")
@@ -732,5 +739,37 @@ struct SecondView: View {
                 }
             }
         }
+    }
+}
+
+struct TextView: View {
+    
+    var label : String
+    
+    var body: some View {
+        Text(label)
+            .font(.title)
+            .frame(width: 130, height: 80, alignment: .center)
+            .overlay(
+                RoundedRectangle(cornerRadius: 200)
+                    .stroke(Color.blue, lineWidth: 5)
+            )
+            .foregroundColor(.black)
+    }
+}
+
+struct TextView2: View {
+    
+    var label : String
+    
+    var body: some View {
+        Text(label)
+            .font(.largeTitle)
+            .frame(width: 220, height: 50)
+            .foregroundColor(Color(.white))
+            .padding(.all)
+            .background(Color(.blue))
+            .cornerRadius(24)
+            .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
     }
 }
