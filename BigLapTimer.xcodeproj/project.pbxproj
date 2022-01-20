@@ -23,7 +23,6 @@
 		4A48CB12278F0D76005CC182 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		4A48CB21278F2563005CC182 /* BigLapTimer--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BigLapTimer--iOS--Info.plist"; sourceTree = "<group>"; };
 		4ADEE8F5279594CD00A0A92D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
-		4ADEE8F727959DFC00A0A92D /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		6C52049B55B108D661E53343 /* Pods-BigLapTimer (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigLapTimer (iOS).release.xcconfig"; path = "Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		F19D6E99EED831A0E2636F80 /* Pods-BigLapTimer (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BigLapTimer (iOS).debug.xcconfig"; path = "Target Support Files/Pods-BigLapTimer (iOS)/Pods-BigLapTimer (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +56,6 @@
 			isa = PBXGroup;
 			children = (
 				4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */,
-				4ADEE8F727959DFC00A0A92D /* Configuration.storekit */,
 				4A48CB04278F0D75005CC182 /* ContentView.swift */,
 				4A48CB05278F0D76005CC182 /* Assets.xcassets */,
 			);
@@ -337,7 +335,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -354,7 +352,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.haya.BigLapTimer;
 				PRODUCT_NAME = BigLapTimer;
 				SDKROOT = iphoneos;
@@ -371,7 +369,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -388,7 +386,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.haya.BigLapTimer;
 				PRODUCT_NAME = BigLapTimer;
 				SDKROOT = iphoneos;

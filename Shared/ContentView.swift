@@ -74,11 +74,14 @@ struct ContentView: View {
                         .frame(width: 320, height: 50)
                 }
                 Text("Total Time").font(.title)
-                
-                if stopWatchManeger.hour > 0 {
+                if stopWatchManeger.hour > 9 {
+                    Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
+                        .font(Font.custom("HiraginoSans-W3", size: 60))
+                        .font(.system(size: 60, design: .monospaced))
+                } else if stopWatchManeger.hour > 0 {
                     Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                         .font(Font.custom("HiraginoSans-W3", size: 65))
-                        .font(.system(size: 60, design: .monospaced))
+                        .font(.system(size: 65, design: .monospaced))
                 } else {
                     Text(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                         .font(Font.custom("HiraginoSans-W3", size: 80))
@@ -569,16 +572,22 @@ class StopWatchManeger2:ObservableObject{
     }
 }
 //------------------------------------------------------------------------------------------------------------------------
+//アラートの識別子
+enum AlertType {
+    case first
+    case second
+}
 
 struct SecondView: View {
     
     @State var restoreAlert : Bool = false
-    @State var restoreAlertFailed : Bool = false
     @State var priceLabel : String = "購入する"
     @Binding var lap234Purchase : String
     @Environment(\.presentationMode) var presentationMode
     @State var isPresentedProgressView = false
     @State var Buttondisable : Bool = false
+    @State var whichAlert : AlertType = AlertType.first
+
     
     var body: some View {
         ZStack {
@@ -594,23 +603,30 @@ struct SecondView: View {
                     Text("【下記の機能が追加されます】").bold()
                     Spacer().frame(height: 10)
                     VStack(alignment: .leading){
-                        Text("１．広告非表示")
-                        Text("２．ラップタイム記録数の上限を")
-                        Text("　　現在の３０回から９９回にする。")}.frame(height: 130)
+                        Text(" １．広告非表示")
+                        Text(" ２．ラップタイム記録数の上限を")
+                        Text("　 　現在の３０回から９９回にする。")}.frame(height: 130)
                     .border(Color.black, width: 2)
                     Spacer().frame(height: 30)
                     Text("このApp内課金オプションは、")
                     Text("非消耗型オプションです。")
                     Spacer().frame(height: 20)
-                    Text("アプリを再インストールした場合は、「復元」ボタンから購入履歴の復元をしてください。")
+                    Text("アプリを再インストールした場合は、")
+                    Text("下記の「復元する」から購入履歴の")
+                    Text("復元をしてください。")
                 }.font(.title2)
 //                .border(Color.black, width: 2)
-                    .frame(width: 350, height: 350)
+                    .frame(width: 370, height: 370)
+                    Spacer().frame(height: 20)
+                Text("(JPY 120円)").font(.title3)
+                
                 Button(action: {
                     manageProgress()
-
+                    print("Storkit読み込み")
+                    
                     SwiftyStoreKit.purchaseProduct("lap50", quantity: 1, atomically: true) { result in
-                        switch result {
+                        print("Storkit読み込み2\(result)")
+                            switch result {
                         case .success(let purchase):
                             print("Purchase Success: \(purchase.productId)")
                             
@@ -618,7 +634,6 @@ struct SecondView: View {
                             defaults.set("true", forKey: "lap234")
                             defaults.set(true, forKey: "Buttondisable")
                             defaults.set("購入済み", forKey: "Buttonlabel")
-
 
                             Buttondisable = true
                             lap234Purchase = "true"
@@ -640,12 +655,13 @@ struct SecondView: View {
                             }
                         }
                     }
-                }){
+                    print("Storkit読み込み3")
                     
+                }){
                     if Buttondisable == false {
-                    TextView2(label : "\(priceLabel)")
+                        TextView2(label : "\(priceLabel)")
                     } else {
-                    TextView3(label : "\(priceLabel)")
+                        TextView3(label : "\(priceLabel)")
                     }
                 }.disabled(Buttondisable)
                 .buttonStyle(MyButtonStyle2())
@@ -662,47 +678,50 @@ struct SecondView: View {
                             for product in results.restoredPurchases {
                                 if product.needsFinishTransaction {
                                     SwiftyStoreKit.finishTransaction(product.transaction)
+                                    print("finishTransaction")
                                 }
                                 if results.restoredPurchases.count > 0 {
                                     print("Restore Success: \(results.restoredPurchases)")
                                     print("product.productId: \(product.productId)")
+                                    lap234Purchase = "true"
+                                    
+                                    self.whichAlert = .first
+                                    restoreAlert = true
+                                    print("restoreAlert:\(restoreAlert)")
                                     
                                     let defaults = UserDefaults.standard
                                     defaults.set("true", forKey: "lap234")
-                                    
-                                    lap234Purchase = "true"
-                                    restoreAlert = true
                                     defaults.set(true, forKey: "Buttondisable")
                                     defaults.set("購入済み", forKey: "Buttonlabel")
                                     
                                 }
                             }}else {
-                                restoreAlertFailed = true
+                                self.whichAlert = .second
+                                restoreAlert = true
                             }
                     }})
                 {
                     TextView2(label : "復元する")
                 }
                 .buttonStyle(MyButtonStyle2())
-                .alert(isPresented: $restoreAlert, content: {
-                    Alert(title: Text("購入履歴が復元されました。"),
-                          dismissButton: .default(Text("OK"),
-                                                  action: {
-                        restoreAlert = false
-                        self.presentationMode.wrappedValue.dismiss()
-                    }))
-                })
-                .alert(isPresented: $restoreAlertFailed, content: {
-                    Alert(title: Text("復元できませんでした。"),
-                          dismissButton: .default(Text("OK"),
-                                                  action: {
-                        restoreAlertFailed = false
-                    }))
-                })
-                Spacer().frame(height: 80)
+                .alert(isPresented: $restoreAlert) {
+                    switch whichAlert {
+                    case .first:
+                        return Alert(title: Text("購入履歴が復元されました。"), message: Text(""),dismissButton: .default(Text("OK"),
+                                                                                                                  action: {
+                            restoreAlert = false
+                            self.presentationMode.wrappedValue.dismiss()
+                        }))
+                    case .second:
+                        return Alert(title: Text("復元できませんでした。"),message: Text(""), dismissButton: .default(Text("OK"),
+                                                                                                                action: {
+                            restoreAlert = false
+                        }))
+                    }}
+                Spacer().frame(height: 40)
             }
             .onAppear() {
-                
+                print("restoreAlert:\(restoreAlert)")
                 SwiftyStoreKit.retrieveProductsInfo(["lap50"]) { result in
                     if let product = result.retrievedProducts.first {
                         let priceString = product.localizedPrice!
@@ -719,11 +738,15 @@ struct SecondView: View {
                 let userDefaults = UserDefaults.standard
                 if let value = userDefaults.string(forKey: "Buttonlabel") {
                     priceLabel = value
-                    print("◆◆◆◆◆◆◆◆◆◆◆◆◆◆\(priceLabel)")
+                    print("◆◆◆◆◆\(priceLabel)")
                 }
                 if let value = userDefaults.object(forKey: "Buttondisable") {
                     Buttondisable = value as! Bool
                     print("◆◆◆◆◆\(Buttondisable)")
+                }
+                if let value = userDefaults.object(forKey: "Restore") {
+                    restoreAlert = value as! Bool
+                    print("restoreAlert:\(priceLabel)")
                 }
             }
             if isPresentedProgressView {
