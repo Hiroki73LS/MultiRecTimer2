@@ -27,6 +27,7 @@ struct SecondView: View {
             VStack{
                 Spacer().frame(height: 50)
                 Text("App内課金オプション").font(.largeTitle)
+                Spacer().frame(height: 10)
                 VStack(alignment: .leading){
                     Text("【下記の機能が追加されます】").bold()
                     Spacer().frame(height: 10)
@@ -35,7 +36,7 @@ struct SecondView: View {
                         Text(" ２．ラップタイム記録数の上限を")
                         Text("　 　現在の３０回から９９回にする。")
                         Text(" ３．履歴保存の上限数を")
-                        Text("　 　現在の２０回から５０回にする。")
+                        Text("　 　現在の２０回から６０回にする。")
                     }.frame(height: 150)
                     .border(Color.black, width: 2)
                     Spacer().frame(height: 15)

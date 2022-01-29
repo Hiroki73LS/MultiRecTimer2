@@ -8,10 +8,10 @@ struct AdView: UIViewRepresentable {
     func makeUIView(context: Context) -> GADBannerView {
         let banner = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
         // 以下は、バナー広告向けのテスト専用広告ユニットIDです。自身の広告ユニットIDと置き換えてください。
-        //                banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
+                        banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
         
         
-        banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//        banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         banner.rootViewController = UIApplication.shared.windows.first?.rootViewController
         banner.load(GADRequest())
         return banner
@@ -281,8 +281,8 @@ struct ContentView: View {
                                                     let kazu = realm.objects(Model.self).count
                                                     print("\(kazu)")
                                                     
-                                                    if kazu > 50 {
-                                                    for i in 50..<kazu {
+                                                    if kazu > 60 {
+                                                    for i in 60..<kazu {
                                                         try realm.write {
                                                             _ = Model()
                                                             let targets = realm.objects(Model.self)
@@ -470,8 +470,8 @@ struct ContentView: View {
                                                 let kazu = realm.objects(Model.self).count
                                                 print("\(kazu)")
                                                 
-                                                if kazu > 50 {
-                                                for i in 50..<kazu {
+                                                if kazu > 60 {
+                                                for i in 60..<kazu {
                                                     try realm.write {
                                                         _ = Model()
                                                         let targets = realm.objects(Model.self)

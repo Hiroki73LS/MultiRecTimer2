@@ -23,7 +23,6 @@
 		4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BigLapTimer__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A2E711C27A4CFA1005E10B4 /* Rireki.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rireki.swift; sourceTree = "<group>"; };
 		4A2E711E27A4CFB6005E10B4 /* RirekiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RirekiView.swift; sourceTree = "<group>"; };
-		4A2E712027A50F48005E10B4 /* Configuration.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Configuration.storekit; sourceTree = "<group>"; };
 		4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLapTimerApp.swift; sourceTree = "<group>"; };
 		4A48CB04278F0D75005CC182 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4A48CB05278F0D76005CC182 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -70,7 +69,6 @@
 				4A48CB04278F0D75005CC182 /* ContentView.swift */,
 				4A2E711C27A4CFA1005E10B4 /* Rireki.swift */,
 				4A2E711E27A4CFB6005E10B4 /* RirekiView.swift */,
-				4A2E712027A50F48005E10B4 /* Configuration.storekit */,
 				4ADEE900279BC9B400A0A92D /* StoreView.swift */,
 				4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */,
 				4ADEE8FC279BC7EE00A0A92D /* View.swift */,
@@ -369,7 +367,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -403,7 +401,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
