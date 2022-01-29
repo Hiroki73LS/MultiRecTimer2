@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A2E711D27A4CFA1005E10B4 /* Rireki.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E711C27A4CFA1005E10B4 /* Rireki.swift */; };
+		4A2E711F27A4CFB6005E10B4 /* RirekiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2E711E27A4CFB6005E10B4 /* RirekiView.swift */; };
 		4A48CB13278F0D76005CC182 /* BigLapTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */; };
 		4A48CB15278F0D76005CC182 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB04278F0D75005CC182 /* ContentView.swift */; };
 		4A48CB17278F0D76005CC182 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A48CB05278F0D76005CC182 /* Assets.xcassets */; };
@@ -19,6 +21,8 @@
 
 /* Begin PBXFileReference section */
 		4765EBE4C0BD3405FE2FF558 /* Pods_BigLapTimer__iOS_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BigLapTimer__iOS_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A2E711C27A4CFA1005E10B4 /* Rireki.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rireki.swift; sourceTree = "<group>"; };
+		4A2E711E27A4CFB6005E10B4 /* RirekiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RirekiView.swift; sourceTree = "<group>"; };
 		4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigLapTimerApp.swift; sourceTree = "<group>"; };
 		4A48CB04278F0D75005CC182 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4A48CB05278F0D76005CC182 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 			children = (
 				4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */,
 				4A48CB04278F0D75005CC182 /* ContentView.swift */,
+				4A2E711C27A4CFA1005E10B4 /* Rireki.swift */,
+				4A2E711E27A4CFB6005E10B4 /* RirekiView.swift */,
 				4ADEE900279BC9B400A0A92D /* StoreView.swift */,
 				4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */,
 				4ADEE8FC279BC7EE00A0A92D /* View.swift */,
@@ -219,7 +225,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A48CB15278F0D76005CC182 /* ContentView.swift in Sources */,
+				4A2E711D27A4CFA1005E10B4 /* Rireki.swift in Sources */,
 				4A48CB13278F0D76005CC182 /* BigLapTimerApp.swift in Sources */,
+				4A2E711F27A4CFB6005E10B4 /* RirekiView.swift in Sources */,
 				4ADEE8FF279BC89400A0A92D /* StopWatchClass.swift in Sources */,
 				4ADEE901279BC9B400A0A92D /* StoreView.swift in Sources */,
 				4ADEE8FD279BC7EE00A0A92D /* View.swift in Sources */,
@@ -347,7 +355,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -364,7 +372,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.haya.BigLapTimer;
 				PRODUCT_NAME = BigLapTimer;
 				SDKROOT = iphoneos;
@@ -381,7 +389,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -398,7 +406,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.haya.BigLapTimer;
 				PRODUCT_NAME = BigLapTimer;
 				SDKROOT = iphoneos;
