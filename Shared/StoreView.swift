@@ -25,7 +25,7 @@ struct SecondView: View {
             
             
             VStack{
-                Spacer()
+                Spacer().frame(height: 50)
                 Text("App内課金オプション").font(.largeTitle)
                 VStack(alignment: .leading){
                     Text("【下記の機能が追加されます】").bold()
@@ -33,18 +33,20 @@ struct SecondView: View {
                     VStack(alignment: .leading){
                         Text(" １．広告非表示")
                         Text(" ２．ラップタイム記録数の上限を")
-                        Text("　 　現在の３０回から９９回にする。")}.frame(height: 130)
+                        Text("　 　現在の３０回から９９回にする。")
+                        Text(" ３．履歴保存の上限数を")
+                        Text("　 　現在の２０回から５０回にする。")
+                    }.frame(height: 150)
                     .border(Color.black, width: 2)
-                    Spacer().frame(height: 30)
+                    Spacer().frame(height: 15)
                     Text("このApp内課金オプションは、")
                     Text("非消耗型オプションです。")
-                    Spacer().frame(height: 20)
+                    Spacer().frame(height: 15)
                     Text("アプリを再インストールした場合は、")
                     Text("下記の「復元する」から購入履歴の")
                     Text("復元をしてください。")
                 }.font(.title2)
-//                .border(Color.black, width: 2)
-                    .frame(width: 370, height: 370)
+                    .frame(width: 370, height: 350)
                     Spacer().frame(height: 20)
                 Text("(JPY 120円)").font(.title3)
                 
@@ -93,7 +95,7 @@ struct SecondView: View {
                     }
                 }.disabled(Buttondisable)
                 .buttonStyle(MyButtonStyle2())
-                Spacer().frame(height: 30)
+                Spacer().frame(height: 25)
                 
                 Button(action: {
                     manageProgress2()
@@ -146,7 +148,7 @@ struct SecondView: View {
                             restoreAlert = false
                         }))
                     }}
-                Spacer().frame(height: 40)
+                Spacer().frame(height: 35)
             }
             .onAppear() {
                 print("restoreAlert:\(restoreAlert)")

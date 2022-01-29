@@ -259,23 +259,41 @@ struct ContentView: View {
                                         print(error)
                                     }
                                     
-                                        
-                                    do {
-                                        let realm = try Realm()
-                                        let kazu = realm.objects(Model.self).count
-                                        print("\(kazu)")
-                                        
-                                        for i in 7..<kazu {
-                                            try realm.write {
-                                                _ = Model()
-                                                let targets = realm.objects(Model.self)
-                                                let target = targets.first
-                                                realm.delete(target!)
-                                                print("i:\(i)")
-                                            }}
-                                    } catch {
-                                        print(error)
-                                    }
+                                        if lap234Purchase == "false" {
+                                            do {
+                                                let realm = try Realm()
+                                                let kazu = realm.objects(Model.self).count
+                                                print("\(kazu)")
+                                                if kazu > 20 {
+                                                for i in 20..<kazu {
+                                                    try realm.write {
+                                                        _ = Model()
+                                                        let targets = realm.objects(Model.self)
+                                                        let target = targets.first
+                                                        realm.delete(target!)
+                                                        print("i:\(i)")
+                                                    }}}
+                                            } catch {
+                                                print(error)
+                                            }} else {
+                                                do {
+                                                    let realm = try Realm()
+                                                    let kazu = realm.objects(Model.self).count
+                                                    print("\(kazu)")
+                                                    
+                                                    if kazu > 50 {
+                                                    for i in 50..<kazu {
+                                                        try realm.write {
+                                                            _ = Model()
+                                                            let targets = realm.objects(Model.self)
+                                                            let target = targets.first
+                                                            realm.delete(target!)
+                                                            print("i:\(i)")
+                                                        }}}
+                                                } catch {
+                                                    print(error)
+                                                }
+                                            }
                                     
                                     //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     total.removeAll()
@@ -430,6 +448,42 @@ struct ContentView: View {
                                         print(error)
                                     }
                                     
+                                    if lap234Purchase == "false" {
+                                        do {
+                                            let realm = try Realm()
+                                            let kazu = realm.objects(Model.self).count
+                                            print("\(kazu)")
+                                            if kazu > 20 {
+                                            for i in 20..<kazu {
+                                                try realm.write {
+                                                    _ = Model()
+                                                    let targets = realm.objects(Model.self)
+                                                    let target = targets.first
+                                                    realm.delete(target!)
+                                                    print("i:\(i)")
+                                                }}}
+                                        } catch {
+                                            print(error)
+                                        }} else {
+                                            do {
+                                                let realm = try Realm()
+                                                let kazu = realm.objects(Model.self).count
+                                                print("\(kazu)")
+                                                
+                                                if kazu > 50 {
+                                                for i in 50..<kazu {
+                                                    try realm.write {
+                                                        _ = Model()
+                                                        let targets = realm.objects(Model.self)
+                                                        let target = targets.first
+                                                        realm.delete(target!)
+                                                        print("i:\(i)")
+                                                    }}}
+                                            } catch {
+                                                print(error)
+                                            }
+                                        }
+                                
                                     
                                     //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     total.removeAll()

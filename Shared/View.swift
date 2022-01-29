@@ -30,11 +30,11 @@ struct TextView2: View {
     var body: some View {
         Text(label)
             .font(.largeTitle)
-            .frame(width: 200, height: 40)
+            .frame(width: 180, height: 35)
             .foregroundColor(Color(.white))
             .padding(.all)
             .background(Color(.blue))
-            .cornerRadius(25)
+            .cornerRadius(20)
             .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
     }
 }
@@ -45,11 +45,11 @@ struct TextView3: View {
     var body: some View {
         Text(label)
             .font(.largeTitle)
-            .frame(width: 200, height: 40)
+            .frame(width: 180, height: 35)
             .foregroundColor(Color(.white))
             .padding(.all)
             .background(Color(.gray))
-            .cornerRadius(25)
+            .cornerRadius(20)
             .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
     }
 }
