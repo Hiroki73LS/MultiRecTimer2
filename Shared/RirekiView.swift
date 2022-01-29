@@ -16,7 +16,7 @@ struct RirekiView: View {
     var finalLap : String = ""
     var tickets = RealmSwift.List<String>()
     var ticketsTotal = RealmSwift.List<String>()
-
+    
     var dateFormat: DateFormatter {
         let dformat = DateFormatter()
         dformat.dateFormat = "yyyy/M/d"
@@ -33,7 +33,7 @@ struct RirekiView: View {
         ZStack{
             LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
-            VStack{
+            VStack(spacing:5){
                 Text("保存日時").font(.title2)
                 HStack{
                     Text("\(dateFormat.string(from: kirokuday))").font(.largeTitle)
@@ -44,75 +44,137 @@ struct RirekiView: View {
                 HStack{
                     VStack{
                         HStack{
-                    VStack{
-                        Text("Total").font(.title2)
-                        Text("Time").font(.title2)
-                    }
-                    Text("\(Rirekitotal)")
-                        .font(Font.custom("HiraginoSans-W3", size: 50))
-                        .font(.system(size: 50, design: .monospaced))
+                            VStack{
+                                Text("Total").font(.title2)
+                                Text("Time").font(.title2)
+                            }
+                            if Rirekitotal.count > 10 {
+                                Text("\(Rirekitotal)")
+                                    .font(Font.custom("HiraginoSans-W3", size: 35))
+                                    .font(.system(size: 35, design: .monospaced))
+                            } else if Rirekitotal.count > 9 {
+                                Text("\(Rirekitotal)")
+                                    .font(Font.custom("HiraginoSans-W3", size: 45))
+                                    .font(.system(size: 45, design: .monospaced))
+                            } else {
+                                Text("\(Rirekitotal)")
+                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(.system(size: 50, design: .monospaced))
+                            }
                         }
                         Rectangle()
-                                .foregroundColor(.orange)
-                                .frame(width: 250, height: 1)
+                            .foregroundColor(.orange)
+                            .frame(width: 250, height: 1)
                         Spacer().frame(height: 10)
-                HStack{
-                    VStack {
-                        Text("Final").font(.title3)
-                        Text("Lap").font(.title3)
-                    }.padding(5)
-                        .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.black, lineWidth: 1)
-)
-                    Text("\(finalLap)")
-                        .font(Font.custom("HiraginoSans-W3", size: 50))
-                        .font(.system(size: 50, design: .monospaced))
-                }}
-                        Button(action: {
-                            condition.toggle()
-                        }){
-                            VStack{
-                        if condition == true {
-                            Image(systemName: "heart.fill").font(.title)
-                                .foregroundColor(.pink)
-                        } else {
-                            Image(systemName: "heart.fill").font(.title)
-                                .foregroundColor(.secondary)
-                        }
-                                Text("favorite").font(.system(size: 13))
-                            }}}
-                List {
-                    ForEach(0 ..< lapsuu, id: \.self) { cellModel in
-                        HStack(spacing:2){
-                            VStack{
-                                Text("Lap")
-                                    .font(.system(size: 15, design: .monospaced))
-                                Text("\(lapsuu - lapcount[cellModel] + 1)")
-                                //                        Text(lapNo[cellModel])
-                                    .font(.system(size: 25, design: .monospaced))
+                        HStack{
+                            VStack {
+                                Text("Final").font(.title3)
+                                Text("Lap").font(.title3)
+                            }.padding(5)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.black, lineWidth: 1)
+                                )
+                            if finalLap.count > 10 {
+                                Text("\(finalLap)")
+                                    .font(Font.custom("HiraginoSans-W3", size: 35))
+                                    .font(.system(size: 35, design: .monospaced))
+                            } else if finalLap.count > 9 {
+                                Text("\(finalLap)")
+                                    .font(Font.custom("HiraginoSans-W3", size: 45))
+                                    .font(.system(size: 45, design: .monospaced))
+                            } else {
+                                Text("\(finalLap)")
+                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(.system(size: 50, design: .monospaced))
                             }
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.black, lineWidth: 1)
-                            )
-                            Spacer()
-                            Text("\(tickets[cellModel])")
-                                .font(Font.custom("HiraginoSans-W3", size: 50))
-                                .font(.system(size: 50, design: .monospaced))
-                            Spacer()
-                            Text("\(ticketsTotal[cellModel])")
-                                .font(Font.custom("HiraginoSans-W3", size: 20))
-                                .font(.system(size: 20, design: .monospaced))
+                        }}
+                    Button(action: {
+                        condition.toggle()
+                    }){
+                        VStack{
+                            if condition == true {
+                                Image(systemName: "heart.fill").font(.title)
+                                    .foregroundColor(.pink)
+                            } else {
+                                Image(systemName: "heart.fill").font(.title)
+                                    .foregroundColor(.secondary)
+                            }
+                            Text("favorite").font(.system(size: 13))
+                        }}}
+                
+                HStack{
+                    Text("No.")
+                    Spacer()
+                    Text("Lap Time")
+                    Spacer()
+                    Text("Total Time ")
+                }
+                if Rirekitotal.count < 9 {
+                    List {
+                        ForEach(0 ..< lapsuu, id: \.self) { cellModel in
+                            HStack(spacing:2){
+                                VStack{
+                                    Text("Lap")
+                                        .font(.system(size: 15, design: .monospaced))
+                                    Text("\(lapsuu - lapcount[cellModel] + 1)")
+                                        .font(.system(size: 25, design: .monospaced))
+                                }
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.black, lineWidth: 1)
+                                )
+                                Spacer()
+                                Text("\(tickets[cellModel])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(.system(size: 50, design: .monospaced))
+                                Spacer()
+                                Text("\(ticketsTotal[cellModel])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                    .font(.system(size: 20, design: .monospaced))
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color("ColorOrange2"))
+                            //                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                         }
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color("ColorOrange2"))
-                        //                            .listRowBackground(Color.clear)
-                        .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
-                    }
-                }                .environment(\.defaultMinListRowHeight, 70)
-                    .listStyle(PlainListStyle())
-                    .font(.largeTitle)
+                    } .environment(\.defaultMinListRowHeight, 70)
+                        .listStyle(PlainListStyle())
+                        .font(.largeTitle)
+                } else {
+                    List {
+                        ForEach(0 ..< lapsuu, id: \.self) { cellModel in
+                            HStack(spacing:2){
+                                VStack{
+                                    Text("Lap")
+                                        .font(.system(size: 15, design: .monospaced))
+                                    Text("\(lapsuu - lapcount[cellModel] + 1)")
+                                    //                        Text(lapNo[cellModel])
+                                        .font(.system(size: 25, design: .monospaced))
+                                }
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 5)
+                                        .stroke(Color.black, lineWidth: 1)
+                                )
+                                Spacer()
+                                Text("\(tickets[cellModel])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 41))
+                                    .font(.system(size: 41, design: .monospaced))
+                                Spacer()
+                                Text("\(ticketsTotal[cellModel])")
+                                    .font(Font.custom("HiraginoSans-W3", size: 18))
+                                    .font(.system(size: 18, design: .monospaced))
+                            }
+                            .listRowInsets(EdgeInsets())
+                            .listRowBackground(Color("ColorOrange2"))
+                            //                            .listRowBackground(Color.clear)
+                            .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
+                        }
+                    }.environment(\.defaultMinListRowHeight, 70)
+                        .listStyle(PlainListStyle())
+                        .font(.largeTitle)
+                }
+                
                 if lap234Purchase3 == "false"
                 {                AdView()
                         .frame(width: 320, height: 50)

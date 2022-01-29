@@ -3,11 +3,12 @@ import SwiftUI
 import RealmSwift
 import GoogleMobileAds
 
+
 struct AdView: UIViewRepresentable {
     func makeUIView(context: Context) -> GADBannerView {
         let banner = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
         // 以下は、バナー広告向けのテスト専用広告ユニットIDです。自身の広告ユニットIDと置き換えてください。
-//                banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
+        //                banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
         
         
         banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
@@ -45,6 +46,7 @@ class UserProfile: ObservableObject {
 
 struct ContentView: View {
     
+    @ObservedObject var model = viewModel()
     @ObservedObject var profile = UserProfile()
     @ObservedObject var stopWatchManeger = StopWatchManeger()
     @ObservedObject var stopWatchManeger2 = StopWatchManeger2()
@@ -68,7 +70,7 @@ struct ContentView: View {
         dformat.dateFormat = "yyyy/M/d"
         return dformat
     }
-
+    
     var body: some View {
         ZStack {
             
@@ -130,7 +132,7 @@ struct ContentView: View {
                             }
                         }
                         
-                       
+                        
                         if stopWatchManeger.mode == .stop{
                             VStack{
                                 Button(action: {
@@ -139,6 +141,7 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "スタート")
                                 }
+                                Spacer().frame(height: 10)
                                 Button(action: {
                                     self.sheetAlertRire.toggle()
                                 }){
@@ -156,6 +159,7 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "一時停止")
                                 }
+                                Spacer().frame(height: 10)
                                 Button(action: {
                                     
                                     if lap234Purchase == "false" {
@@ -182,21 +186,21 @@ struct ContentView: View {
                                     }
                                     if lap234Purchase == "true" {
                                         if laptime.count < 99 {
-                                        lapNo.insert(String(lapn), at: 0)
-                                        if stopWatchManeger.hour > 0 {
-                                            total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-                                        } else {
-                                            total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-                                        }
-                                        if stopWatchManeger2.hour > 0 {
-                                            laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                        } else {
-                                            laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                        }
-                                        self.stopWatchManeger2.pause()
-                                        self.stopWatchManeger2.stop()
-                                        self.stopWatchManeger2.start()
-                                        lapn += 1
+                                            lapNo.insert(String(lapn), at: 0)
+                                            if stopWatchManeger.hour > 0 {
+                                                total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            } else {
+                                                total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            }
+                                            if stopWatchManeger2.hour > 0 {
+                                                laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            } else {
+                                                laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            }
+                                            self.stopWatchManeger2.pause()
+                                            self.stopWatchManeger2.stop()
+                                            self.stopWatchManeger2.start()
+                                            lapn += 1
                                         }}
                                 }){
                                     TextView(label : "ラップ")
@@ -212,20 +216,29 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "再開")
                                 }
+                                Spacer().frame(height: 10)
                                 Button(action: {
                                     //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
-
+                                    
                                     do {
                                         let realm = try Realm()
                                         try realm.write {
                                             let models = Model()
                                             models.condition = false
                                             models.lapsuu = laptime.count
-                                            models.finalLap = String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
-                                            models.Rirekitotal = String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
                                             models.kirokuday = Date()
-
-
+                                            
+                                            if stopWatchManeger.hour > 0 {
+                                                models.Rirekitotal = String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
+                                            } else {
+                                                models.Rirekitotal = String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
+                                            }
+                                            if stopWatchManeger2.hour > 0 {
+                                                models.finalLap = String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
+                                            } else {
+                                                models.finalLap = String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
+                                            }
+                                            
                                             print("laptime:\(laptime)")
                                             print("models.tickets:\(models.tickets)")
                                             
@@ -236,16 +249,33 @@ struct ContentView: View {
                                             print(models)
                                             
                                             // 読み込み処理 ↓
-//                                            let targets = realm.objects(Model.self) // RealmデータベースからModelオブジェクトをすべて取得します
-//                                            let target = targets.first { $0.id == models.id } // 取得したModelオブジェクト群から、ほしいものを1つ取り出します
-//                                            print(target?.tickets.joined(separator: ", ") ?? "空") // ticketsに格納されたラップタイムを表示します
+                                            //                                            let targets = realm.objects(Model.self) // RealmデータベースからModelオブジェクトをすべて取得します
+                                            //                                            let target = targets.first { $0.id == models.id } // 取得したModelオブジェクト群から、ほしいものを1つ取り出します
+                                            //                                            print(target?.tickets.joined(separator: ", ") ?? "空") // ticketsに格納されたラップタイムを表示します
                                             // 読み込み処理 ↑
                                         }
-
+                                        
                                     } catch {
                                         print(error)
                                     }
                                     
+                                        
+                                    do {
+                                        let realm = try Realm()
+                                        let kazu = realm.objects(Model.self).count
+                                        print("\(kazu)")
+                                        
+                                        for i in 7..<kazu {
+                                            try realm.write {
+                                                _ = Model()
+                                                let targets = realm.objects(Model.self)
+                                                let target = targets.first
+                                                realm.delete(target!)
+                                                print("i:\(i)")
+                                            }}
+                                    } catch {
+                                        print(error)
+                                    }
                                     
                                     //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     total.removeAll()
@@ -281,7 +311,7 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "スタート")
                                 }
-                                
+                                Spacer().frame(height: 10)
                                 Button(action: {
                                     self.sheetAlertRire.toggle()
                                 }){
@@ -300,6 +330,7 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "一時停止")
                                 }
+                                Spacer().frame(height: 10)
                                 Button(action: {
                                     
                                     if lap234Purchase == "false" {
@@ -325,21 +356,21 @@ struct ContentView: View {
                                     }
                                     if lap234Purchase == "true" {
                                         if laptime.count < 99 {
-                                        lapNo.insert(String(lapn), at: 0)
-                                        if stopWatchManeger.hour > 0 {
-                                            total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-                                        } else {
-                                            total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-                                        }
-                                        if stopWatchManeger2.hour > 0 {
-                                            laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                        } else {
-                                            laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-                                        }
-                                        self.stopWatchManeger2.pause()
-                                        self.stopWatchManeger2.stop()
-                                        self.stopWatchManeger2.start()
-                                        lapn += 1
+                                            lapNo.insert(String(lapn), at: 0)
+                                            if stopWatchManeger.hour > 0 {
+                                                total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            } else {
+                                                total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
+                                            }
+                                            if stopWatchManeger2.hour > 0 {
+                                                laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            } else {
+                                                laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
+                                            }
+                                            self.stopWatchManeger2.pause()
+                                            self.stopWatchManeger2.stop()
+                                            self.stopWatchManeger2.start()
+                                            lapn += 1
                                         }}
                                 }){
                                     TextView(label : "ラップ")
@@ -355,20 +386,30 @@ struct ContentView: View {
                                 }){
                                     TextView(label : "再開")
                                 }
+                                Spacer().frame(height: 10)
                                 Button(action: {
                                     //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
-
+                                    
                                     do {
                                         let realm = try Realm()
                                         try realm.write {
                                             let models = Model()
                                             models.condition = false
                                             models.lapsuu = laptime.count
-                                            models.finalLap = String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
-                                            models.Rirekitotal = String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
                                             models.kirokuday = Date()
-
-
+                                            
+                                            if stopWatchManeger.hour > 0 {
+                                                models.Rirekitotal = String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
+                                            } else {
+                                                models.Rirekitotal = String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
+                                            }
+                                            if stopWatchManeger2.hour > 0 {
+                                                models.finalLap = String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
+                                            } else {
+                                                models.finalLap = String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
+                                            }
+                                            
+                                            
                                             print("laptime:\(laptime)")
                                             print("models.tickets:\(models.tickets)")
                                             
@@ -379,12 +420,12 @@ struct ContentView: View {
                                             print(models)
                                             
                                             // 読み込み処理 ↓
-//                                            let targets = realm.objects(Model.self) // RealmデータベースからModelオブジェクトをすべて取得します
-//                                            let target = targets.first { $0.id == models.id } // 取得したModelオブジェクト群から、ほしいものを1つ取り出します
-//                                            print(target?.tickets.joined(separator: ", ") ?? "空") // ticketsに格納されたラップタイムを表示します
+                                            //                                            let targets = realm.objects(Model.self) // RealmデータベースからModelオブジェクトをすべて取得します
+                                            //                                            let target = targets.first { $0.id == models.id } // 取得したModelオブジェクト群から、ほしいものを1つ取り出します
+                                            //                                            print(target?.tickets.joined(separator: ", ") ?? "空") // ticketsに格納されたラップタイムを表示します
                                             // 読み込み処理 ↑
                                         }
-
+                                        
                                     } catch {
                                         print(error)
                                     }

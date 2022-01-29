@@ -38,7 +38,7 @@ class Model: Object {
 
 class LapArray: Object {                                        //Listのためのclassを作成？
     @objc dynamic var lapArray: String = ""
-
+    
     var memos: LinkingObjects<Model> {
         return LinkingObjects(fromType: Model.self, property: "tickets")}
 }
@@ -58,7 +58,6 @@ class viewModel: ObservableObject {
         }
         
         self.cellModels = self.myModelResults?.map {ContentViewCellModel(id: $0.id, condition: $0.condition, kirokuday: $0.kirokuday, lapsuu: $0.lapsuu, Rirekitotal: $0.Rirekitotal, finalLap: $0.finalLap, tickets: $0.tickets, ticketsTotal: $0.ticketsTotal) } ?? []
-        
     }
     
     deinit {
@@ -78,7 +77,7 @@ struct Rireki: View {
     @State private var kirokudayDetail = Date()
     @State private var ticketsDetail = RealmSwift.List<String>()
     @State private var ticketsTotalDetail = RealmSwift.List<String>()
-
+    
     @State private var isShown: Bool = false
     @State private var isShown2: Bool = false
     @State private var showingAlert = false
@@ -148,17 +147,17 @@ struct Rireki: View {
                                                     }
                                                 }.padding(0.0)
                                             }
-                                                Spacer().frame(height: 5)
+                                            Spacer().frame(height: 5)
                                         }
-                                            if cellModel.condition == true {
-                                                Image(systemName: "heart.fill")
-                                                    .foregroundColor(.pink)
-                                            } else {
-                                                Image(systemName: "heart.fill")
-                                                    .foregroundColor(.secondary)
-                                            }
+                                        if cellModel.condition == true {
+                                            Image(systemName: "heart.fill")
+                                                .foregroundColor(.pink)
+                                        } else {
+                                            Image(systemName: "heart.fill")
+                                                .foregroundColor(.secondary)
+                                        }
                                     }.frame(height: 80)
-                                    }
+                                }
                                 .listRowBackground(Color.clear)
                             }
                             )
