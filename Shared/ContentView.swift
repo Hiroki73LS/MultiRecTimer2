@@ -1,7 +1,8 @@
-
 import SwiftUI
 import RealmSwift
 import GoogleMobileAds
+import AppTrackingTransparency
+import AdSupport
 
 
 struct AdView: UIViewRepresentable {
@@ -621,4 +622,12 @@ struct ContentView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
     }
+}
+
+func requestIDFA() {
+  ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+    // Tracking authorization completed. Start loading ads here.
+    // loadAd()
+      print("requestIDFA")
+  })
 }
