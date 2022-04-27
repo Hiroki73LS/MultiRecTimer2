@@ -5,6 +5,7 @@ import RealmSwift
 
 struct RirekiView: View {
     
+    @State var screen: CGSize?
     @State var lap234Purchase3 : String = "false"
     @ObservedObject var model = viewModel()
     @State var condition : Bool = false
@@ -126,11 +127,13 @@ struct RirekiView: View {
                                 )
                                 Spacer()
                                 Text("\(tickets[cellModel])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.133))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 50))
                                     .font(.system(size: 50, design: .monospaced))
                                 Spacer()
                                 Text("\(ticketsTotal[cellModel])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 20))
                                     .font(.system(size: 20, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
@@ -158,11 +161,13 @@ struct RirekiView: View {
                                 )
                                 Spacer()
                                 Text("\(tickets[cellModel])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 41))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.1))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 35))
                                     .font(.system(size: 41, design: .monospaced))
                                 Spacer()
                                 Text("\(ticketsTotal[cellModel])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 18))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 18))
                                     .font(.system(size: 18, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
@@ -182,6 +187,8 @@ struct RirekiView: View {
             }
         }.navigationBarTitleDisplayMode(.inline)
             .onAppear {
+                screen = UIScreen.main.bounds.size
+
                 let userDefaults = UserDefaults.standard
                 if let value2 = userDefaults.string(forKey: "lap234") {
                     print("lap234:\(value2)")

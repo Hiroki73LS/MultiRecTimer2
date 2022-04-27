@@ -151,7 +151,7 @@ struct ContentView: View {
 //                        .font(Font.custom("HiraginoSans-W3", size: 80))
                         .font(.system(size: 0, design: .monospaced))
                 }
-                //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆右利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+//◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆右利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 if profile.mode == true{
                     
                     HStack{
@@ -178,11 +178,13 @@ struct ContentView: View {
                                 .font(.title)
                             if stopWatchManeger2.hour > 0 {
                                 Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 40))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.105))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 40))
                                     .font(.system(size: 40, design: .monospaced))
                             } else {
                                 Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.13))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 50))
                                     .font(.system(size: 50, design: .monospaced))
                             }
                         }
@@ -273,7 +275,7 @@ struct ContentView: View {
                                 }
                                 Spacer().frame(height: 10)
                                 Button(action: {
-                                    //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
+//-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     
                                     do {
                                         let realm = try Realm()
@@ -350,7 +352,7 @@ struct ContentView: View {
                                                 }
                                             }
                                     
-                                    //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
+//-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     total.removeAll()
                                     laptime.removeAll()
                                     lapNo.removeAll()
@@ -372,7 +374,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆左利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
+//◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆左利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 if profile.mode == false{
                     
                     HStack{
@@ -461,7 +463,7 @@ struct ContentView: View {
                                 }
                                 Spacer().frame(height: 10)
                                 Button(action: {
-                                    //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
+//-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     
                                     do {
                                         let realm = try Realm()
@@ -540,7 +542,7 @@ struct ContentView: View {
                                         }
                                 
                                     
-                                    //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
+//-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                     total.removeAll()
                                     laptime.removeAll()
                                     lapNo.removeAll()
@@ -584,16 +586,21 @@ struct ContentView: View {
                                 .font(.title)
                             if stopWatchManeger2.hour > 0 {
                                 Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 40))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.105))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 40))
                                     .font(.system(size: 40, design: .monospaced))
                             } else {
                                 Text(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
-                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.13))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 50))
                                     .font(.system(size: 50, design: .monospaced))
                             }
                         }
                     }
                 }
+                
+                
+//◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ラップタイム表示◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 HStack{
                     Text("No.")
                     Spacer()
@@ -617,11 +624,13 @@ struct ContentView: View {
                                 )
                                 Spacer()
                                 Text(laptime[index])
-                                    .font(Font.custom("HiraginoSans-W3", size: 38))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.1))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 38))
                                     .font(.system(size: 40, design: .monospaced))
                                 Spacer()
                                 Text("\(total[index])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 20))
                                     .font(.system(size: 20, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
@@ -648,11 +657,13 @@ struct ContentView: View {
                                 )
                                 Spacer()
                                 Text(laptime[index])
-                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.135))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 50))
                                     .font(.system(size: 50, design: .monospaced))
                                 Spacer()
                                 Text("\(total[index])")
-                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
+//                                    .font(Font.custom("HiraginoSans-W3", size: 20))
                                     .font(.system(size: 20, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
@@ -669,7 +680,9 @@ struct ContentView: View {
         screen = UIScreen.main.bounds.size
         print(">>> going to onWillAppear")
             print("\(String(describing: screen?.width))")
-            print("\(Int((screen?.width ?? 300) * 0.2))")
+            print("\(Int((screen?.width ?? 300) * 0.21))")
+            print("\(Int((screen?.width ?? 300) * 0.17))")
+            print("\(Int((screen?.width ?? 300) * 0.16))")
     }
         .onAppear {
             let userDefaults = UserDefaults.standard
