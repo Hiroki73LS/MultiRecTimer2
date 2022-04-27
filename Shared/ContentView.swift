@@ -22,6 +22,56 @@ struct AdView: UIViewRepresentable {
     }
 }
 
+struct ViewWillAppearHandler: UIViewControllerRepresentable {
+    func makeCoordinator() -> ViewWillAppearHandler.Coordinator {
+        Coordinator(onWillAppear: onWillAppear)
+    }
+
+    let onWillAppear: () -> Void
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ViewWillAppearHandler>) -> UIViewController {
+        context.coordinator
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<ViewWillAppearHandler>) {
+    }
+
+    typealias UIViewControllerType = UIViewController
+
+    class Coordinator: UIViewController {
+        let onWillAppear: () -> Void
+
+        init(onWillAppear: @escaping () -> Void) {
+            self.onWillAppear = onWillAppear
+            super.init(nibName: nil, bundle: nil)
+        }
+
+        required init?(coder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            onWillAppear()
+        }
+    }
+}
+
+struct ViewWillAppearModifier: ViewModifier {
+    let callback: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .background(ViewWillAppearHandler(onWillAppear: callback))
+    }
+}
+
+extension View {
+    func onWillAppear(_ perform: @escaping (() -> Void)) -> some View {
+        self.modifier(ViewWillAppearModifier(callback: perform))
+    }
+}
+
 class UserProfile: ObservableObject {
     
     @Published var username: String {
@@ -47,6 +97,7 @@ class UserProfile: ObservableObject {
 
 struct ContentView: View {
     
+    @State var screen: CGSize?
     @ObservedObject var model = viewModel()
     @ObservedObject var profile = UserProfile()
     @ObservedObject var stopWatchManeger = StopWatchManeger()
@@ -86,16 +137,19 @@ struct ContentView: View {
                 Text("Total Time").font(.title)
                 if stopWatchManeger.hour > 9 {
                     Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
-                        .font(Font.custom("HiraginoSans-W3", size: 60))
+                        .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.16))
+//                        .font(Font.custom("HiraginoSans-W3", size: 60))
                         .font(.system(size: 60, design: .monospaced))
                 } else if stopWatchManeger.hour > 0 {
                     Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
-                        .font(Font.custom("HiraginoSans-W3", size: 65))
+                        .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.17))
+//                        .font(Font.custom("HiraginoSans-W3", size: 65))
                         .font(.system(size: 65, design: .monospaced))
                 } else {
                     Text(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
-                        .font(Font.custom("HiraginoSans-W3", size: 80))
-                        .font(.system(size: 80, design: .monospaced))
+                        .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.21))
+//                        .font(Font.custom("HiraginoSans-W3", size: 80))
+                        .font(.system(size: 0, design: .monospaced))
                 }
                 //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆右利きモード◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 if profile.mode == true{
@@ -610,7 +664,14 @@ struct ContentView: View {
                         .font(.largeTitle)
                 }
             }
-        }.onAppear {
+        }
+        .onWillAppear { // << order does NOT matter
+        screen = UIScreen.main.bounds.size
+        print(">>> going to onWillAppear")
+            print("\(String(describing: screen?.width))")
+            print("\(Int((screen?.width ?? 300) * 0.2))")
+    }
+        .onAppear {
             let userDefaults = UserDefaults.standard
             if let value2 = userDefaults.string(forKey: "lap234") {
                 print("lap234:\(value2)")
@@ -622,7 +683,7 @@ struct ContentView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
     }
-}
+        }
 
 func requestIDFA() {
   ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in

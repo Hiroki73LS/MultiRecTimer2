@@ -28,7 +28,8 @@ class StopWatchManeger:ObservableObject{
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
             
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
-            self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
+            self.displayTime = ((self.elapsedTime + self.savedTime) - self.nowTime) * 400
+//            self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
             // ミリ秒は小数点第一位、第二位なので100をかけて100で割った余り
             self.milliSecond = Int(self.displayTime * 100) % 100
             // 秒は1・2桁なので60で割った余り
