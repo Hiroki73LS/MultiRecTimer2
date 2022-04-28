@@ -46,8 +46,9 @@ class UserProfile: ObservableObject {
 }
 
 struct ContentView: View {
-    
+    @State private var isActive = false
     @AppStorage("FirstLaunch") var firstLaunch = true
+
     @State var screen: CGSize?
     @ObservedObject var model = viewModel()
     @ObservedObject var profile = UserProfile()
@@ -626,15 +627,19 @@ struct ContentView: View {
                         .font(.largeTitle)
                 }
             }
-        }.sheet(isPresented: self.$firstLaunch){
-        FirstLaunch().onDisappear{
+        }
+        .fullScreenCover(isPresented: self.$isActive){
+        FirstLaunch(isAActive: $isActive).onDisappear{
             ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
                 GADMobileAds.sharedInstance().start(completionHandler: nil)
             })
         }
         }
         .onAppear {
-            firstLaunch = true
+            if firstLaunch {
+            firstLaunch = false
+            isActive = true
+            }
             screen = UIScreen.main.bounds.size
             let userDefaults = UserDefaults.standard
             if let value2 = userDefaults.string(forKey: "lap234") {
@@ -647,5 +652,5 @@ struct ContentView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
     }
-        }
+  }
 

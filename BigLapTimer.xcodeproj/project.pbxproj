@@ -364,7 +364,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BigLapTimer--iOS--Info.plist";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "「許可」するとあなたに無関係な広告が表示されにくくなります。";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "「許可」するとあなたに無関係な広告が表示されにくくなります。（許可しなくてもアプリの全ての機能は利用可能です。）";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -399,7 +399,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "BigLapTimer--iOS--Info.plist";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "「許可」するとあなたに無関係な広告が表示されにくくなります。";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "「許可」するとあなたに無関係な広告が表示されにくくなります。（許可しなくてもアプリの全ての機能は利用可能です。）";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

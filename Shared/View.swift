@@ -54,6 +54,23 @@ struct TextView3: View {
     }
 }
 
+struct TextView4: View {
+    
+    var label : String
+    
+    var body: some View {
+        Text(label)
+            .font(.title2)
+            .frame(width: 150, height: 30)
+            .foregroundColor(Color(.white))
+            .padding(.all)
+            .background(Color(.blue))
+            .cornerRadius(10)
+            .shadow(color: Color.gray.opacity(0.6), radius: 4, x: 10, y: 10)
+    }
+}
+
+
 struct MyButtonStyle2: ButtonStyle {
   func makeBody(configuration: Self.Configuration) -> some View {
     configuration.label
