@@ -22,56 +22,6 @@ struct AdView: UIViewRepresentable {
     }
 }
 
-struct ViewWillAppearHandler: UIViewControllerRepresentable {
-    func makeCoordinator() -> ViewWillAppearHandler.Coordinator {
-        Coordinator(onWillAppear: onWillAppear)
-    }
-
-    let onWillAppear: () -> Void
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ViewWillAppearHandler>) -> UIViewController {
-        context.coordinator
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: UIViewControllerRepresentableContext<ViewWillAppearHandler>) {
-    }
-
-    typealias UIViewControllerType = UIViewController
-
-    class Coordinator: UIViewController {
-        let onWillAppear: () -> Void
-
-        init(onWillAppear: @escaping () -> Void) {
-            self.onWillAppear = onWillAppear
-            super.init(nibName: nil, bundle: nil)
-        }
-
-        required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-
-        override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            onWillAppear()
-        }
-    }
-}
-
-struct ViewWillAppearModifier: ViewModifier {
-    let callback: () -> Void
-
-    func body(content: Content) -> some View {
-        content
-            .background(ViewWillAppearHandler(onWillAppear: callback))
-    }
-}
-
-extension View {
-    func onWillAppear(_ perform: @escaping (() -> Void)) -> some View {
-        self.modifier(ViewWillAppearModifier(callback: perform))
-    }
-}
-
 class UserProfile: ObservableObject {
     
     @Published var username: String {
@@ -97,6 +47,7 @@ class UserProfile: ObservableObject {
 
 struct ContentView: View {
     
+    @AppStorage("FirstLaunch") var firstLaunch = true
     @State var screen: CGSize?
     @ObservedObject var model = viewModel()
     @ObservedObject var profile = UserProfile()
@@ -675,16 +626,16 @@ struct ContentView: View {
                         .font(.largeTitle)
                 }
             }
+        }.sheet(isPresented: self.$firstLaunch){
+        FirstLaunch().onDisappear{
+            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                GADMobileAds.sharedInstance().start(completionHandler: nil)
+            })
         }
-        .onWillAppear { // << order does NOT matter
-        screen = UIScreen.main.bounds.size
-        print(">>> going to onWillAppear")
-            print("\(String(describing: screen?.width))")
-            print("\(Int((screen?.width ?? 300) * 0.21))")
-            print("\(Int((screen?.width ?? 300) * 0.17))")
-            print("\(Int((screen?.width ?? 300) * 0.16))")
-    }
+        }
         .onAppear {
+            firstLaunch = true
+            screen = UIScreen.main.bounds.size
             let userDefaults = UserDefaults.standard
             if let value2 = userDefaults.string(forKey: "lap234") {
                 print("lap234:\(value2)")
@@ -698,10 +649,3 @@ struct ContentView: View {
     }
         }
 
-func requestIDFA() {
-  ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-    // Tracking authorization completed. Start loading ads here.
-    // loadAd()
-      print("requestIDFA")
-  })
-}

@@ -12,6 +12,7 @@
 		4A48CB13278F0D76005CC182 /* BigLapTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB03278F0D75005CC182 /* BigLapTimerApp.swift */; };
 		4A48CB15278F0D76005CC182 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A48CB04278F0D75005CC182 /* ContentView.swift */; };
 		4A48CB17278F0D76005CC182 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A48CB05278F0D76005CC182 /* Assets.xcassets */; };
+		4A5BD40A281A992E00E641E2 /* FirstLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5BD409281A992E00E641E2 /* FirstLaunch.swift */; };
 		4ADEE8F6279594CD00A0A92D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ADEE8F5279594CD00A0A92D /* StoreKit.framework */; };
 		4ADEE8FD279BC7EE00A0A92D /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADEE8FC279BC7EE00A0A92D /* View.swift */; };
 		4ADEE8FF279BC89400A0A92D /* StopWatchClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */; };
@@ -29,6 +30,7 @@
 		4A48CB0A278F0D76005CC182 /* BigLapTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BigLapTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A48CB12278F0D76005CC182 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		4A48CB21278F2563005CC182 /* BigLapTimer--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BigLapTimer--iOS--Info.plist"; sourceTree = "<group>"; };
+		4A5BD409281A992E00E641E2 /* FirstLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunch.swift; sourceTree = "<group>"; };
 		4ADEE8F5279594CD00A0A92D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		4ADEE8FC279BC7EE00A0A92D /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchClass.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				4ADEE900279BC9B400A0A92D /* StoreView.swift */,
 				4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */,
 				4ADEE8FC279BC7EE00A0A92D /* View.swift */,
+				4A5BD409281A992E00E641E2 /* FirstLaunch.swift */,
 				4A48CB05278F0D76005CC182 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -231,6 +234,7 @@
 				4ADEE8FF279BC89400A0A92D /* StopWatchClass.swift in Sources */,
 				4ADEE901279BC9B400A0A92D /* StoreView.swift in Sources */,
 				4ADEE8FD279BC7EE00A0A92D /* View.swift in Sources */,
+				4A5BD40A281A992E00E641E2 /* FirstLaunch.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
