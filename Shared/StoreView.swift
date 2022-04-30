@@ -20,7 +20,7 @@ struct SecondView: View {
     var body: some View {
         ZStack {
             
-            LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color("akaruiYellow") , .pink.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
             
@@ -33,15 +33,15 @@ struct SecondView: View {
                     Spacer().frame(height: 10)
                     VStack(alignment: .leading){
                         Text(" １．広告非表示")
-                        Text(" ２．ラップタイム記録数の上限を")
-                        Text("　 　現在の３０回から９９回にする。")
+                        Text(" ２．測定タイムの記録数の上限を")
+                        Text("　 　現在の６件から６０件にする。")
                         Text(" ３．履歴保存の上限数を")
-                        Text("　 　現在の２０回から６０回にする。")
+                        Text("　 　現在の２０件から９９件にする。")
                     }.frame(height: 150)
                     .border(Color.black, width: 2)
                     Spacer().frame(height: 15)
-                    Text("このApp内課金オプションは、")
-                    Text("非消耗型オプションです。")
+                    Text("非消耗型オプションのため１度の")
+                    Text("購入で永続的に使用できます。")
                     Spacer().frame(height: 15)
                     Text("アプリを再インストールした場合は、")
                     Text("下記の「復元する」から購入履歴の")
@@ -55,7 +55,7 @@ struct SecondView: View {
                     manageProgress()
                     print("Storkit読み込み")
                     
-                    SwiftyStoreKit.purchaseProduct("lap50", quantity: 1, atomically: true) { result in
+                    SwiftyStoreKit.purchaseProduct("Multi50", quantity: 1, atomically: true) { result in
                         print("Storkit読み込み2\(result)")
                             switch result {
                         case .success(let purchase):
@@ -153,7 +153,7 @@ struct SecondView: View {
             }
             .onAppear() {
                 print("restoreAlert:\(restoreAlert)")
-                SwiftyStoreKit.retrieveProductsInfo(["lap50"]) { result in
+                SwiftyStoreKit.retrieveProductsInfo(["Multi50"]) { result in
                     if let product = result.retrievedProducts.first {
                         let priceString = product.localizedPrice!
                         print("Product: \(product.localizedDescription), price: \(priceString)")

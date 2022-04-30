@@ -104,7 +104,7 @@ struct Rireki: View {
     var body: some View {
         NavigationView {
             ZStack{
-                LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [Color("akaruiYellow") , .pink.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 VStack{
                     List{
@@ -136,7 +136,7 @@ struct Rireki: View {
                                                             .font(.title)
                                                     }
                                                     HStack{
-                                                        Text("Lap数:\(cellModel.lapsuu)")
+                                                        Text("記録数:\(cellModel.lapsuu)")
                                                             .font(.title2)
                                                             .foregroundColor(.orange)
                                                         Spacer()

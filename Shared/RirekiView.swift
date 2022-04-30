@@ -32,7 +32,7 @@ struct RirekiView: View {
     
     var body: some View {
         ZStack{
-            LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color("akaruiYellow") , .pink.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             VStack(spacing:5){
                 Text("保存日時").font(.title2)
@@ -46,7 +46,7 @@ struct RirekiView: View {
                     VStack{
                         HStack{
                             VStack{
-                                Text("Total").font(.title2)
+                                Text("Last").font(.title2)
                                 Text("Time").font(.title2)
                             }
                             if Rirekitotal.count > 10 {
@@ -105,18 +105,18 @@ struct RirekiView: View {
                         }}}
                 
                 HStack{
-                    Text("No.")
+                    Text("順位").bold()
                     Spacer()
-                    Text("Lap Time")
+                    Text("測定タイム").bold()
                     Spacer()
-                    Text("Total Time ")
+                    Text("１つ前との差 ").bold()
                 }
                 if Rirekitotal.count < 9 {
                     List {
-                        ForEach(0 ..< lapsuu, id: \.self) { cellModel in
+                        ForEach((0 ..< lapsuu).reversed(), id: \.self) { cellModel in
                             HStack(spacing:2){
                                 VStack{
-                                    Text("Lap")
+                                    Text("No.")
                                         .font(.system(size: 15, design: .monospaced))
                                     Text("\(lapsuu - lapcount[cellModel] + 1)")
                                         .font(.system(size: 25, design: .monospaced))
@@ -126,18 +126,18 @@ struct RirekiView: View {
                                         .stroke(Color.black, lineWidth: 1)
                                 )
                                 Spacer()
-                                Text("\(tickets[cellModel])")
+                                Text("\(ticketsTotal[cellModel])")
                                     .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.133))
 //                                    .font(Font.custom("HiraginoSans-W3", size: 50))
                                     .font(.system(size: 50, design: .monospaced))
                                 Spacer()
-                                Text("\(ticketsTotal[cellModel])")
+                                Text("\(tickets[cellModel])")
                                     .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
 //                                    .font(Font.custom("HiraginoSans-W3", size: 20))
                                     .font(.system(size: 20, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color("ColorOrange2"))
+                            .listRowBackground(Color("ColorOrange3"))
                             //                            .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                         }
@@ -146,7 +146,7 @@ struct RirekiView: View {
                         .font(.largeTitle)
                 } else {
                     List {
-                        ForEach(0 ..< lapsuu, id: \.self) { cellModel in
+                        ForEach((0 ..< lapsuu).reversed(), id: \.self) { cellModel in
                             HStack(spacing:2){
                                 VStack{
                                     Text("Lap")
@@ -171,7 +171,7 @@ struct RirekiView: View {
                                     .font(.system(size: 18, design: .monospaced))
                             }
                             .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color("ColorOrange2"))
+                            .listRowBackground(Color("ColorOrange4"))
                             //                            .listRowBackground(Color.clear)
                             .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                         }

@@ -9,7 +9,7 @@ struct AdView: UIViewRepresentable {
     func makeUIView(context: Context) -> GADBannerView {
         let banner = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
         // 以下は、バナー広告向けのテスト専用広告ユニットIDです。自身の広告ユニットIDと置き換えてください。
-                        banner.adUnitID = "ca-app-pub-1023155372875273/2954960110"
+                        banner.adUnitID = "ca-app-pub-1023155372875273/4915808776"
         
         
 //        banner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
@@ -46,6 +46,12 @@ class UserProfile: ObservableObject {
 }
 
 struct ContentView: View {
+    
+    let kiroku = 6   //無課金の記録数上限
+    let kiroku2 = 60  //課金済みの記録数上限
+    let rireki = 20   //無課金の履歴上限数
+    let rireki2 = 99  //課金済みの履歴上限数
+    @State private var jumpTo = "0"
     @State private var isActive = false
     @AppStorage("FirstLaunch") var firstLaunch = true
 
@@ -76,9 +82,11 @@ struct ContentView: View {
     }
     
     var body: some View {
+        ScrollViewReader { scrollProxy in       // ①ScrollViewProxyインスタンスを取得
+
         ZStack {
             
-            LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color("akaruiYellow") , .pink.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             
             VStack(spacing:2) {
@@ -86,7 +94,7 @@ struct ContentView: View {
                 {                AdView()
                         .frame(width: 320, height: 50)
                 }
-                Text("Total Time").font(.title)
+                Text("Total Time").font(.title2)
                 if stopWatchManeger.hour > 9 {
                     Text(String(format: "%02d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond))
                         .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.16))
@@ -126,8 +134,13 @@ struct ContentView: View {
                                     .labelsHidden()
                                 Text(profile.mode ? "Left mode" : "Right mode")
                             }
-                            Text("現在のLapTime")
+                            if lapn > 1 {
+                            Text("\(lapn-1)位との差")
                                 .font(.title)
+                            } else {
+                                Text("＿位との差")
+                                    .font(.title)
+                            }
                             if stopWatchManeger2.hour > 0 {
                                 Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
                                     .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.105))
@@ -154,7 +167,7 @@ struct ContentView: View {
                                 Button(action: {
                                     self.sheetAlertRire.toggle()
                                 }){
-                                    TextView(label : "履 歴")
+                                    TextView(label : "りれき")
                                 }.sheet(isPresented: $sheetAlertRire) {
                                     Rireki()
                                 }
@@ -166,14 +179,14 @@ struct ContentView: View {
                                     self.stopWatchManeger.pause()
                                     self.stopWatchManeger2.pause()
                                 }){
-                                    TextView(label : "一時停止")
+                                    TextView(label : "ていし")
                                 }
                                 Spacer().frame(height: 10)
                                 Button(action: {
                                     
                                     if lap234Purchase == "false" {
                                         
-                                        if laptime.count < 30 {
+                                        if laptime.count < kiroku {
                                             
                                             lapNo.insert(String(lapn), at: 0)
                                             if stopWatchManeger.hour > 0 {
@@ -190,11 +203,20 @@ struct ContentView: View {
                                             self.stopWatchManeger2.stop()
                                             self.stopWatchManeger2.start()
                                             lapn += 1
+                                            
+            //　■■■■■ ScrollView用のメソッド　■■■■■
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                // 0.5秒後に実行したい処理
+                                                withAnimation {
+                                                    /// ③scrollToメソッドで飛び先を指定
+                                                    scrollProxy.scrollTo(Int(jumpTo), anchor: UnitPoint(x: 0.5, y: 0.1))
+                                                }}
+            //　■■■■■ ScrollView用のメソッド　■■■■■
                                             
                                         }
                                     }
                                     if lap234Purchase == "true" {
-                                        if laptime.count < 99 {
+                                        if laptime.count < kiroku2 {
                                             lapNo.insert(String(lapn), at: 0)
                                             if stopWatchManeger.hour > 0 {
                                                 total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
@@ -210,9 +232,19 @@ struct ContentView: View {
                                             self.stopWatchManeger2.stop()
                                             self.stopWatchManeger2.start()
                                             lapn += 1
+                                            
+                                            //　■■■■■ ScrollView用のメソッド　■■■■■
+                                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                                                // 0.5秒後に実行したい処理
+                                                                                withAnimation {
+                                                                                    /// ③scrollToメソッドで飛び先を指定
+                                                                                    scrollProxy.scrollTo(Int(jumpTo), anchor: UnitPoint(x: 0.5, y: 0.1))
+                                                                                }}
+                                            //　■■■■■ ScrollView用のメソッド　■■■■■
+                                            
                                         }}
                                 }){
-                                    TextView(label : "ラップ")
+                                    TextView(label : "きろく")
                                 }
                             }
                         }
@@ -223,7 +255,7 @@ struct ContentView: View {
                                     self.stopWatchManeger.start()
                                     self.stopWatchManeger2.start()
                                 }){
-                                    TextView(label : "再開")
+                                    TextView(label : "さいかい")
                                 }
                                 Spacer().frame(height: 10)
                                 Button(action: {
@@ -290,8 +322,8 @@ struct ContentView: View {
                                                     let kazu = realm.objects(Model.self).count
                                                     print("\(kazu)")
                                                     
-                                                    if kazu > 60 {
-                                                    for i in 60..<kazu {
+                                                    if kazu > 99 {
+                                                    for i in 99..<kazu {
                                                         try realm.write {
                                                             _ = Model()
                                                             let targets = realm.objects(Model.self)
@@ -342,7 +374,7 @@ struct ContentView: View {
                                 Button(action: {
                                     self.sheetAlertRire.toggle()
                                 }){
-                                    TextView(label : "履 歴")
+                                    TextView(label : "りれき")
                                 }.sheet(isPresented: $sheetAlertRire) {
                                     Rireki()
                                 }
@@ -355,13 +387,13 @@ struct ContentView: View {
                                     self.stopWatchManeger.pause()
                                     self.stopWatchManeger2.pause()
                                 }){
-                                    TextView(label : "一時停止")
+                                    TextView(label : "ていし")
                                 }
                                 Spacer().frame(height: 10)
                                 Button(action: {
                                     
                                     if lap234Purchase == "false" {
-                                        if laptime.count < 30 {
+                                        if laptime.count < kiroku {
                                             
                                             lapNo.insert(String(lapn), at: 0)
                                             if stopWatchManeger.hour > 0 {
@@ -378,11 +410,18 @@ struct ContentView: View {
                                             self.stopWatchManeger2.stop()
                                             self.stopWatchManeger2.start()
                                             lapn += 1
-                                            
+                                            //　■■■■■ ScrollView用のメソッド　■■■■■
+                                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                                                // 0.5秒後に実行したい処理
+                                                                                withAnimation {
+                                                                                    /// ③scrollToメソッドで飛び先を指定
+                                                                                    scrollProxy.scrollTo(Int(jumpTo), anchor: UnitPoint(x: 0.5, y: 0.1))
+                                                                                }}
+                                            //　■■■■■ ScrollView用のメソッド　■■■■■
                                         }
                                     }
                                     if lap234Purchase == "true" {
-                                        if laptime.count < 99 {
+                                        if laptime.count < kiroku2 {
                                             lapNo.insert(String(lapn), at: 0)
                                             if stopWatchManeger.hour > 0 {
                                                 total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
@@ -398,9 +437,17 @@ struct ContentView: View {
                                             self.stopWatchManeger2.stop()
                                             self.stopWatchManeger2.start()
                                             lapn += 1
+                                            //　■■■■■ ScrollView用のメソッド　■■■■■
+                                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                                                                // 0.5秒後に実行したい処理
+                                                                                withAnimation {
+                                                                                    /// ③scrollToメソッドで飛び先を指定
+                                                                                    scrollProxy.scrollTo(Int(jumpTo), anchor: UnitPoint(x: 0.5, y: 0.1))
+                                                                                }}
+                                            //　■■■■■ ScrollView用のメソッド　■■■■■
                                         }}
                                 }){
-                                    TextView(label : "ラップ")
+                                    TextView(label : "きろく")
                                 }
                             }
                         }
@@ -411,7 +458,7 @@ struct ContentView: View {
                                     self.stopWatchManeger.start()
                                     self.stopWatchManeger2.start()
                                 }){
-                                    TextView(label : "再開")
+                                    TextView(label : "さいかい")
                                 }
                                 Spacer().frame(height: 10)
                                 Button(action: {
@@ -462,8 +509,8 @@ struct ContentView: View {
                                             let realm = try Realm()
                                             let kazu = realm.objects(Model.self).count
                                             print("\(kazu)")
-                                            if kazu > 20 {
-                                            for i in 20..<kazu {
+                                            if kazu > rireki {
+                                            for i in rireki..<kazu {
                                                 try realm.write {
                                                     _ = Model()
                                                     let targets = realm.objects(Model.self)
@@ -479,8 +526,8 @@ struct ContentView: View {
                                                 let kazu = realm.objects(Model.self).count
                                                 print("\(kazu)")
                                                 
-                                                if kazu > 60 {
-                                                for i in 60..<kazu {
+                                                if kazu > rireki2 {
+                                                for i in rireki2..<kazu {
                                                     try realm.write {
                                                         _ = Model()
                                                         let targets = realm.objects(Model.self)
@@ -534,8 +581,13 @@ struct ContentView: View {
                                     SecondView(lap234Purchase: Binding(projectedValue: $lap234Purchase))
                                 }
                             }
-                            Text("現在のLapTime")
+                            if lapn > 1 {
+                            Text("\(lapn-1)位との差")
                                 .font(.title)
+                            } else {
+                                Text("＿位との差")
+                                    .font(.title)
+                            }
                             if stopWatchManeger2.hour > 0 {
                                 Text(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond))
                                     .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.105))
@@ -554,18 +606,18 @@ struct ContentView: View {
                 
 //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ラップタイム表示◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                 HStack{
-                    Text("No.")
+                    Text("順位").font(.title2).bold()
                     Spacer()
-                    Text("Lap Time")
+                    Text("測定タイム").font(.title2).bold()
                     Spacer()
-                    Text("Total Time ")
+                    Text("１つ前との差 ").font(.title2).bold()
                 }
                 if stopWatchManeger.hour > 0 {
                     List {
-                        ForEach(0 ..< laptime.count, id: \.self) { index in
+                        ForEach((0 ..< laptime.count).reversed(), id: \.self) { index in
                             HStack(spacing:2){
                                 VStack{
-                                    Text("Lap")
+                                    Text("No.")
                                         .font(.system(size: 15, design: .monospaced))
                                     Text(lapNo[index])
                                         .font(.system(size: 25, design: .monospaced))
@@ -575,12 +627,12 @@ struct ContentView: View {
                                         .stroke(Color.black, lineWidth: 1)
                                 )
                                 Spacer()
-                                Text(laptime[index])
+                                Text(total[index])
                                     .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.1))
 //                                    .font(Font.custom("HiraginoSans-W3", size: 38))
                                     .font(.system(size: 40, design: .monospaced))
                                 Spacer()
-                                Text("\(total[index])")
+                                Text("\(laptime[index])")
                                     .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
 //                                    .font(Font.custom("HiraginoSans-W3", size: 20))
                                     .font(.system(size: 20, design: .monospaced))
@@ -594,48 +646,53 @@ struct ContentView: View {
                         .listStyle(PlainListStyle())
                         .font(.largeTitle)
                 } else {
-                    List {
-                        ForEach(0 ..< laptime.count, id: \.self) { index in
-                            HStack(spacing:2){
-                                VStack{
-                                    Text("Lap")
-                                        .font(.system(size: 15, design: .monospaced))
-                                    Text(lapNo[index])
-                                        .font(.system(size: 25, design: .monospaced))
+                        VStack {
+                            List {
+                                ForEach((0 ..< laptime.count).reversed(), id: \.self) { index in
+                                    HStack(spacing:2){
+                                        VStack{
+                                            Text("No.")
+                                                .font(.system(size: 15, design: .monospaced))
+                                            Text(lapNo[index])
+                                                .font(.system(size: 25, design: .monospaced))
+                                        }
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                                .stroke(Color.black, lineWidth: 1)
+                                        )
+                                        Spacer()
+                                        Text(total[index])
+                                            .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.135))
+                                        //                                    .font(Font.custom("HiraginoSans-W3", size: 50))
+                                            .font(.system(size: 50, design: .monospaced))
+                                        Spacer()
+                                        Text("\(laptime[index])")
+                                            .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
+                                        //                                    .font(Font.custom("HiraginoSans-W3", size: 20))
+                                            .font(.system(size: 20, design: .monospaced))
+                                    }.id(index) //　■■■■■■■　ScroolView用のid　■■■■■■■
+                                        .listRowInsets(EdgeInsets())
+                                        .listRowBackground(Color("ColorOrange3"))
+                                        .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                                 }
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.black, lineWidth: 1)
-                                )
-                                Spacer()
-                                Text(laptime[index])
-                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.135))
-//                                    .font(Font.custom("HiraginoSans-W3", size: 50))
-                                    .font(.system(size: 50, design: .monospaced))
-                                Spacer()
-                                Text("\(total[index])")
-                                    .font(Font.custom("HiraginoSans-W3", size: (screen?.width ?? 100) * 0.053))
-//                                    .font(Font.custom("HiraginoSans-W3", size: 20))
-                                    .font(.system(size: 20, design: .monospaced))
-                            }
-                            .listRowInsets(EdgeInsets())
-                            .listRowBackground(Color("ColorOrange2"))
-                            .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
-                        }
-                    }   .environment(\.defaultMinListRowHeight, 70)
-                        .listStyle(PlainListStyle())
-                        .font(.largeTitle)
-                }
+                            }   .environment(\.defaultMinListRowHeight, 70)
+                                .listStyle(PlainListStyle())
+                                .font(.largeTitle)
+                           
+                                
+                            
+                        }           }
             }
         }
         .fullScreenCover(isPresented: self.$isActive){
-        FirstLaunch(isAActive: $isActive).onDisappear{
-            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                GADMobileAds.sharedInstance().start(completionHandler: nil)
-            })
-        }
-        }
+            FirstLaunch(isAActive: $isActive).onDisappear{
+                ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
+                    GADMobileAds.sharedInstance().start(completionHandler: nil)
+                })
+            }
+        }}
         .onAppear {
+            print("1111")
             if firstLaunch {
             firstLaunch = false
             isActive = true
@@ -652,5 +709,5 @@ struct ContentView: View {
         }
         .navigationBarTitle("", displayMode: .inline)
     }
-  }
+    }
 

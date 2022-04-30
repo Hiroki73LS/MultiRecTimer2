@@ -61,7 +61,7 @@ struct TextView4: View {
     var body: some View {
         Text(label)
             .font(.title2)
-            .frame(width: 150, height: 30)
+            .frame(width: 160, height: 30)
             .foregroundColor(Color(.white))
             .padding(.all)
             .background(Color(.blue))

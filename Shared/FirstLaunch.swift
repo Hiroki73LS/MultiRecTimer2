@@ -7,7 +7,7 @@ struct FirstLaunch: View {
     
     var body: some View {
         ZStack{
-            LinearGradient(gradient: Gradient(colors: [.white, .green]), startPoint: .top, endPoint: .bottom)
+            LinearGradient(gradient: Gradient(colors: [Color("akaruiYellow") , .pink.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
             VStack {
                 Spacer().frame(height: 30)
@@ -18,10 +18,10 @@ struct FirstLaunch: View {
                     Text(" 【 履歴保存機能の使い方 】")
                     VStack(alignment: .leading){
                         Text("１.「スタート」ボタンで計測開始")
-                        Text("２.「一時停止」ボタンで計測停止")
+                        Text("２.「ていし」ボタンで計測停止")
                         Text("３.「リセット」ボタンを押すと")
-                        Text("  　リセットと同時に履歴が自動で")
-                        Text("  　保存されます。")
+                        Text("  　リセットと同時に履歴が自動")
+                        Text("  　で保存されます。")
                     }.frame(width: (screen2?.width ?? 100) * 0.95 , height: 150)
                     .border(Color.black, width: 2)
                     
