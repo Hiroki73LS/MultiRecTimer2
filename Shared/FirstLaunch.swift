@@ -3,6 +3,7 @@ import SwiftUI
 struct FirstLaunch: View {
     
     @Binding var isAActive: Bool
+    @Binding var firstLaunch2: Bool
     @State var screen2: CGSize?
     
     var body: some View {
@@ -33,14 +34,23 @@ struct FirstLaunch: View {
                         Text("ではありませんのでご注意ください。")
                     }.frame(width: (screen2?.width ?? 100) * 0.95 , height: 130)
                     .border(Color.black, width: 2)
-                    
+                }.font(.title2)
+                    .frame(width: (screen2?.width ?? 100) * 0.95)
+                VStack(alignment: .leading){
                     Text("※履歴保存上限数以上の履歴は")
-                    Text(" 古いものから自動で削除されます。")
+                    Text("　古いものから自動で削除されます。")
+                    Spacer().frame(height: 10)
+                    HStack{
+                        Text("※")
+                        Image(systemName: "info.circle")
+                    Text("ボタンから課金メニュー")}
+                    Text("　に入れます。")
                 }.font(.title2)
                     .frame(width: (screen2?.width ?? 100) * 0.95)
                 
                 Button(action: {
                     isAActive = false
+                    firstLaunch2 = false
                 })
                 {
                     TextView4(label : "確認しました。")

@@ -47,7 +47,7 @@ class UserProfile: ObservableObject {
 
 struct ContentView: View {
     
-    let kiroku = 6   //無課金の記録数上限
+    let kiroku = 10   //無課金の記録数上限
     let kiroku2 = 60  //課金済みの記録数上限
     let rireki = 20   //無課金の履歴上限数
     let rireki2 = 99  //課金済みの履歴上限数
@@ -685,7 +685,7 @@ struct ContentView: View {
             }
         }
         .fullScreenCover(isPresented: self.$isActive){
-            FirstLaunch(isAActive: $isActive).onDisappear{
+            FirstLaunch(isAActive: $isActive, firstLaunch2: $firstLaunch).onDisappear{
                 ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
                     GADMobileAds.sharedInstance().start(completionHandler: nil)
                 })
@@ -694,7 +694,6 @@ struct ContentView: View {
         .onAppear {
             print("1111")
             if firstLaunch {
-            firstLaunch = false
             isActive = true
             }
             screen = UIScreen.main.bounds.size

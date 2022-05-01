@@ -34,7 +34,7 @@ struct SecondView: View {
                     VStack(alignment: .leading){
                         Text(" １．広告非表示")
                         Text(" ２．測定タイムの記録数の上限を")
-                        Text("　 　現在の６件から６０件にする。")
+                        Text("　 　現在の１０件から６０件にする。")
                         Text(" ３．履歴保存の上限数を")
                         Text("　 　現在の２０件から９９件にする。")
                     }.frame(height: 150)
