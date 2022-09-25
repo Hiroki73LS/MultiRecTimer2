@@ -52,6 +52,9 @@ struct ContentView: View {
     let rireki = 20   //無課金の履歴上限数
     let rireki2 = 99  //課金済みの履歴上限数
     
+    let impactHeavy = UIImpactFeedbackGenerator(style: .heavy)
+    let generator = UINotificationFeedbackGenerator()
+    
     @State private var lapmode = true
     @State private var jumpTo = "0"
     @State private var isActive = false
@@ -203,12 +206,14 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "スタート")
                                     }
                                     Spacer().frame(height: 10)
                                     Button(action: {
                                         self.sheetAlertRire.toggle()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "りれき")
                                     }.sheet(isPresented: $sheetAlertRire) {
@@ -222,11 +227,14 @@ struct ContentView: View {
                                         self.stopWatchManeger.pause()
                                         self.stopWatchManeger2.pause()
                                         self.stopWatchManeger3.pause()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "ていし")
                                     }
                                     Spacer().frame(height: 10)
                                     Button(action: {
+
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                         
                                         if lap234Purchase == "false" {
                                             
@@ -308,11 +316,16 @@ struct ContentView: View {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
                                         self.stopWatchManeger3.start()
+
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
+
                                     }){
                                         TextView(label : "さいかい")
                                     }
                                     Spacer().frame(height: 10)
                                     Button(action: {
+                                        self.generator.notificationOccurred(.error) //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
+
                                         //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                         
                                         do {
@@ -426,12 +439,14 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "スタート")
                                     }
                                     Spacer().frame(height: 10)
                                     Button(action: {
                                         self.sheetAlertRire.toggle()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "りれき")
                                     }.sheet(isPresented: $sheetAlertRire) {
@@ -446,11 +461,15 @@ struct ContentView: View {
                                         self.stopWatchManeger.pause()
                                         self.stopWatchManeger2.pause()
                                         self.stopWatchManeger3.pause()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
+
                                     }){
                                         TextView(label : "ていし")
                                     }
                                     Spacer().frame(height: 10)
                                     Button(action: {
+                                        
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                         
                                         if lap234Purchase == "false" {
                                             
@@ -528,11 +547,16 @@ struct ContentView: View {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
                                         self.stopWatchManeger3.start()
+                                        impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
+
                                     }){
                                         TextView(label : "さいかい")
                                     }
                                     Spacer().frame(height: 10)
                                     Button(action: {
+                                        
+                                        self.generator.notificationOccurred(.error) //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
+
                                         //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
                                         
                                         do {
@@ -706,8 +730,6 @@ struct ContentView: View {
                             }
                         }
                     }
-                    
-                    
                     //◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆ラップタイム表示◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆◆
                     HStack{
                         Text("順位").font(.title2).bold()
@@ -742,7 +764,7 @@ struct ContentView: View {
                                         .font(.system(size: 20, design: .monospaced))
                                 }
                                 .listRowInsets(EdgeInsets())
-                                .listRowBackground(Color("ColorOrange2"))
+                                .listRowBackground(Color("ColorOrange3"))
                                 //                            .listRowBackground(Color.clear)
                                 .listRowInsets(EdgeInsets(top: 3, leading: 0, bottom: 3, trailing: 0))
                             }

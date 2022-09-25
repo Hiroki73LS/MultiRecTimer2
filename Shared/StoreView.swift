@@ -49,7 +49,7 @@ struct SecondView: View {
                 }.font(.title2)
                     .frame(width: 370, height: 350)
                     Spacer().frame(height: 20)
-                Text("(JPY 120円)").font(.title3)
+                Text("(JPY 160円)").font(.title3)
                 
                 Button(action: {
                     manageProgress()
