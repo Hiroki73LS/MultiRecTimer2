@@ -1,5 +1,7 @@
 import SwiftUI
 import SwiftyStoreKit
+import MediaPlayer
+import UIKit
 
 @main
 struct MultiRecTimerApp: App {
@@ -24,6 +26,7 @@ struct MultiRecTimerApp: App {
 }
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         

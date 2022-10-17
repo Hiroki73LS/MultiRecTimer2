@@ -1,8 +1,10 @@
+import UIKit
 import SwiftUI
 import RealmSwift
 import GoogleMobileAds
 import AppTrackingTransparency
 import AdSupport
+import MediaPlayer
 
 
 struct AdView: UIViewRepresentable {
@@ -45,6 +47,38 @@ class UserProfile: ObservableObject {
     }
 }
 
+//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ここに記載するだけではダメなのか？■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+class MyViewController: ObservableObject {
+    
+    @State var volumeValue : Float = 1.0
+    
+    @objc func volumeChanged(notification: NSNotification) {
+        
+        if let userInfo = notification.userInfo {
+            if let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String {
+                if volumeChangeType == "ExplicitVolumeChange" {
+                    print(userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")])
+                    if volumeValue > userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
+                        print("volume down")
+                    }
+                    else if volumeValue < userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float{
+                        print("volume up")
+                    }
+                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 1{
+                        print("volume max")
+                    }
+                    else if volumeValue == userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float && volumeValue == 0{
+                        print("volume min")
+                    }
+                    volumeValue = userInfo[AnyHashable("AVSystemController_AudioVolumeNotificationParameter")] as! Float
+                }
+            }
+        }
+    }
+}
+//■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ここに記載するだけではダメなのか？■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
 struct ContentView: View {
     
     let kiroku = 10   //無課金の記録数上限
@@ -80,7 +114,7 @@ struct ContentView: View {
     @State var sheetAlert : Bool = false
     @State var sheetAlertRire : Bool = false
     @State var lap234Purchase : String = "false"
-    
+
     var dateFormat: DateFormatter {
         let dformat = DateFormatter()
         dformat.dateFormat = "yyyy/M/d"
@@ -88,14 +122,15 @@ struct ContentView: View {
     }
     
     var body: some View {
+        
         ScrollViewReader { scrollProxy in       // ①ScrollViewProxyインスタンスを取得
-            
             ZStack {
-                
+
                 LinearGradient(gradient: Gradient(colors: [Color("akaruiYellow") , .pink.opacity(0.4)]), startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 
                 VStack(spacing:2) {
+
                     if lap234Purchase == "false"
                     {                AdView()
                             .frame(width: 320, height: 50)
