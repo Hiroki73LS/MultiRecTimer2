@@ -7,6 +7,8 @@ target 'MultiRecTimer (iOS)' do
   pod 'RealmSwift'
   pod 'Google-Mobile-Ads-SDK'
   pod 'SwiftyStoreKit'
+  pod 'JPSVolumeButtonHandler'
+
 
 
   # Pods for BigLapTimer (iOS)
