@@ -43,8 +43,8 @@ struct FirstLaunch: View {
                     HStack{
                         Text("※")
                         Image(systemName: "gear")
-                    Text("ボタンから設定メニュー")}
-                    Text("　に入れます。")
+                    Text("ボタンから設定メニューに")}
+                    Text("　入れます。")
                     Spacer().frame(height: 8)
                     Text("※60秒毎にサウンドが鳴ります。")
                     

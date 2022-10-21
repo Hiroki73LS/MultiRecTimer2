@@ -11,7 +11,6 @@ struct SecondView: View {
     @AppStorage("FirstLaunch") var firstLaunch = true
     @State private var isActive = false
     @AppStorage("vbmode2") var vbmode2 = true
-    @ObservedObject var profile = UserProfile()
     @State var restoreAlert : Bool = false
     @State var priceLabel : String = "購入する"
     @Binding var lap234Purchase : String

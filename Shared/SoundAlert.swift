@@ -17,7 +17,7 @@ class SoundAlert:ObservableObject{
     
     private func playSound(){
         Sound.stop()
-        Sound.currentTime = 2.5
+        Sound.currentTime = 0.0
         Sound.play()
     }
     private func playSound2(){
