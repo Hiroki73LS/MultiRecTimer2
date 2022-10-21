@@ -32,19 +32,22 @@ struct FirstLaunch: View {
                         Text("「favorite」ボタンを押すとマークの")
                         Text("色は変わりますが、プロテクト機能")
                         Text("ではありませんのでご注意ください。")
-                    }.frame(width: (screen2?.width ?? 100) * 0.95 , height: 130)
+                    }.frame(width: (screen2?.width ?? 100) * 0.95 , height: 90)
                     .border(Color.black, width: 2)
                 }.font(.title2)
                     .frame(width: (screen2?.width ?? 100) * 0.95)
                 VStack(alignment: .leading){
                     Text("※履歴保存上限数以上の履歴は")
                     Text("　古いものから自動で削除されます。")
-                    Spacer().frame(height: 10)
+                    Spacer().frame(height: 8)
                     HStack{
                         Text("※")
-                        Image(systemName: "info.circle")
-                    Text("ボタンから課金メニュー")}
+                        Image(systemName: "gear")
+                    Text("ボタンから設定メニュー")}
                     Text("　に入れます。")
+                    Spacer().frame(height: 8)
+                    Text("※60秒毎にサウンドが鳴ります。")
+                    
                 }.font(.title2)
                     .frame(width: (screen2?.width ?? 100) * 0.95)
                 

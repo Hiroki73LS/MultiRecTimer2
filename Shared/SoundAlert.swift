@@ -4,6 +4,7 @@ import AVFoundation
 
 class SoundAlert:ObservableObject{
     
+    @AppStorage("vbmode2") var vbmode2 = true
     @ObservedObject var stopWatchManeger = StopWatchManeger()
     @Published var oldMin = 0
     @State var minutes = 0
@@ -11,7 +12,6 @@ class SoundAlert:ObservableObject{
     private var timer = Timer()
     
     //■■■■■■■■■■■■■■■■サウンド再生■■■■■■■■■■■■■■■■
-//    private var Sound = try!  AVAudioPlayer(data: NSDataAsset(name: "gunjyo")!.data)
     
     private var Sound = try!  AVAudioPlayer(data: NSDataAsset(name: "keikoku")!.data)
     
@@ -41,7 +41,11 @@ class SoundAlert:ObservableObject{
                     self.kaisuu = 0
                     playSound()
                     print(Thread.isMainThread)  // false
-                    AudioServicesPlaySystemSound(SystemSoundID(1102))
+
+                    if vbmode2 == true{
+                        AudioServicesPlaySystemSound(SystemSoundID(1102))
+                    }
+
                 }
             }
             RunLoop.current.add(timer, forMode: .common)
