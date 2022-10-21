@@ -1,8 +1,9 @@
 import SwiftUI
+import AVFoundation
 
 
 class StopWatchManeger:ObservableObject{
-    
+
     enum stopWatchMode{
         case start
         case stop
@@ -14,20 +15,25 @@ class StopWatchManeger:ObservableObject{
     @Published var second = 00
     @Published var minutes = 00
     @Published var hour = 0
+
     var nowTime : Double = 0
     var elapsedTime : Double = 0
     var displayTime: Double = 0
     var savedTime: Double = 0
     var timer = Timer()
+    static var Min = 0
     
     func start(){
         mode = .start
+        
+        print("stopwatch start")
         
         self.nowTime = NSDate.timeIntervalSinceReferenceDate
         
         timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true){ timer in
             
             self.elapsedTime = NSDate.timeIntervalSinceReferenceDate
+//            self.displayTime = ((self.elapsedTime + self.savedTime) - self.nowTime) * 3
 //            self.displayTime = ((self.elapsedTime + self.savedTime) - self.nowTime) * 600
             self.displayTime = (self.elapsedTime + self.savedTime) - self.nowTime
             
@@ -39,6 +45,9 @@ class StopWatchManeger:ObservableObject{
             self.minutes = Int(self.displayTime / 60) % 60
             // 時は経過分を60で割った商を60で割る
             self.hour = Int(self.displayTime / 60) / 60
+            
+            StopWatchManeger.Min = self.minutes
+
         }
         RunLoop.current.add(timer, forMode: .common)
     }
@@ -55,6 +64,12 @@ class StopWatchManeger:ObservableObject{
         savedTime = displayTime
         mode = .pause
     }
+    
+    
+    
+    
+    
+    
 }
 //------------------------------------------------------------------------------------------------------------------------
 class StopWatchManeger2:ObservableObject{

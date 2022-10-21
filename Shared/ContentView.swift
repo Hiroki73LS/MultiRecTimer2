@@ -66,6 +66,7 @@ struct ContentView: View {
     @State var screen: CGSize?
     @ObservedObject var model = viewModel()
     @ObservedObject var profile = UserProfile()
+    @ObservedObject var soundAlert = SoundAlert()
     @ObservedObject var stopWatchManeger = StopWatchManeger()
     @ObservedObject var stopWatchManeger2 = StopWatchManeger2()
     @ObservedObject var stopWatchManeger3 = StopWatchManeger3()
@@ -74,10 +75,7 @@ struct ContentView: View {
     @State var finalLap : [String]
     @State var lapNo : [String]
     @State var lapn = 1
-    @State var milliSecond = 0
-    @State var Second = 0
-    @State var minites = 0
-    @State var hour = 0
+    @State var oldMin = 0
     @State var flag = true
     @State var nowTime : Double
     @State var sheetAlert : Bool = false
@@ -210,6 +208,7 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
+                                        self.soundAlert.start()
                                         impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "スタート")
@@ -231,6 +230,7 @@ struct ContentView: View {
                                         self.stopWatchManeger.pause()
                                         self.stopWatchManeger2.pause()
                                         self.stopWatchManeger3.pause()
+                                        self.soundAlert.pause()
                                         impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "ていし")
@@ -323,6 +323,7 @@ struct ContentView: View {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
                                         self.stopWatchManeger3.start()
+                                        self.soundAlert.start()
 
                                         impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
 
@@ -415,6 +416,7 @@ struct ContentView: View {
                                         laptime.removeAll()
                                         lapNo.removeAll()
                                         lapn = 1
+                                        soundAlert.oldMin = 0
                                         stopWatchManeger.minutes = 00
                                         stopWatchManeger.second = 00
                                         stopWatchManeger.milliSecond = 00
@@ -430,6 +432,8 @@ struct ContentView: View {
                                         self.stopWatchManeger.stop()
                                         self.stopWatchManeger2.stop()
                                         self.stopWatchManeger3.stop()
+                                        self.soundAlert.stop()
+
                                     }){
                                         TextView(label : "リセット")
                                     }
@@ -446,6 +450,7 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
+                                        self.soundAlert.start()
                                         impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                     }){
                                         TextView(label : "スタート")
@@ -468,6 +473,8 @@ struct ContentView: View {
                                         self.stopWatchManeger.pause()
                                         self.stopWatchManeger2.pause()
                                         self.stopWatchManeger3.pause()
+                                        self.soundAlert.pause()
+
                                         impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
 
                                     }){
@@ -557,6 +564,8 @@ struct ContentView: View {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
                                         self.stopWatchManeger3.start()
+                                        self.soundAlert.start()
+
                                         impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
 
                                     }){
@@ -651,6 +660,7 @@ struct ContentView: View {
                                         laptime.removeAll()
                                         lapNo.removeAll()
                                         lapn = 1
+                                        soundAlert.oldMin = 0
                                         stopWatchManeger.minutes = 00
                                         stopWatchManeger.second = 00
                                         stopWatchManeger.milliSecond = 00
@@ -666,6 +676,8 @@ struct ContentView: View {
                                         self.stopWatchManeger.stop()
                                         self.stopWatchManeger2.stop()
                                         self.stopWatchManeger3.stop()
+                                        self.soundAlert.stop()
+
                                     }){
                                         TextView(label : "リセット")
                                     }
@@ -829,7 +841,10 @@ struct ContentView: View {
             }}
         .onAppear {
             
-            print("1111")
+//            self.stopWatchManeger.start()
+//            self.soundAlert.start()
+
+            print("onAppear")
             if firstLaunch {
                 isActive = true
             }
