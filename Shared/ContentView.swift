@@ -5,7 +5,6 @@ import GoogleMobileAds
 import AppTrackingTransparency
 import AdSupport
 import MediaPlayer
-import JPSVolumeButtonHandler
 
 
 struct AdView: UIViewRepresentable {
@@ -23,6 +22,95 @@ struct AdView: UIViewRepresentable {
     
     func updateUIView(_ uiView: GADBannerView, context: Context) {
     }
+}
+
+struct MyViewControllerWrapper : UIViewControllerRepresentable {
+    
+    func makeUIViewController(context: Context) -> MyViewController {
+        return MyViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: MyViewController, context: Context) {
+        
+    }
+}
+
+class MyViewController: UIViewController {
+    
+    func startListeningVolumeButton() {
+        print("監視開始")
+        // MPVolumeViewを画面の外側に追い出して見えないようにする
+        let frame = CGRect(x: -100, y: -100, width: 100, height: 100)
+        volumeView = MPVolumeView(frame: frame)
+        volumeView.sizeToFit()
+        view.addSubview(volumeView)
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setActive(true)
+            // AVAudioSessionの出力音量を取得して、最大音量と無音に振り切れないように初期音量を設定する
+            let vol = audioSession.outputVolume
+            initialVolume = Float(vol.description)!
+            if initialVolume > 0.9 {
+                initialVolume = 0.9
+            } else if initialVolume < 0.1 {
+                initialVolume = 0.1
+            }
+            setVolume(initialVolume)
+            // 出力音量の監視を開始
+            audioSession.addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
+        } catch {
+            print("Could not observer outputVolume ", error)
+        }
+    }
+    
+    func stopListeningVolumeButton() {
+        print("監視終了")
+        // 出力音量の監視を終了
+        AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+        // ボリュームビューを破棄
+        volumeView.removeFromSuperview()
+        volumeView = nil
+    }
+    
+    func setVolume(_ volume: Float) {
+        print("音量設定した")
+        (volumeView.subviews.filter{NSStringFromClass($0.classForCoder) == "MPVolumeSlider"}.first as? UISlider)?.setValue(initialVolume, animated: false)
+    }
+    
+    var initialVolume: Float = 0.0
+    var volumeView: MPVolumeView!
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        if keyPath == "outputVolume" {
+            let newVolume = (change?[NSKeyValueChangeKey.newKey] as! NSNumber).floatValue
+            // 出力音量が上がったか下がったかによって処理を分岐する
+            if initialVolume > newVolume {
+                
+                print("さがった")              // ボリュームが下がった時の処理をここに記述
+                initialVolume = newVolume
+                // ボリュームが０になってしまうと以降のボリューム（ー）操作を検知できないので、０より大きい適当に小さい値に設定する
+                if initialVolume < 0.1 {
+                    initialVolume = 0.1
+                }
+            } else if initialVolume < newVolume {
+                print("あがった")              // ボリュームが上がった時の処理をここに記述
+                initialVolume = newVolume
+                // ボリュームが１になってしまうと以降のボリューム（＋）操作を検知できないので、１より小さい適当に大きい値に設定する
+                if initialVolume > 0.9 {
+                    initialVolume = 0.9
+                }
+            }
+            // 一旦出力音量の監視をやめて出力音量を設定してから出力音量の監視を再開する
+            AVAudioSession.sharedInstance().removeObserver(self, forKeyPath: "outputVolume")
+            setVolume(initialVolume)
+            AVAudioSession.sharedInstance().addObserver(self, forKeyPath: "outputVolume", options: .new, context: nil)
+        }
+    }
+    
+    //  ...
+    
 }
 
 class UserProfile: ObservableObject {
@@ -50,7 +138,6 @@ class UserProfile: ObservableObject {
 }
 
 struct ContentView: View {
-    @State private var volume: JPSVolumeButtonHandler?
     let kiroku = 10   //無課金の記録数上限
     let kiroku2 = 60  //課金済みの記録数上限
     let rireki = 20   //無課金の履歴上限数
@@ -235,7 +322,11 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.pause()
                                         self.stopWatchManeger2.pause()
-                                        self.stopWatchManeger3.pause()
+
+                                        if stopWatchManeger3.mode == .start{
+                                            self.stopWatchManeger3.pause()
+                                        }
+
                                         self.soundAlert.pause()
                                         if vbmode2 == true{
                                             impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
@@ -290,7 +381,7 @@ struct ContentView: View {
                                             if stopWatchManeger3.mode == .stop {
                                                 self.stopWatchManeger3.start()
                                             }
-                                            
+
                                             if laptime.count < kiroku2 {
                                                 
                                                 if vbmode2 == true{
@@ -334,9 +425,14 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
-                                        self.stopWatchManeger3.start()
-                                        self.soundAlert.start()
+                                        
+                                        if stopWatchManeger3.mode == .pause
+                                        {
+                                            self.stopWatchManeger3.start()
+                                        }
 
+                                        self.soundAlert.start()
+                                        
                                         if vbmode2 == true{
                                             impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
                                         }
@@ -492,7 +588,11 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.pause()
                                         self.stopWatchManeger2.pause()
-                                        self.stopWatchManeger3.pause()
+                                        
+                                        if stopWatchManeger3.mode == .start{
+                                            self.stopWatchManeger3.pause()
+                                        }
+
                                         self.soundAlert.pause()
 
                                         if vbmode2 == true{
@@ -547,7 +647,7 @@ struct ContentView: View {
                                             if stopWatchManeger3.mode == .stop {
                                                 self.stopWatchManeger3.start()
                                             }
-                                            
+
                                             if laptime.count < kiroku2 {
                                                 
                                                 if vbmode2 == true{
@@ -589,7 +689,12 @@ struct ContentView: View {
                                     Button(action: {
                                         self.stopWatchManeger.start()
                                         self.stopWatchManeger2.start()
-                                        self.stopWatchManeger3.start()
+                                        
+                                        if stopWatchManeger3.mode == .pause
+                                        {
+                                            self.stopWatchManeger3.start()
+                                        }
+                                        
                                         self.soundAlert.start()
 
                                         if vbmode2 == true{
@@ -871,7 +976,7 @@ struct ContentView: View {
                 }
             }}
         .onAppear {
-            
+
             print("onAppear")
             if firstLaunch {
                 isActive = true
@@ -882,221 +987,11 @@ struct ContentView: View {
                 print("lap234:\(value2)")
                 lap234Purchase = value2
             }
-            
-//            volume = JPSVolumeButtonHandler(up: {
-//                print("volume up")
-//                
-//                if stopWatchManeger.mode == .stop{
-//                    print("volume stop")
-//                    self.stopWatchManeger.start()
-//                    self.stopWatchManeger2.start()
-//                    impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//                }
-//                else if stopWatchManeger.mode == .start{
-//                    print("volume start")
-//                    self.stopWatchManeger.pause()
-//                    self.stopWatchManeger2.pause()
-//                    self.stopWatchManeger3.pause()
-//                    impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//                } else {
-//                    print("volume pause")
-//                    self.stopWatchManeger.start()
-//                    self.stopWatchManeger2.start()
-//                    self.stopWatchManeger3.start()
-//                    impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//                }
-//            }, downBlock: {
-//                print("volume down")
-//                if stopWatchManeger.mode == .stop{
-//                    print("toggle")
-//                    self.sheetAlertRire.toggle()
-//                    impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//                }
-//                
-//                if stopWatchManeger.mode == .start{
-//
-//                    if lap234Purchase == "false" {
-//
-//                        if stopWatchManeger3.mode == .stop {
-//                            print("stopWatchManeger3.start")
-//                            self.stopWatchManeger3.start()
-//                        }
-//
-//                        if laptime.count < kiroku {
-//                            print("きろく")
-//
-//                            impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//
-//                            lapNo.insert(String(lapn), at: 0)
-//                            if stopWatchManeger.hour > 0 {
-//                                total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-//                            } else {
-//                                total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-//                            }
-//                            if stopWatchManeger2.hour > 0 {
-//                                laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-//                            } else {
-//                                laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-//                            }
-//                            self.stopWatchManeger2.pause()
-//                            self.stopWatchManeger2.stop()
-//                            self.stopWatchManeger2.start()
-//                            lapn += 1
-////                            //　■■■■■ ScrollView用のメソッド　■■■■■
-////                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-////                                // 0.5秒後に実行したい処理
-////                                withAnimation {
-////                                    /// ③scrollToメソッドで飛び先を指定
-////                                    scrollProxy.scrollTo(Int(jumpTo), anchor: UnitPoint(x: 0.5, y: 0.1))
-////                                }}
-////                            //　■■■■■ ScrollView用のメソッド　■■■■■
-//                        }
-//                    }
-//                    if lap234Purchase == "true" {
-//
-//                        if stopWatchManeger3.mode == .stop {
-//                            self.stopWatchManeger3.start()
-//                        }
-//
-//                        if laptime.count < kiroku2 {
-//
-//                            impactHeavy.impactOccurred() //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//
-//                            lapNo.insert(String(lapn), at: 0)
-//                            if stopWatchManeger.hour > 0 {
-//                                total.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-//                            } else {
-//                                total.insert(String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond), at: 0)
-//                            }
-//                            if stopWatchManeger2.hour > 0 {
-//                                laptime.insert(String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-//                            } else {
-//                                laptime.insert(String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond), at: 0)
-//                            }
-//                            self.stopWatchManeger2.pause()
-//                            self.stopWatchManeger2.stop()
-//                            self.stopWatchManeger2.start()
-//                            lapn += 1
-////                            //　■■■■■ ScrollView用のメソッド　■■■■■
-////                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-////                                // 0.5秒後に実行したい処理
-////                                withAnimation {
-////                                    /// ③scrollToメソッドで飛び先を指定
-////                                    scrollProxy.scrollTo(Int(jumpTo), anchor: UnitPoint(x: 0.5, y: 0.1))
-////                                }}
-////                            //　■■■■■ ScrollView用のメソッド　■■■■■
-//                        }}
-//                }
-//                if stopWatchManeger.mode == .pause{
-//
-//                        self.generator.notificationOccurred(.error) //■■■■■■■■■■■■■■tapticengine feedback■■■■■■■■■■■■■■
-//
-//                        //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
-//
-//                        do {
-//                            let realm = try Realm()
-//                            try realm.write {
-//                                let models = Model()
-//                                models.condition = false
-//                                models.lapsuu = laptime.count
-//                                models.kirokuday = Date()
-//
-//                                if stopWatchManeger.hour > 0 {
-//                                    models.Rirekitotal = String(format: "%01d:%02d:%02d.%02d", stopWatchManeger.hour, stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
-//                                } else {
-//                                    models.Rirekitotal = String(format: "%02d:%02d.%02d", stopWatchManeger.minutes, stopWatchManeger.second, stopWatchManeger.milliSecond)
-//                                }
-//                                if stopWatchManeger2.hour > 0 {
-//                                    models.finalLap = String(format: "%01d:%02d:%02d.%02d", stopWatchManeger2.hour, stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
-//                                } else {
-//                                    models.finalLap = String(format: "%02d:%02d.%02d", stopWatchManeger2.minutes, stopWatchManeger2.second, stopWatchManeger2.milliSecond)
-//                                }
-//
-//
-//                                print("laptime:\(laptime)")
-//                                print("models.tickets:\(models.tickets)")
-//
-//                                models.tickets.append(objectsIn: laptime) //Listへの追加処理
-//                                models.ticketsTotal.append(objectsIn: total) //Listへの追加処理
-//                                realm.add(models) // modelsをRealmデータベースに書き込みます
-//
-//                                print(models)
-//
-//                                // 読み込み処理 ↓
-//                                //                                            let targets = realm.objects(Model.self) // RealmデータベースからModelオブジェクトをすべて取得します
-//                                //                                            let target = targets.first { $0.id == models.id } // 取得したModelオブジェクト群から、ほしいものを1つ取り出します
-//                                //                                            print(target?.tickets.joined(separator: ", ") ?? "空") // ticketsに格納されたラップタイムを表示します
-//                                // 読み込み処理 ↑
-//                            }
-//
-//                        } catch {
-//                            print(error)
-//                        }
-//
-//                        if lap234Purchase == "false" {
-//                            do {
-//                                let realm = try Realm()
-//                                let kazu = realm.objects(Model.self).count
-//                                print("\(kazu)")
-//                                if kazu > rireki {
-//                                    for i in rireki..<kazu {
-//                                        try realm.write {
-//                                            _ = Model()
-//                                            let targets = realm.objects(Model.self)
-//                                            let target = targets.first
-//                                            realm.delete(target!)
-//                                            print("i:\(i)")
-//                                        }}}
-//                            } catch {
-//                                print(error)
-//                            }} else {
-//                                do {
-//                                    let realm = try Realm()
-//                                    let kazu = realm.objects(Model.self).count
-//                                    print("\(kazu)")
-//
-//                                    if kazu > rireki2 {
-//                                        for i in rireki2..<kazu {
-//                                            try realm.write {
-//                                                _ = Model()
-//                                                let targets = realm.objects(Model.self)
-//                                                let target = targets.first
-//                                                realm.delete(target!)
-//                                                print("i:\(i)")
-//                                            }}}
-//                                } catch {
-//                                    print(error)
-//                                }
-//                            }
-//
-//
-//                        //-書き込み---------------------------書き込み---------------------------書き込み--------------------------
-//                        total.removeAll()
-//                        laptime.removeAll()
-//                        lapNo.removeAll()
-//                        lapn = 1
-//                        stopWatchManeger.minutes = 00
-//                        stopWatchManeger.second = 00
-//                        stopWatchManeger.milliSecond = 00
-//                        stopWatchManeger.hour = 00
-//                        stopWatchManeger2.minutes = 00
-//                        stopWatchManeger2.second = 00
-//                        stopWatchManeger2.milliSecond = 00
-//                        stopWatchManeger2.hour = 00
-//                        stopWatchManeger3.minutes = 00
-//                        stopWatchManeger3.second = 00
-//                        stopWatchManeger3.milliSecond = 00
-//                        stopWatchManeger3.hour = 00
-//                        self.stopWatchManeger.stop()
-//                        self.stopWatchManeger2.stop()
-//                        self.stopWatchManeger3.stop()
-//                }
-//            })
-//            volume?.start(true)
+
+
         }
         .onDisappear {
-            volume?.start(false)
-            
+
         }
         .onChange(of: profile.mode) { mode in
             UserDefaults.standard.set(profile.mode , forKey: "mode")

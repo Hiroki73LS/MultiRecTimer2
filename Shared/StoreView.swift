@@ -67,7 +67,7 @@ struct SecondView: View {
                     .border(Color.black, width: 2)
                     Spacer().frame(height: 15)
                     HStack{
-                        Text("(徒競走用ストップウォッチ Ver.1.6.1)")
+                        Text("(徒競走用ストップウォッチ Ver.1.6.2)")
                             .font(.subheadline)
                             .frame(maxWidth: .infinity, alignment: .center)
                     }

@@ -26,7 +26,7 @@ struct RirekiView: View {
     
     var dateFormat2: DateFormatter {
         let dformat = DateFormatter()
-        dformat.dateFormat = "hh時mm分"
+        dformat.dateFormat = "HH時mm分"
         return dformat
     }
     

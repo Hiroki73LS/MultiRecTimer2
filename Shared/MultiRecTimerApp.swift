@@ -2,9 +2,12 @@ import SwiftUI
 import SwiftyStoreKit
 import MediaPlayer
 import UIKit
+import FirebaseCore
 
 @main
 struct MultiRecTimerApp: App {
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     init() {
         
@@ -44,6 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
             }
-        }; return true
+        }
+        FirebaseApp.configure()
+        return true
     }
 }

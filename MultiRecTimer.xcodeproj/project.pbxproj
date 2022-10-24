@@ -14,6 +14,8 @@
 		4A48CB17278F0D76005CC182 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A48CB05278F0D76005CC182 /* Assets.xcassets */; };
 		4A5BD40A281A992E00E641E2 /* FirstLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5BD409281A992E00E641E2 /* FirstLaunch.swift */; };
 		4A5D3EEE29015A0E007069DD /* SoundAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D3EED29015A0E007069DD /* SoundAlert.swift */; };
+		4AD6B0382906BEA9004B051A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4AD6B0372906BEA8004B051A /* GoogleService-Info.plist */; };
+		4AD6B03B2906BF75004B051A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 4AD6B03A2906BF75004B051A /* FirebaseAnalytics */; };
 		4ADEE8F6279594CD00A0A92D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ADEE8F5279594CD00A0A92D /* StoreKit.framework */; };
 		4ADEE8FD279BC7EE00A0A92D /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADEE8FC279BC7EE00A0A92D /* View.swift */; };
 		4ADEE8FF279BC89400A0A92D /* StopWatchClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */; };
@@ -32,6 +34,7 @@
 		4A48CB21278F2563005CC182 /* MultiRecTimer--iOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MultiRecTimer--iOS--Info.plist"; sourceTree = "<group>"; };
 		4A5BD409281A992E00E641E2 /* FirstLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstLaunch.swift; sourceTree = "<group>"; };
 		4A5D3EED29015A0E007069DD /* SoundAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundAlert.swift; sourceTree = "<group>"; };
+		4AD6B0372906BEA8004B051A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4ADEE8F5279594CD00A0A92D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.2.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		4ADEE8FC279BC7EE00A0A92D /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		4ADEE8FE279BC89400A0A92D /* StopWatchClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatchClass.swift; sourceTree = "<group>"; };
@@ -50,6 +53,7 @@
 			files = (
 				4ADEE8F6279594CD00A0A92D /* StoreKit.framework in Frameworks */,
 				BD15ED5BD88C1E03FBE9E8ED /* Pods_MultiRecTimer__iOS_.framework in Frameworks */,
+				4AD6B03B2906BF75004B051A /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +75,7 @@
 		4A48CB02278F0D75005CC182 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				4AD6B0372906BEA8004B051A /* GoogleService-Info.plist */,
 				4A48CB03278F0D75005CC182 /* MultiRecTimerApp.swift */,
 				4A48CB04278F0D75005CC182 /* ContentView.swift */,
 				4A2E711C27A4CFA1005E10B4 /* Rireki.swift */,
@@ -139,6 +144,9 @@
 			dependencies = (
 			);
 			name = "MultiRecTimer (iOS)";
+			packageProductDependencies = (
+				4AD6B03A2906BF75004B051A /* FirebaseAnalytics */,
+			);
 			productName = "BigLapTimer (iOS)";
 			productReference = 4A48CB0A278F0D76005CC182 /* MultiRecTimer.app */;
 			productType = "com.apple.product-type.application";
@@ -167,6 +175,9 @@
 				Base,
 			);
 			mainGroup = 4A48CAFD278F0D75005CC182;
+			packageReferences = (
+				4AD6B0392906BF75004B051A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 4A48CB0B278F0D76005CC182 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -182,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A48CB17278F0D76005CC182 /* Assets.xcassets in Resources */,
+				4AD6B0382906BEA9004B051A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +379,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -386,7 +398,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.haya.MultiRecTimer;
 				PRODUCT_NAME = MultiRecTimer;
 				SDKROOT = iphoneos;
@@ -403,7 +415,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = TGPVYURU8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -422,7 +434,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.1;
+				MARKETING_VERSION = 1.6.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.haya.MultiRecTimer;
 				PRODUCT_NAME = MultiRecTimer;
 				SDKROOT = iphoneos;
@@ -455,6 +467,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4AD6B0392906BF75004B051A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4AD6B03A2906BF75004B051A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4AD6B0392906BF75004B051A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4A48CAFE278F0D75005CC182 /* Project object */;
 }
